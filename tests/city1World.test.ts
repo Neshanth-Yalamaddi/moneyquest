@@ -138,7 +138,7 @@ console.log('✓ Test 4 Passed: Camera clamping maintains viewport inside map bo
 console.log('Testing NPC positioning and challenge launching contract...');
 const warden = CITY1_NPCS.find((n) => n.id === 'npc_hostel_warden');
 assert(!!warden, 'Warden Rao Sir must exist in City 1');
-assert(warden!.x === 845 && warden!.y === 260, 'Warden must be stationed at Hostel Courtyard');
+assert(warden!.x === 845 && warden!.y === 180, 'Warden must be stationed at Hostel Courtyard');
 assert(warden!.scenarioId === 'scenario_hostel_stipend', 'Warden must link to scenario_hostel_stipend');
 assert(warden!.cityId === 'city_hostel_commons', 'Warden cityId must match City 1');
 
@@ -152,7 +152,7 @@ assert(puzzle.pillar === 'budget', 'Puzzle pillar must be budget');
 const farNpc = findNearbyNpc(75, 450, CITY1_NPCS, 45);
 assert(farNpc === null, 'Player at spawn should not be within interaction range of any NPC');
 
-const nearWarden = findNearbyNpc(840, 260, CITY1_NPCS, 60);
+const nearWarden = findNearbyNpc(840, 180, CITY1_NPCS, 60);
 assert(nearWarden?.id === 'npc_hostel_warden', 'Player next to Warden must be detected');
 console.log('✓ Test 5 Passed: NPC interaction zone and challenge contract verified');
 
@@ -162,14 +162,14 @@ assert(CITY1_INTERACTIVES.length >= 3, 'City 1 must contain at least 3 interacti
 
 const atm = CITY1_INTERACTIVES.find((o) => o.id === 'kiosk_atm_passbook');
 assert(!!atm, 'ATM Passbook kiosk must exist');
-assert(atm!.x === 925 && atm!.y === 470, 'ATM must be at Savings Bank');
+assert(atm!.x === 925 && atm!.y === 505, 'ATM must be at Savings Bank');
 
 const notice = CITY1_INTERACTIVES.find((o) => o.id === 'notice_scholarship_letter');
 assert(!!notice, 'Scholarship Notice Board must exist');
 
 const portal = CITY1_INTERACTIVES.find((o) => o.id === 'portal_city2_exit');
 assert(!!portal, 'Road to City 2 portal must exist');
-assert(portal!.x === 680 && portal!.y === 30, 'Portal must be located at northern road exit');
+assert(portal!.x === 685 && portal!.y === 30, 'Portal must be located at northern road exit');
 console.log('✓ Test 6 Passed: Interactive objects, notices, and portal configured correctly');
 
 console.log('--- ALL CITY 1 WORLD ENGINE TESTS PASSED SUCCESSFULLY! ---');

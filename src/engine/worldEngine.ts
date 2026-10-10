@@ -81,8 +81,12 @@ export function checkFootCollision(
 }
 
 /**
- * Responsive 4-directional cardinal movement engine.
- * Completely prohibits diagonal movement and cleanly checks collision against boundaries.
+ * Advanced 4-directional continuous collision & corner-assist movement engine.
+ * Features:
+ * - Sub-pixel continuous collision resolution (walks flush against obstacles with zero bounce or buffer gap)
+ * - Intelligent corner assist (nudges character around door frames and wall corners instead of dead-stopping)
+ * - Smooth wall sliding
+ * - Strict cardinal direction enforcement
  */
 export function slideMove(
   curX: number,
@@ -98,7 +102,7 @@ export function slideMove(
     return { x: curX, y: curY, moved: false };
   }
 
-  // Strictly enforce 4-way movement (no diagonal)
+  // 1. Strictly enforce 4-way movement (no diagonal)
   let dx = rawDx;
   let dy = rawDy;
   if (dx !== 0 && dy !== 0) {
@@ -112,13 +116,74 @@ export function slideMove(
   const targetX = curX + dx;
   const targetY = curY + dy;
 
-  // Check collision for target position
+  // 2. Direct unobstructed move
   if (!checkFootCollision(targetX, targetY, footprint.width, footprint.height, boxes, mapW, mapH)) {
     return { x: targetX, y: targetY, moved: true };
   }
 
-  // Blocked
+  // 3. Corner Assist: check if small perpendicular nudge frees the path around corners/doorways
+  const cornerAssistMax = 6;
+  if (dy !== 0 && dx === 0) {
+    for (let offset = 1; offset <= cornerAssistMax; offset++) {
+      for (const sign of [1, -1]) {
+        const nudgeX = curX + sign * offset;
+        if (
+          !checkFootCollision(nudgeX, curY, footprint.width, footprint.height, boxes, mapW, mapH) &&
+          !checkFootCollision(nudgeX, targetY, footprint.width, footprint.height, boxes, mapW, mapH)
+        ) {
+          const actualNudge = Math.sign(sign) * Math.min(offset, 1.8);
+          const nextX = curX + actualNudge;
+          return { x: nextX, y: targetY, moved: true };
+        }
+      }
+    }
+  } else if (dx !== 0 && dy === 0) {
+    for (let offset = 1; offset <= cornerAssistMax; offset++) {
+      for (const sign of [1, -1]) {
+        const nudgeY = curY + sign * offset;
+        if (
+          !checkFootCollision(curX, nudgeY, footprint.width, footprint.height, boxes, mapW, mapH) &&
+          !checkFootCollision(targetX, nudgeY, footprint.width, footprint.height, boxes, mapW, mapH)
+        ) {
+          const actualNudge = Math.sign(sign) * Math.min(offset, 1.8);
+          const nextY = curY + actualNudge;
+          return { x: targetX, y: nextY, moved: true };
+        }
+      }
+    }
+  }
+
+  // 4. Sub-pixel continuous approach: move as close to the wall as mathematically possible
+  let bestDist = 0;
+  const isHoriz = dx !== 0;
+  const totalDist = Math.abs(isHoriz ? dx : dy);
+  const dir = Math.sign(isHoriz ? dx : dir_sign(isHoriz, dx, dy));
+
+  let low = 0;
+  let high = totalDist;
+  for (let i = 0; i < 6; i++) {
+    const mid = (low + high) / 2;
+    const testX = isHoriz ? curX + dir * mid : curX;
+    const testY = !isHoriz ? curY + dir * mid : curY;
+    if (!checkFootCollision(testX, testY, footprint.width, footprint.height, boxes, mapW, mapH)) {
+      bestDist = mid;
+      low = mid;
+    } else {
+      high = mid;
+    }
+  }
+
+  if (bestDist > 0.08) {
+    const finalX = isHoriz ? curX + dir * bestDist : curX;
+    const finalY = !isHoriz ? curY + dir * bestDist : curY;
+    return { x: finalX, y: finalY, moved: true };
+  }
+
   return { x: curX, y: curY, moved: false };
+}
+
+function dir_sign(isHoriz: boolean, dx: number, dy: number): number {
+  return isHoriz ? Math.sign(dx) : Math.sign(dy);
 }
 
 /**

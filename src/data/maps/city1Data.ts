@@ -56,51 +56,54 @@ export const CITY1_CONFIG: CityMapConfig = {
 
 // 2.5D Foot-Aligned Collision Geometry
 export const CITY1_COLLISION_BOXES: CollisionBox[] = [
-  // Outer perimeter boundaries (leaving North Road at x: 645-715 open for City 2 exit)
-  { name: 'boundary_top_left', x: 0, y: 0, w: 645, h: 20 },
-  { name: 'boundary_top_right', x: 715, y: 0, w: 309, h: 20 },
+  // Outer perimeter boundaries (leaving North Road at x: 670-715 open for City 2 exit)
+  { name: 'boundary_top_left', x: 0, y: 0, w: 670, h: 15 },
+  { name: 'boundary_top_right', x: 715, y: 0, w: 309, h: 15 },
   { name: 'boundary_west', x: 0, y: 0, w: 10, h: 572 },
   { name: 'boundary_east', x: 1014, y: 0, w: 10, h: 572 },
   { name: 'boundary_bottom', x: 0, y: 560, w: 1024, h: 12 },
 
-  // West River & Canal (Leaves bridge at y: 420-485 open)
-  { name: 'river_north', x: 0, y: 295, w: 90, h: 125 },
-  { name: 'river_south', x: 0, y: 485, w: 90, h: 87 },
+  // West River & Canal (Leaves bridge at y: 425-475 open)
+  { name: 'river_north', x: 0, y: 290, w: 85, h: 135 },
+  { name: 'river_south', x: 0, y: 475, w: 85, h: 95 },
 
   // School & Library Complex (NW)
-  { name: 'school_main_building', x: 50, y: 20, w: 315, h: 140 },
-  { name: 'school_wall_left', x: 110, y: 290, w: 65, h: 25 },
-  { name: 'school_wall_right', x: 250, y: 290, w: 80, h: 25 },
-  { name: 'school_wall_west', x: 110, y: 160, w: 10, h: 130 },
+  // Building foundation
+  { name: 'school_main_building', x: 55, y: 30, w: 305, h: 125 },
+  // Front stone walls (gate opening at x: 180-245 open)
+  { name: 'school_wall_left', x: 110, y: 285, w: 70, h: 15 },
+  { name: 'school_wall_right', x: 245, y: 285, w: 85, h: 15 },
 
   // Bookshop (North-Center-West)
-  { name: 'bookshop_building', x: 330, y: 195, w: 85, h: 80 },
+  { name: 'bookshop_building', x: 330, y: 200, w: 85, h: 75 },
 
   // Study Room (North-Center)
-  { name: 'study_room_building', x: 475, y: 55, w: 165, h: 125 },
+  { name: 'study_room_building', x: 475, y: 65, w: 155, h: 115 },
 
   // Hostel (NE)
-  { name: 'hostel_main_building', x: 740, y: 20, w: 235, h: 180 },
-  { name: 'hostel_wall_left', x: 735, y: 410, w: 80, h: 15 },
-  { name: 'hostel_wall_right', x: 875, y: 410, w: 100, h: 15 },
-  { name: 'hostel_wall_west', x: 735, y: 200, w: 10, h: 210 },
+  // Building foundation
+  { name: 'hostel_main_building', x: 745, y: 25, w: 225, h: 135 },
+  // Courtyard south stone walls (gate opening at x: 830-890 open)
+  { name: 'hostel_wall_left', x: 740, y: 220, w: 90, h: 15 },
+  { name: 'hostel_wall_right', x: 890, y: 220, w: 85, h: 15 },
 
   // Campus Canteen & Patio Enclosure (Center)
-  { name: 'canteen_building', x: 335, y: 245, w: 170, h: 85 },
-  { name: 'canteen_fence_west', x: 260, y: 245, w: 10, h: 175 },
-  { name: 'canteen_fence_south_left', x: 260, y: 420, w: 85, h: 10 },
-  { name: 'canteen_fence_south_right', x: 440, y: 420, w: 75, h: 10 },
-  { name: 'canteen_fence_east', x: 510, y: 245, w: 10, h: 175 },
+  // Kitchen building
+  { name: 'canteen_building', x: 340, y: 245, w: 160, h: 85 },
+  // Patio fences (south gate at x: 345-435 open)
+  { name: 'canteen_fence_west', x: 265, y: 250, w: 8, h: 160 },
+  { name: 'canteen_fence_east', x: 505, y: 250, w: 8, h: 160 },
+  { name: 'canteen_fence_south_left', x: 265, y: 410, w: 80, h: 10 },
+  { name: 'canteen_fence_south_right', x: 435, y: 410, w: 78, h: 10 },
 
   // Electronics Repair Shop (Center-East)
-  { name: 'electronics_shop', x: 605, y: 230, w: 125, h: 105 },
+  { name: 'electronics_shop', x: 590, y: 235, w: 80, h: 95 },
 
   // Savings Bank (SE)
-  { name: 'savings_bank_building', x: 810, y: 355, w: 140, h: 100 },
+  { name: 'savings_bank_building', x: 815, y: 400, w: 135, h: 95 },
 
-  // Nature / Trees
-  { name: 'south_banyan_tree', x: 575, y: 435, w: 95, h: 70 },
-  { name: 'west_banyan_tree', x: 0, y: 220, w: 95, h: 75 },
+  // South Banyan Tree Trunk & Planter (completely south of road!)
+  { name: 'south_banyan_tree', x: 590, y: 475, w: 75, h: 45 },
 ];
 
 // NPCs positioned on City 1 Map
@@ -111,7 +114,7 @@ export const CITY1_NPCS: NPC[] = [
     role: 'Hostel Supervisor',
     avatar: '👨‍💼',
     x: 845,
-    y: 260,
+    y: 180,
     cityId: 'city_hostel_commons',
     scenarioId: 'scenario_hostel_stipend',
     dialogueIntro: {
@@ -130,8 +133,8 @@ export const CITY1_NPCS: NPC[] = [
     name: 'Suresh Anna',
     role: 'Electronics Repair Tech',
     avatar: '🔧',
-    x: 670,
-    y: 350,
+    x: 650,
+    y: 340,
     cityId: 'city_rainy_day_refuge',
     scenarioId: 'scenario_broken_phone',
     dialogueIntro: {
@@ -150,8 +153,8 @@ export const CITY1_NPCS: NPC[] = [
     name: 'Chary Garu',
     role: 'Canteen Cashier',
     avatar: '☕',
-    x: 400,
-    y: 350,
+    x: 395,
+    y: 340,
     cityId: 'city_hostel_commons',
     dialogueIntro: {
       en: 'Namaste thammudu! Our Irani chai is ₹15 and samosa is ₹20. Seems small, right? But having two every day is ₹1,050 a month! Discretionary micro-spending silently drains your wallet.',
@@ -187,7 +190,7 @@ export const CITY1_INTERACTIVES: CityObject[] = [
     type: 'kiosk',
     name: 'Savings Bank ATM & Passbook Kiosk',
     x: 925,
-    y: 470,
+    y: 505,
     radius: 60,
     icon: 'Landmark',
     prompt: {
@@ -271,7 +274,7 @@ export const CITY1_INTERACTIVES: CityObject[] = [
     id: 'portal_city2_exit',
     type: 'portal',
     name: 'North Highway: Road to City 2',
-    x: 680,
+    x: 685,
     y: 30,
     radius: 60,
     icon: 'Compass',
