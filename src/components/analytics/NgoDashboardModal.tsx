@@ -196,9 +196,9 @@ export const NgoDashboardModal: React.FC<NgoDashboardModalProps> = ({ profile, o
                           className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
                             evt.tier === 'best'
                               ? 'bg-emerald-950 text-emerald-400 border border-emerald-500/30'
-                              : evt.tier === 'better'
-                              ? 'bg-blue-950 text-blue-400 border border-blue-500/30'
                               : evt.tier === 'good'
+                              ? 'bg-blue-950 text-blue-400 border border-blue-500/30'
+                              : evt.tier === 'bad'
                               ? 'bg-slate-800 text-slate-300'
                               : 'bg-rose-950 text-rose-400 border border-rose-500/30'
                           }`}
