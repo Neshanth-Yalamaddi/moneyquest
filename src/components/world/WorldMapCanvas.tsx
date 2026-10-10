@@ -84,8 +84,8 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
   // Controls & Camera Settings
   const [soundEnabled, setSoundEnabled] = useState<boolean>(true);
   const [showHitboxes, setShowHitboxes] = useState<boolean>(false);
-  const [cameraZoom, setCameraZoom] = useState<'follow' | 'overview'>('follow');
-  const [zoomLevel, setZoomLevel] = useState<number>(2.2);
+  const [cameraZoom, setCameraZoom] = useState<'follow' | 'overview'>('overview');
+  const [zoomLevel, setZoomLevel] = useState<number>(2.0);
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
   const [transitionNotification, setTransitionNotification] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -712,14 +712,39 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
     if (!canvas) return;
 
     const rect = canvas.getBoundingClientRect();
-    let clickX = (e.clientX - rect.left) * (canvas.width / rect.width);
-    let clickY = (e.clientY - rect.top) * (canvas.height / rect.height);
+    const mapW = CITY1_CONFIG.width;
+    const mapH = CITY1_CONFIG.height;
+    const canvasAspect = mapW / mapH;
+    const rectAspect = rect.width / rect.height;
+
+    let displayW = rect.width;
+    let displayH = rect.height;
+    let letterboxX = 0;
+    let letterboxY = 0;
+
+    if (rectAspect > canvasAspect) {
+      displayW = rect.height * canvasAspect;
+      letterboxX = (rect.width - displayW) / 2;
+    } else {
+      displayH = rect.width / canvasAspect;
+      letterboxY = (rect.height - displayH) / 2;
+    }
+
+    const localX = e.clientX - rect.left - letterboxX;
+    const localY = e.clientY - rect.top - letterboxY;
+
+    if (localX < 0 || localX > displayW || localY < 0 || localY > displayH) {
+      return; // Click outside visible map area
+    }
+
+    let clickX = (localX / displayW) * mapW;
+    let clickY = (localY / displayH) * mapH;
 
     if (cameraZoom === 'follow') {
       const zoomFactor = zoomLevel;
-      const viewW = canvas.width / zoomFactor;
-      const viewH = canvas.height / zoomFactor;
-      const { camX, camY } = calculateCamera(player.x, player.y, viewW, viewH, CITY1_CONFIG.width, CITY1_CONFIG.height);
+      const viewW = mapW / zoomFactor;
+      const viewH = mapH / zoomFactor;
+      const { camX, camY } = calculateCamera(player.x, player.y, viewW, viewH, mapW, mapH);
       clickX = clickX / zoomFactor + camX;
       clickY = clickY / zoomFactor + camY;
     }
@@ -797,15 +822,15 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
       ref={containerRef}
       className={`w-full flex flex-col transition-all duration-300 ${
         isFullscreen
-          ? 'fixed inset-0 z-50 bg-slate-950 p-2 sm:p-4 w-screen h-screen'
-          : 'max-w-7xl mx-auto px-2 sm:px-4 py-2 w-full flex-1'
+          ? 'fixed inset-0 z-50 bg-slate-950 p-2 sm:p-3 w-screen h-screen'
+          : 'w-full flex-1 flex flex-col px-2 sm:px-4 py-1.5 h-[calc(100vh-70px)] max-h-[calc(100vh-70px)]'
       }`}
     >
       {/* City 1 Navigation & Status Banner */}
-      <div className="flex flex-wrap items-center justify-between gap-3 bg-slate-900 border border-slate-800 rounded-2xl p-3 mb-2.5 shadow-lg">
+      <div className="flex flex-wrap items-center justify-between gap-3 bg-slate-900/90 backdrop-blur border border-slate-800 rounded-xl px-3 py-2 mb-2 shadow-lg shrink-0">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400">
-            <Compass className="w-5 h-5" />
+          <div className="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400">
+            <Compass className="w-4 h-4" />
           </div>
           <div>
             <div className="flex items-center gap-2">
@@ -814,7 +839,7 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
                 Pillar 1: Plan & Budget
               </span>
             </div>
-            <div className="text-xs text-slate-400">The Scholar's District — Monthly Stipend: ₹5,000</div>
+            <div className="text-xs text-slate-400">The Scholar's District — Full City Map</div>
           </div>
         </div>
 
@@ -822,7 +847,7 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
         <div className="flex flex-wrap items-center gap-2">
           {/* Quest Status Pill */}
           <div
-            className={`px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-2 border ${
+            className={`px-3 py-1 rounded-lg text-xs font-semibold flex items-center gap-2 border ${
               isCity1Solved
                 ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-300'
                 : 'bg-amber-500/10 border-amber-500/30 text-amber-300'
@@ -830,94 +855,95 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
           >
             {isCity1Solved ? (
               <>
-                <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
                 <span>Mess Dues Cleared</span>
               </>
             ) : (
               <>
-                <MapPin className="w-4 h-4 text-amber-400 animate-pulse" />
+                <MapPin className="w-3.5 h-3.5 text-amber-400 animate-pulse" />
                 <span>Meet Warden Rao Sir at Hostel</span>
               </>
             )}
           </div>
 
-          {/* Zoom In (Focus Closer on Player) */}
+          {/* Full Map / Follow Player Toggle */}
           <button
-            onClick={() => {
-              setCameraZoom('follow');
-              setZoomLevel((z) => Math.min(3.2, Number((z + 0.3).toFixed(1))));
-            }}
-            className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition"
-            title="Zoom In (Close Focus on Player)"
+            onClick={() => setCameraZoom((prev) => (prev === 'overview' ? 'follow' : 'overview'))}
+            className={`px-3 py-1 rounded-lg text-xs font-semibold flex items-center gap-1.5 border transition ${
+              cameraZoom === 'overview'
+                ? 'bg-amber-500/25 border-amber-500/50 text-amber-300 shadow-sm'
+                : 'bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700'
+            }`}
+            title="Toggle between Full Map View and Close-Up Camera"
           >
-            <ZoomIn className="w-4 h-4" />
+            <Compass className="w-3.5 h-3.5 text-amber-400" />
+            <span>{cameraZoom === 'overview' ? 'Full Map View' : 'Follow Player'}</span>
           </button>
 
-          {/* Zoom Out / Overview Toggle */}
-          <button
-            onClick={() => {
-              if (cameraZoom === 'follow' && zoomLevel > 1.5) {
-                setZoomLevel((z) => Math.max(1.4, Number((z - 0.3).toFixed(1))));
-              } else {
-                const nextMode = cameraZoom === 'follow' ? 'overview' : 'follow';
-                setCameraZoom(nextMode);
-                if (nextMode === 'follow') setZoomLevel(2.2);
-              }
-            }}
-            className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition"
-            title={cameraZoom === 'follow' ? 'Zoom Out' : 'Focus Camera on Player'}
-          >
-            <ZoomOut className="w-4 h-4" />
-          </button>
+          {/* Zoom controls only in follow mode */}
+          {cameraZoom === 'follow' && (
+            <>
+              <button
+                onClick={() => setZoomLevel((z) => Math.min(3.2, Number((z + 0.3).toFixed(1))))}
+                className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition"
+                title="Zoom In"
+              >
+                <ZoomIn className="w-3.5 h-3.5" />
+              </button>
+              <button
+                onClick={() => setZoomLevel((z) => Math.max(1.2, Number((z - 0.3).toFixed(1))))}
+                className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition"
+                title="Zoom Out"
+              >
+                <ZoomOut className="w-3.5 h-3.5" />
+              </button>
+            </>
+          )}
 
           {/* Fullscreen Toggle Button */}
           <button
             onClick={toggleFullscreen}
-            className={`p-2 rounded-xl border transition ${
+            className={`p-1.5 rounded-lg border transition ${
               isFullscreen
                 ? 'bg-amber-500/20 border-amber-500/40 text-amber-300'
                 : 'bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700'
             }`}
-            title={isFullscreen ? 'Exit Fullscreen' : 'Enter Fullscreen (Immersive Mode)'}
+            title={isFullscreen ? 'Exit Fullscreen' : 'Enter Fullscreen (Edge-to-Edge)'}
           >
-            {isFullscreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
+            {isFullscreen ? <Minimize2 className="w-3.5 h-3.5" /> : <Maximize2 className="w-3.5 h-3.5" />}
           </button>
 
           {/* Hitbox Debug Toggle */}
           <button
             onClick={() => setShowHitboxes((h) => !h)}
-            className={`p-2 rounded-xl border transition ${
+            className={`p-1.5 rounded-lg border transition ${
               showHitboxes
                 ? 'bg-red-500/20 border-red-500/40 text-red-300'
                 : 'bg-slate-800 border-slate-700 text-slate-400 hover:text-white'
             }`}
             title="Toggle Collision Geometry (Debug)"
           >
-            {showHitboxes ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
+            {showHitboxes ? <Eye className="w-3.5 h-3.5" /> : <EyeOff className="w-3.5 h-3.5" />}
           </button>
 
           {/* Sound Toggle */}
           <button
             onClick={toggleSound}
-            className={`p-2 rounded-xl border transition ${
+            className={`p-1.5 rounded-lg border transition ${
               soundEnabled
                 ? 'bg-slate-800 border-slate-700 text-amber-400 hover:text-amber-300'
                 : 'bg-slate-800 border-slate-700 text-slate-500 hover:text-slate-400'
             }`}
             title={soundEnabled ? 'Mute Audio' : 'Unmute Audio'}
           >
-            {soundEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
+            {soundEnabled ? <Volume2 className="w-3.5 h-3.5" /> : <VolumeX className="w-3.5 h-3.5" />}
           </button>
         </div>
       </div>
 
-      {/* Main Exploration Canvas Viewport */}
+      {/* Main Exploration Canvas Viewport (Fills Full Available Screen) */}
       <div
-        className={`relative overflow-hidden border border-slate-700/80 shadow-2xl bg-slate-950 flex justify-center items-center ${
-          isFullscreen
-            ? 'w-full flex-1 rounded-xl'
-            : 'rounded-2xl w-full h-[calc(100vh-175px)] min-h-[500px]'
-        }`}
+        className="relative overflow-hidden border border-slate-700/80 shadow-2xl bg-slate-950 flex justify-center items-center w-full flex-1 rounded-2xl min-h-0"
       >
         <canvas
           ref={canvasRef}
