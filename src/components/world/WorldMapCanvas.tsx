@@ -27,6 +27,8 @@ import {
   AlertTriangle,
   ZoomIn,
   ZoomOut,
+  Maximize2,
+  Minimize2,
 } from 'lucide-react';
 
 interface WorldMapCanvasProps {
@@ -67,8 +69,11 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
   // Controls & Camera Settings
   const [soundEnabled, setSoundEnabled] = useState<boolean>(true);
   const [showHitboxes, setShowHitboxes] = useState<boolean>(false);
-  const [cameraZoom, setCameraZoom] = useState<'follow' | 'overview'>('overview');
+  const [cameraZoom, setCameraZoom] = useState<'follow' | 'overview'>('follow');
+  const [zoomLevel, setZoomLevel] = useState<number>(2.2);
+  const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
   const [transitionNotification, setTransitionNotification] = useState<string | null>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
 
   // Input management
   const activeDirStackRef = useRef<Array<'up' | 'down' | 'left' | 'right'>>([]);
@@ -159,6 +164,31 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
     setSoundEnabled(next);
     WorldAudio.enabled = next;
   };
+
+  // Fullscreen toggle handler
+  const toggleFullscreen = () => {
+    if (!isFullscreen) {
+      if (containerRef.current?.requestFullscreen) {
+        containerRef.current.requestFullscreen().catch(() => {});
+      }
+      setIsFullscreen(true);
+    } else {
+      if (document.fullscreenElement && document.exitFullscreen) {
+        document.exitFullscreen().catch(() => {});
+      }
+      setIsFullscreen(false);
+    }
+  };
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+    };
+  }, []);
 
   // Main 60 FPS Game Loop
   useEffect(() => {
@@ -270,7 +300,7 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
       ctx.save();
 
       if (cameraZoom === 'follow') {
-        const zoomFactor = 1.35;
+        const zoomFactor = zoomLevel;
         const viewW = canvas.width / zoomFactor;
         const viewH = canvas.height / zoomFactor;
         const { camX, camY } = calculateCamera(player.x, player.y, viewW, viewH, mapW, mapH);
@@ -563,7 +593,7 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
     let clickY = (e.clientY - rect.top) * (canvas.height / rect.height);
 
     if (cameraZoom === 'follow') {
-      const zoomFactor = 1.35;
+      const zoomFactor = zoomLevel;
       const viewW = canvas.width / zoomFactor;
       const viewH = canvas.height / zoomFactor;
       const { camX, camY } = calculateCamera(player.x, player.y, viewW, viewH, CITY1_CONFIG.width, CITY1_CONFIG.height);
@@ -639,9 +669,16 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
   };
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-4 w-full">
+    <div
+      ref={containerRef}
+      className={`w-full flex flex-col transition-all duration-300 ${
+        isFullscreen
+          ? 'fixed inset-0 z-50 bg-slate-950 p-2 sm:p-4 w-screen h-screen'
+          : 'max-w-7xl mx-auto px-2 sm:px-4 py-2 w-full flex-1'
+      }`}
+    >
       {/* City 1 Navigation & Status Banner */}
-      <div className="flex flex-wrap items-center justify-between gap-3 bg-slate-900 border border-slate-800 rounded-2xl p-3.5 mb-4 shadow-lg">
+      <div className="flex flex-wrap items-center justify-between gap-3 bg-slate-900 border border-slate-800 rounded-2xl p-3 mb-2.5 shadow-lg">
         <div className="flex items-center gap-3">
           <div className="w-9 h-9 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400">
             <Compass className="w-5 h-5" />
@@ -670,23 +707,56 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
             {isCity1Solved ? (
               <>
                 <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-                <span>Mess Dues Cleared (Pillar 1 Mastered)</span>
+                <span>Mess Dues Cleared</span>
               </>
             ) : (
               <>
                 <MapPin className="w-4 h-4 text-amber-400 animate-pulse" />
-                <span>Meet Warden Rao Sir at the Hostel Courtyard</span>
+                <span>Meet Warden Rao Sir at Hostel</span>
               </>
             )}
           </div>
 
-          {/* Camera View Mode */}
+          {/* Zoom In (Focus Closer on Player) */}
           <button
-            onClick={() => setCameraZoom((z) => (z === 'overview' ? 'follow' : 'overview'))}
+            onClick={() => {
+              setCameraZoom('follow');
+              setZoomLevel((z) => Math.min(3.2, Number((z + 0.3).toFixed(1))));
+            }}
             className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition"
-            title={cameraZoom === 'overview' ? 'Switch to Follow Camera' : 'Switch to Full Overview'}
+            title="Zoom In (Close Focus on Player)"
           >
-            {cameraZoom === 'overview' ? <ZoomIn className="w-4 h-4" /> : <ZoomOut className="w-4 h-4" />}
+            <ZoomIn className="w-4 h-4" />
+          </button>
+
+          {/* Zoom Out / Overview Toggle */}
+          <button
+            onClick={() => {
+              if (cameraZoom === 'follow' && zoomLevel > 1.5) {
+                setZoomLevel((z) => Math.max(1.4, Number((z - 0.3).toFixed(1))));
+              } else {
+                const nextMode = cameraZoom === 'follow' ? 'overview' : 'follow';
+                setCameraZoom(nextMode);
+                if (nextMode === 'follow') setZoomLevel(2.2);
+              }
+            }}
+            className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition"
+            title={cameraZoom === 'follow' ? 'Zoom Out' : 'Focus Camera on Player'}
+          >
+            <ZoomOut className="w-4 h-4" />
+          </button>
+
+          {/* Fullscreen Toggle Button */}
+          <button
+            onClick={toggleFullscreen}
+            className={`p-2 rounded-xl border transition ${
+              isFullscreen
+                ? 'bg-amber-500/20 border-amber-500/40 text-amber-300'
+                : 'bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700'
+            }`}
+            title={isFullscreen ? 'Exit Fullscreen' : 'Enter Fullscreen (Immersive Mode)'}
+          >
+            {isFullscreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
           </button>
 
           {/* Hitbox Debug Toggle */}
@@ -718,13 +788,19 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
       </div>
 
       {/* Main Exploration Canvas Viewport */}
-      <div className="relative rounded-2xl overflow-hidden border-2 border-slate-700/80 shadow-2xl bg-slate-950 flex justify-center">
+      <div
+        className={`relative overflow-hidden border border-slate-700/80 shadow-2xl bg-slate-950 flex justify-center items-center ${
+          isFullscreen
+            ? 'w-full flex-1 rounded-xl'
+            : 'rounded-2xl w-full h-[calc(100vh-175px)] min-h-[500px]'
+        }`}
+      >
         <canvas
           ref={canvasRef}
           width={1024}
           height={572}
           onClick={handleCanvasClick}
-          className="w-full max-w-full h-auto cursor-pointer block select-none"
+          className="w-full h-full object-contain cursor-pointer block select-none bg-slate-950"
         />
 
         {/* Legend / Instructions Overlay */}
