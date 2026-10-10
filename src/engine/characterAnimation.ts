@@ -1,0 +1,183 @@
+/**
+ * Character & NPC Pixel Art Sprite Animation Engine
+ * Supports 4-way direction cycles, accumulative frame timing,
+ * ground baseline alignment, and extensible NPC sprite registration.
+ */
+
+export type CharacterDirection = 'up' | 'down' | 'left' | 'right';
+
+export interface SpriteSheetConfig {
+  frameWidth: number;
+  frameHeight: number;
+  baselineY: number; // Y offset from top of frame where feet touch the ground
+  scale: number;
+  rows: {
+    idle_down: number;
+    walk_down: number;
+    walk_up: number;
+    walk_left: number;
+    walk_right: number;
+  };
+  frameCount: {
+    idle: number;
+    walk: number;
+  };
+  frameDurationMs: {
+    idle: number;
+    walk: number;
+  };
+}
+
+/**
+ * Main Player Character Sprite Configuration (Normalized 48x72 Grid)
+ * Row 0: Idle South / Down (8 frames)
+ * Row 1: Walk South / Down (8 frames)
+ * Row 2: Walk North / Up (8 frames)
+ * Row 3: Walk West / Left (8 frames)
+ * Row 4: Walk East / Right (8 frames)
+ */
+export const PLAYER_SPRITE_CONFIG: SpriteSheetConfig = {
+  frameWidth: 48,
+  frameHeight: 72,
+  baselineY: 68,
+  scale: 0.58, // Scaled to ~28x42 px, matching 14px foot width and top-down map scale
+  rows: {
+    idle_down: 0,
+    walk_down: 1,
+    walk_up: 2,
+    walk_left: 3,
+    walk_right: 4,
+  },
+  frameCount: {
+    idle: 8,
+    walk: 8,
+  },
+  frameDurationMs: {
+    idle: 220, // Gentle idle stance cycle
+    walk: 105, // Responsive 8-frame walk cycle cadence
+  },
+};
+
+/**
+ * Extensible NPC Sprite Registry.
+ * Allows new NPC spritesheets to be registered and rendered seamlessly
+ * as their artwork assets become available during development.
+ */
+export interface NpcSpriteEntry {
+  imageSrc: string;
+  config: SpriteSheetConfig;
+}
+
+export const NPC_SPRITE_REGISTRY: Record<string, NpcSpriteEntry> = {
+  // NPCs in development will be registered here, e.g.:
+  // 'npc_hostel_warden': { imageSrc: wardenSpritesheetSrc, config: WARDEN_SPRITE_CONFIG },
+  // 'npc_repair_tech': { imageSrc: sureshSpritesheetSrc, config: SURESH_SPRITE_CONFIG },
+};
+
+/**
+ * Register or update an NPC's sprite sheet when new assets arrive.
+ */
+export function registerNpcSprite(npcId: string, entry: NpcSpriteEntry): void {
+  NPC_SPRITE_REGISTRY[npcId] = entry;
+}
+
+/**
+ * Resolves the spritesheet row and frame column for a given movement state and direction.
+ */
+export function getSpriteFrameCoordinates(
+  direction: CharacterDirection,
+  isMoving: boolean,
+  animatedFrameIndex: number,
+  config: SpriteSheetConfig
+): { row: number; col: number } {
+  if (isMoving) {
+    const col = animatedFrameIndex % config.frameCount.walk;
+    switch (direction) {
+      case 'down':
+        return { row: config.rows.walk_down, col };
+      case 'up':
+        return { row: config.rows.walk_up, col };
+      case 'left':
+        return { row: config.rows.walk_left, col };
+      case 'right':
+        return { row: config.rows.walk_right, col };
+    }
+  }
+
+  // Idle Stance: Down plays subtle breathing/blinking cycle; others show stationary profile frame
+  switch (direction) {
+    case 'down':
+      return {
+        row: config.rows.idle_down,
+        col: animatedFrameIndex % config.frameCount.idle,
+      };
+    case 'up':
+      return { row: config.rows.walk_up, col: 0 };
+    case 'left':
+      return { row: config.rows.walk_left, col: 0 };
+    case 'right':
+      return { row: config.rows.walk_right, col: 0 };
+  }
+}
+
+/**
+ * Renders a character sprite onto a 2D canvas context with 2.5D foot alignment and ground shadow.
+ */
+export function renderCharacterSprite(
+  ctx: CanvasRenderingContext2D,
+  spriteImage: HTMLImageElement,
+  worldX: number,
+  worldY: number,
+  direction: CharacterDirection,
+  isMoving: boolean,
+  animatedFrameIndex: number,
+  config: SpriteSheetConfig,
+  renderShadow = true
+): void {
+  // 1. Draw logical foot shadow
+  if (renderShadow) {
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
+    ctx.beginPath();
+    ctx.ellipse(worldX, worldY + 1, 11 * (config.scale / 0.58), 4.5 * (config.scale / 0.58), 0, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  // 2. Resolve source frame slice
+  const { row, col } = getSpriteFrameCoordinates(
+    direction,
+    isMoving,
+    animatedFrameIndex,
+    config
+  );
+
+  const srcX = col * config.frameWidth;
+  const srcY = row * config.frameHeight;
+  const srcW = config.frameWidth;
+  const srcH = config.frameHeight;
+
+  // 3. Compute destination dimensions aligned to foot baseline
+  const destW = Math.round(config.frameWidth * config.scale);
+  const destH = Math.round(config.frameHeight * config.scale);
+  const baselineScaled = Math.round(config.baselineY * config.scale);
+
+  const destX = Math.round(worldX - destW / 2);
+  const destY = Math.round(worldY - baselineScaled);
+
+  // 4. Render pixel-crisp sprite
+  const prevSmoothing = ctx.imageSmoothingEnabled;
+  ctx.imageSmoothingEnabled = false;
+
+  ctx.drawImage(
+    spriteImage,
+    srcX,
+    srcY,
+    srcW,
+    srcH,
+    destX,
+    destY,
+    destW,
+    destH
+  );
+
+  ctx.imageSmoothingEnabled = prevSmoothing;
+}

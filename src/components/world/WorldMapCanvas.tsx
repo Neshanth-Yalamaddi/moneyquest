@@ -16,6 +16,12 @@ import {
 } from '../../engine/worldEngine';
 import { ObjectInspectionModal } from './ObjectInspectionModal';
 import city1MapImageSrc from '../../assets/maps/city1_map.jpg';
+import playerSpriteSheetSrc from '../../assets/characters/player_spritesheet.png';
+import {
+  PLAYER_SPRITE_CONFIG,
+  NPC_SPRITE_REGISTRY,
+  renderCharacterSprite,
+} from '../../engine/characterAnimation';
 import {
   MapPin,
   Compass,
@@ -62,6 +68,14 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
   const [mapImageError, setMapImageError] = useState<boolean>(false);
   const mapImageRef = useRef<HTMLImageElement | null>(null);
 
+  // Player & NPC Pixel Art Sprite Sheet State
+  const [playerSpriteLoaded, setPlayerSpriteLoaded] = useState<boolean>(false);
+  const playerSpriteRef = useRef<HTMLImageElement | null>(null);
+  const animFrameCounter = useRef<number>(0);
+  const animTimerAccumulator = useRef<number>(0);
+  const lastLoopTimestamp = useRef<number>(0);
+  const npcSpriteImagesRef = useRef<Map<string, HTMLImageElement>>(new Map());
+
   // Proximity states
   const [nearbyNpc, setNearbyNpc] = useState<NPC | null>(null);
   const [nearbyObject, setNearbyObject] = useState<CityObject | null>(null);
@@ -103,6 +117,27 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
     return () => {
       img.onload = null;
       img.onerror = null;
+    };
+  }, []);
+
+  // Load Player Pixel Art Spritesheet Asset with Dynamic Cache Invalidation
+  useEffect(() => {
+    const spriteImg = new Image();
+    spriteImg.src = `${playerSpriteSheetSrc}?v=${Date.now()}`;
+
+    spriteImg.onload = () => {
+      playerSpriteRef.current = spriteImg;
+      setPlayerSpriteLoaded(true);
+    };
+
+    spriteImg.onerror = () => {
+      console.warn('Player spritesheet could not be loaded. Falling back to stylized avatar.');
+      setPlayerSpriteLoaded(false);
+    };
+
+    return () => {
+      spriteImg.onload = null;
+      spriteImg.onerror = null;
     };
   }, []);
 
@@ -203,6 +238,22 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
 
     const gameLoop = (timestamp: number) => {
       animTimer += 0.05;
+
+      // Update Character Sprite Animation Accumulative Frame Timer
+      const deltaMs = lastLoopTimestamp.current > 0 ? Math.min(timestamp - lastLoopTimestamp.current, 100) : 16;
+      lastLoopTimestamp.current = timestamp;
+
+      animTimerAccumulator.current += deltaMs;
+      const frameDuration = player.isMoving
+        ? PLAYER_SPRITE_CONFIG.frameDurationMs.walk
+        : PLAYER_SPRITE_CONFIG.frameDurationMs.idle;
+      const maxFrames = player.isMoving
+        ? PLAYER_SPRITE_CONFIG.frameCount.walk
+        : PLAYER_SPRITE_CONFIG.frameCount.idle;
+      while (animTimerAccumulator.current >= frameDuration) {
+        animTimerAccumulator.current -= frameDuration;
+        animFrameCounter.current = (animFrameCounter.current + 1) % maxFrames;
+      }
 
       // 1. Compute Strict 4-Way Movement from Keyboard or Mouse Click Target
       let rawDx = 0;
@@ -425,14 +476,14 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
       CITY1_NPCS.forEach((npc) => {
         renderEntities.push({
           y: npc.y,
-          render: () => renderNpc(ctx, npc, nearbyNpc?.id === npc.id, isCity1Solved, animTimer),
+          render: () => renderNpc(ctx, npc, nearbyNpc?.id === npc.id, isCity1Solved, animTimer, animFrameCounter.current),
         });
       });
 
       // Add Player to sorting list
       renderEntities.push({
         y: player.y,
-        render: () => renderPlayer(ctx, player, animTimer),
+        render: () => renderPlayer(ctx, player, animFrameCounter.current, animTimer),
       });
 
       // Sort by Y-coordinate so entities lower down render on top
@@ -449,7 +500,7 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
     return () => {
       cancelAnimationFrame(animationFrameId);
     };
-  }, [player, nearbyNpc, nearbyObject, mapImageLoaded, mapImageError, showHitboxes, cameraZoom, isCity1Solved]);
+  }, [player, nearbyNpc, nearbyObject, mapImageLoaded, mapImageError, showHitboxes, cameraZoom, zoomLevel, isCity1Solved, playerSpriteLoaded]);
 
   // Procedural Fallback Map Generator (Ensures Zero Blank Screen if asset fails)
   const renderProceduralMapFallback = (ctx: CanvasRenderingContext2D, mapW: number, mapH: number) => {
@@ -496,66 +547,99 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
     });
   };
 
-  // 2.5D Depth-Aligned NPC Renderer (Modular Placeholder Architecture)
+  // 2.5D Depth-Aligned NPC Renderer (Extensible Sprite & Placeholder Architecture)
   const renderNpc = (
     ctx: CanvasRenderingContext2D,
     npc: NPC,
     isNearby: boolean,
     isSolved: boolean,
-    animTimer: number
+    animTimer: number,
+    frameIndex: number
   ) => {
-    // Foot shadow
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
-    ctx.beginPath();
-    ctx.ellipse(npc.x, npc.y + 4, 14, 5, 0, 0, Math.PI * 2);
-    ctx.fill();
+    // Check if an external spritesheet is registered for this NPC
+    const registeredNpc = NPC_SPRITE_REGISTRY[npc.id];
+    let renderedSprite = false;
 
-    // NPC Avatar Base & Frame
-    const bob = isNearby ? Math.sin(animTimer * 6) * 2 : 0;
-    const isWarden = npc.id === 'npc_hostel_warden';
+    if (registeredNpc) {
+      let npcImg = npcSpriteImagesRef.current.get(npc.id);
+      if (!npcImg) {
+        npcImg = new Image();
+        npcImg.src = `${registeredNpc.imageSrc}?v=${Date.now()}`;
+        npcSpriteImagesRef.current.set(npc.id, npcImg);
+      }
+      if (npcImg.complete && npcImg.naturalWidth > 0) {
+        renderCharacterSprite(
+          ctx,
+          npcImg,
+          npc.x,
+          npc.y,
+          'down',
+          false,
+          frameIndex,
+          registeredNpc.config,
+          true
+        );
+        renderedSprite = true;
+      }
+    }
 
-    ctx.fillStyle = isNearby ? '#f59e0b' : '#0f172a';
-    ctx.strokeStyle = isNearby ? '#ffffff' : '#64748b';
-    ctx.lineWidth = isNearby ? 2 : 1;
-    ctx.beginPath();
-    ctx.roundRect(npc.x - 13, npc.y - 25 + bob, 26, 26, 7);
-    ctx.fill();
-    ctx.stroke();
+    // If no sprite registered yet or image still loading, render development placeholder avatar card
+    if (!renderedSprite) {
+      // Foot shadow
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
+      ctx.beginPath();
+      ctx.ellipse(npc.x, npc.y + 4, 14, 5, 0, 0, Math.PI * 2);
+      ctx.fill();
 
-    // Emoji/Avatar Glyph
-    ctx.font = '16px serif';
-    ctx.textAlign = 'center';
-    ctx.fillText(npc.avatar, npc.x, npc.y - 7 + bob);
+      // NPC Avatar Base & Frame
+      const bob = isNearby ? Math.sin(animTimer * 6) * 2 : 0;
 
-    // Name Plate
+      ctx.fillStyle = isNearby ? '#f59e0b' : '#0f172a';
+      ctx.strokeStyle = isNearby ? '#ffffff' : '#64748b';
+      ctx.lineWidth = isNearby ? 2 : 1;
+      ctx.beginPath();
+      ctx.roundRect(npc.x - 13, npc.y - 25 + bob, 26, 26, 7);
+      ctx.fill();
+      ctx.stroke();
+
+      // Emoji/Avatar Glyph
+      ctx.font = '16px serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(npc.avatar, npc.x, npc.y - 7 + bob);
+    }
+
+    // Name Plate (positioned below baseline)
     ctx.fillStyle = '#f8fafc';
     ctx.font = 'bold 9px Inter, sans-serif';
-    ctx.fillText(npc.name, npc.x, npc.y + 16);
+    ctx.textAlign = 'center';
+    ctx.fillText(npc.name, npc.x, npc.y + (renderedSprite ? 14 : 16));
 
     // Role Subtitle
     ctx.fillStyle = '#94a3b8';
     ctx.font = '7.5px Inter, sans-serif';
-    ctx.fillText(npc.role, npc.x, npc.y + 25);
+    ctx.fillText(npc.role, npc.x, npc.y + (renderedSprite ? 23 : 25));
 
     // Quest Indicator Beacon for Warden Rao Sir (Primary Challenge)
+    const isWarden = npc.id === 'npc_hostel_warden';
     if (isWarden) {
       const beaconBob = Math.sin(animTimer * 5) * 3;
+      const beaconY = renderedSprite ? npc.y - 48 : npc.y - 36;
       if (!isSolved) {
         ctx.fillStyle = '#ef4444';
         ctx.beginPath();
-        ctx.arc(npc.x, npc.y - 36 + beaconBob, 8, 0, Math.PI * 2);
+        ctx.arc(npc.x, beaconY + beaconBob, 8, 0, Math.PI * 2);
         ctx.fill();
         ctx.fillStyle = '#ffffff';
         ctx.font = 'bold 10px Inter, sans-serif';
-        ctx.fillText('!', npc.x, npc.y - 33 + beaconBob);
+        ctx.fillText('!', npc.x, beaconY + 3 + beaconBob);
       } else {
         ctx.fillStyle = '#10b981';
         ctx.beginPath();
-        ctx.arc(npc.x, npc.y - 36 + beaconBob, 8, 0, Math.PI * 2);
+        ctx.arc(npc.x, beaconY + beaconBob, 8, 0, Math.PI * 2);
         ctx.fill();
         ctx.fillStyle = '#ffffff';
         ctx.font = 'bold 9px Inter, sans-serif';
-        ctx.fillText('✓', npc.x, npc.y - 33 + beaconBob);
+        ctx.fillText('✓', npc.x, beaconY + 3 + beaconBob);
       }
     }
 
@@ -563,7 +647,8 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
     if (isNearby) {
       ctx.fillStyle = '#f59e0b';
       ctx.font = 'bold 9px Inter, sans-serif';
-      ctx.fillText('[E] Talk', npc.x, npc.y - 38);
+      const promptY = renderedSprite ? npc.y - 44 : npc.y - 38;
+      ctx.fillText('[E] Talk', npc.x, promptY);
     }
   };
 
@@ -571,18 +656,32 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
   const renderPlayer = (
     ctx: CanvasRenderingContext2D,
     p: typeof player,
+    frameIndex: number,
     animTimer: number
   ) => {
-    // Logical foot shadow
+    // If pixel art spritesheet is loaded, render animated character sprite
+    if (playerSpriteRef.current && playerSpriteLoaded) {
+      renderCharacterSprite(
+        ctx,
+        playerSpriteRef.current,
+        p.x,
+        p.y,
+        p.direction,
+        p.isMoving,
+        frameIndex,
+        PLAYER_SPRITE_CONFIG,
+        true
+      );
+      return;
+    }
+
+    // High-Fidelity Fallback Avatar Card (Zero glitch while loading)
     ctx.fillStyle = 'rgba(0, 0, 0, 0.45)';
     ctx.beginPath();
     ctx.ellipse(p.x, p.y + 2, 12, 5, 0, 0, Math.PI * 2);
     ctx.fill();
 
-    // Walking animation bob
     const walkBob = p.isMoving ? Math.sin(animTimer * 12) * 2 : 0;
-
-    // Student Character Card Placeholder (Replaceable by external sprite sheet)
     ctx.fillStyle = '#1e293b';
     ctx.strokeStyle = '#f59e0b';
     ctx.lineWidth = 1.8;
@@ -591,12 +690,10 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
     ctx.fill();
     ctx.stroke();
 
-    // Scholar Avatar Emoji
     ctx.font = '16px serif';
     ctx.textAlign = 'center';
     ctx.fillText('🧑‍🎓', p.x, p.y - 8 + walkBob);
 
-    // Directional Indicator Pip
     ctx.fillStyle = '#f59e0b';
     ctx.beginPath();
     let pipX = p.x;
@@ -667,7 +764,8 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
       DEFAULT_PLAYER_FOOTPRINT,
       CITY1_COLLISION_BOXES,
       CITY1_CONFIG.width,
-      CITY1_CONFIG.height
+      CITY1_CONFIG.height,
+      CITY1_COLLISION_GRID
     );
 
     if (res.moved) {

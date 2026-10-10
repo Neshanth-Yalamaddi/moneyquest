@@ -15,6 +15,14 @@ import {
   findNearbyNpc,
 } from '../src/engine/worldEngine';
 import { PUZZLES } from '../src/data/puzzles';
+import {
+  PLAYER_SPRITE_CONFIG,
+  NPC_SPRITE_REGISTRY,
+  registerNpcSprite,
+  getSpriteFrameCoordinates,
+} from '../src/engine/characterAnimation';
+import fs from 'fs';
+import path from 'path';
 
 function assert(condition: boolean, message: string) {
   if (!condition) {
@@ -313,4 +321,55 @@ assert(gateNudge.moved, 'Corner assist should nudge player into open school gate
 assert(gateNudge.x > 185, 'Corner assist should nudge player rightward into open opening');
 console.log('✓ Test 10 Passed: Corner assist nudges player around gate posts into courtyards');
 
-console.log('--- ALL CITY 1 WORLD ENGINE TESTS PASSED SUCCESSFULLY! ---');
+// Test 11: Main Character Pixel Art Sprite Asset Integrity
+console.log('Testing main character pixel art sprite asset integrity...');
+const spritePath = path.resolve('src/assets/characters/player_spritesheet.png');
+assert(fs.existsSync(spritePath), 'Player spritesheet file must exist at src/assets/characters/player_spritesheet.png');
+const stats = fs.statSync(spritePath);
+assert(stats.size > 1000, `Player spritesheet must be a valid image file (got ${stats.size} bytes)`);
+assert(PLAYER_SPRITE_CONFIG.frameWidth === 48, 'Frame width must be 48px');
+assert(PLAYER_SPRITE_CONFIG.frameHeight === 72, 'Frame height must be 72px');
+assert(PLAYER_SPRITE_CONFIG.baselineY === 68, 'Baseline Y must be 68px for proper foot grounding');
+console.log('✓ Test 11 Passed: Main character pixel art spritesheet asset verified on disk');
+
+// Test 12: Directional Animation Row Mapping & Frame Cycling
+console.log('Testing 4-way direction animation rows and frames...');
+// Walking cycles (8 frames each)
+const walkDown = getSpriteFrameCoordinates('down', true, 3, PLAYER_SPRITE_CONFIG);
+assert(walkDown.row === PLAYER_SPRITE_CONFIG.rows.walk_down && walkDown.col === 3, 'Walk down must map to Row 1, Col 3');
+
+const walkUp = getSpriteFrameCoordinates('up', true, 5, PLAYER_SPRITE_CONFIG);
+assert(walkUp.row === PLAYER_SPRITE_CONFIG.rows.walk_up && walkUp.col === 5, 'Walk up must map to Row 2, Col 5');
+
+const walkLeft = getSpriteFrameCoordinates('left', true, 2, PLAYER_SPRITE_CONFIG);
+assert(walkLeft.row === PLAYER_SPRITE_CONFIG.rows.walk_left && walkLeft.col === 2, 'Walk left must map to Row 3, Col 2');
+
+const walkRight = getSpriteFrameCoordinates('right', true, 7, PLAYER_SPRITE_CONFIG);
+assert(walkRight.row === PLAYER_SPRITE_CONFIG.rows.walk_right && walkRight.col === 7, 'Walk right must map to Row 4, Col 7');
+
+// Idle Stances
+const idleDown = getSpriteFrameCoordinates('down', false, 4, PLAYER_SPRITE_CONFIG);
+assert(idleDown.row === PLAYER_SPRITE_CONFIG.rows.idle_down && idleDown.col === 4, 'Idle down must map to Row 0 idle cycle');
+
+const idleUp = getSpriteFrameCoordinates('up', false, 4, PLAYER_SPRITE_CONFIG);
+assert(idleUp.row === PLAYER_SPRITE_CONFIG.rows.walk_up && idleUp.col === 0, 'Idle up must map to Row 2 static Col 0');
+
+const idleLeft = getSpriteFrameCoordinates('left', false, 4, PLAYER_SPRITE_CONFIG);
+assert(idleLeft.row === PLAYER_SPRITE_CONFIG.rows.walk_left && idleLeft.col === 0, 'Idle left must map to Row 3 static Col 0');
+
+const idleRight = getSpriteFrameCoordinates('right', false, 4, PLAYER_SPRITE_CONFIG);
+assert(idleRight.row === PLAYER_SPRITE_CONFIG.rows.walk_right && idleRight.col === 0, 'Idle right must map to Row 4 static Col 0');
+console.log('✓ Test 12 Passed: 4-Way walk cycles and idle stances correctly mapped to spritesheet grid');
+
+// Test 13: Extensible NPC Sprite Registry Architecture
+console.log('Testing NPC sprite registration architecture...');
+const sampleNpcConfig = { ...PLAYER_SPRITE_CONFIG };
+registerNpcSprite('npc_test_warden', {
+  imageSrc: '/assets/characters/test_warden.png',
+  config: sampleNpcConfig,
+});
+assert(!!NPC_SPRITE_REGISTRY['npc_test_warden'], 'NPC sprite registry must store new NPC entry');
+assert(NPC_SPRITE_REGISTRY['npc_test_warden'].config.frameWidth === 48, 'Registered NPC must preserve config');
+console.log('✓ Test 13 Passed: Extensible NPC sprite registry verified and ready for upcoming NPC assets');
+
+console.log('--- ALL CITY 1 WORLD ENGINE & CHARACTER TESTS PASSED SUCCESSFULLY! ---');
