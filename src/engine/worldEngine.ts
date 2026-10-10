@@ -1,4 +1,4 @@
-import { CollisionBox } from '../data/maps/city1Data';
+import { CollisionBox, CollisionGrid } from '../data/maps/city1Data';
 import { NPC } from '../types';
 
 export interface Rect {
@@ -33,7 +33,40 @@ export function rectsIntersect(a: Rect, b: Rect): boolean {
 }
 
 /**
+ * Evaluates whether a foot bounding box collides with the spatial collision grid.
+ */
+export function checkGridCollision(
+  footX: number,
+  footY: number,
+  footW: number,
+  footH: number,
+  grid: CollisionGrid
+): boolean {
+  const halfW = footW / 2;
+  const halfH = footH / 2;
+  const minX = footX - halfW;
+  const maxX = footX + halfW;
+  const minY = footY - halfH;
+  const maxY = footY + halfH;
+
+  const minCol = Math.max(0, Math.floor(minX / grid.tileSize));
+  const maxCol = Math.min(grid.cols - 1, Math.floor((maxX - 0.001) / grid.tileSize));
+  const minRow = Math.max(0, Math.floor(minY / grid.tileSize));
+  const maxRow = Math.min(grid.rows - 1, Math.floor((maxY - 0.001) / grid.tileSize));
+
+  for (let r = minRow; r <= maxRow; r++) {
+    for (let c = minCol; c <= maxCol; c++) {
+      if (grid.cells[r * grid.cols + c] === 1) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+/**
  * Evaluates whether a foot bounding box collides with map bounds or collision geometry.
+ * Supports both continuous AABB boxes and compiled spatial tile collision grid.
  */
 export function checkFootCollision(
   footX: number,
@@ -42,7 +75,8 @@ export function checkFootCollision(
   footH: number,
   boxes: CollisionBox[],
   mapW: number,
-  mapH: number
+  mapH: number,
+  grid?: CollisionGrid
 ): boolean {
   const halfW = footW / 2;
   const halfH = footH / 2;
@@ -54,6 +88,11 @@ export function checkFootCollision(
     footY - halfH < 0 ||
     footY + halfH > mapH
   ) {
+    return true;
+  }
+
+  // Check spatial grid if provided
+  if (grid && checkGridCollision(footX, footY, footW, footH, grid)) {
     return true;
   }
 
@@ -87,6 +126,7 @@ export function checkFootCollision(
  * - Intelligent corner assist (nudges character around door frames and wall corners instead of dead-stopping)
  * - Smooth wall sliding
  * - Strict cardinal direction enforcement
+ * - Dual-layer collision verification (AABB bounding geometries + 8x8 spatial tile grid)
  */
 export function slideMove(
   curX: number,
@@ -96,7 +136,8 @@ export function slideMove(
   footprint: PlayerFootprint,
   boxes: CollisionBox[],
   mapW: number,
-  mapH: number
+  mapH: number,
+  grid?: CollisionGrid
 ): { x: number; y: number; moved: boolean } {
   if (rawDx === 0 && rawDy === 0) {
     return { x: curX, y: curY, moved: false };
@@ -117,7 +158,7 @@ export function slideMove(
   const targetY = curY + dy;
 
   // 2. Direct unobstructed move
-  if (!checkFootCollision(targetX, targetY, footprint.width, footprint.height, boxes, mapW, mapH)) {
+  if (!checkFootCollision(targetX, targetY, footprint.width, footprint.height, boxes, mapW, mapH, grid)) {
     return { x: targetX, y: targetY, moved: true };
   }
 
@@ -128,8 +169,8 @@ export function slideMove(
       for (const sign of [1, -1]) {
         const nudgeX = curX + sign * offset;
         if (
-          !checkFootCollision(nudgeX, curY, footprint.width, footprint.height, boxes, mapW, mapH) &&
-          !checkFootCollision(nudgeX, targetY, footprint.width, footprint.height, boxes, mapW, mapH)
+          !checkFootCollision(nudgeX, curY, footprint.width, footprint.height, boxes, mapW, mapH, grid) &&
+          !checkFootCollision(nudgeX, targetY, footprint.width, footprint.height, boxes, mapW, mapH, grid)
         ) {
           const actualNudge = Math.sign(sign) * Math.min(offset, 1.8);
           const nextX = curX + actualNudge;
@@ -142,8 +183,8 @@ export function slideMove(
       for (const sign of [1, -1]) {
         const nudgeY = curY + sign * offset;
         if (
-          !checkFootCollision(curX, nudgeY, footprint.width, footprint.height, boxes, mapW, mapH) &&
-          !checkFootCollision(targetX, nudgeY, footprint.width, footprint.height, boxes, mapW, mapH)
+          !checkFootCollision(curX, nudgeY, footprint.width, footprint.height, boxes, mapW, mapH, grid) &&
+          !checkFootCollision(targetX, nudgeY, footprint.width, footprint.height, boxes, mapW, mapH, grid)
         ) {
           const actualNudge = Math.sign(sign) * Math.min(offset, 1.8);
           const nextY = curY + actualNudge;
@@ -165,7 +206,7 @@ export function slideMove(
     const mid = (low + high) / 2;
     const testX = isHoriz ? curX + dir * mid : curX;
     const testY = !isHoriz ? curY + dir * mid : curY;
-    if (!checkFootCollision(testX, testY, footprint.width, footprint.height, boxes, mapW, mapH)) {
+    if (!checkFootCollision(testX, testY, footprint.width, footprint.height, boxes, mapW, mapH, grid)) {
       bestDist = mid;
       low = mid;
     } else {

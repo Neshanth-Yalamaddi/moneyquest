@@ -1,12 +1,15 @@
 import {
   CITY1_CONFIG,
   CITY1_COLLISION_BOXES,
+  CITY1_COLLISION_GRID,
+  COLLISION_GRID_TILE_SIZE,
   CITY1_NPCS,
   CITY1_INTERACTIVES,
 } from '../src/data/maps/city1Data';
 import {
   DEFAULT_PLAYER_FOOTPRINT,
   checkFootCollision,
+  checkGridCollision,
   slideMove,
   calculateCamera,
   findNearbyNpc,
@@ -171,5 +174,143 @@ const portal = CITY1_INTERACTIVES.find((o) => o.id === 'portal_city2_exit');
 assert(!!portal, 'Road to City 2 portal must exist');
 assert(portal!.x === 685 && portal!.y === 30, 'Portal must be located at northern road exit');
 console.log('✓ Test 6 Passed: Interactive objects, notices, and portal configured correctly');
+
+// Test 7: Spatial Tile-Based Collision Grid Integration
+console.log('Testing 8x8 spatial collision grid compilation...');
+
+assert(CITY1_COLLISION_GRID.tileSize === 8, 'Collision grid tile size must be 8px');
+assert(CITY1_COLLISION_GRID.cols === 128, 'Collision grid cols must be 128 (1024/8)');
+assert(CITY1_COLLISION_GRID.rows === 72, 'Collision grid rows must be 72 (ceil 572/8)');
+
+// Spawn should be clear on the grid
+const spawnGridBlocked = checkGridCollision(
+  CITY1_CONFIG.spawnPoint.x,
+  CITY1_CONFIG.spawnPoint.y,
+  DEFAULT_PLAYER_FOOTPRINT.width,
+  DEFAULT_PLAYER_FOOTPRINT.height,
+  CITY1_COLLISION_GRID
+);
+assert(!spawnGridBlocked, 'Spawn point must be free on the collision grid');
+
+// River at (50, 350) should be blocked on the grid
+const riverGridBlocked = checkGridCollision(
+  50,
+  350,
+  DEFAULT_PLAYER_FOOTPRINT.width,
+  DEFAULT_PLAYER_FOOTPRINT.height,
+  CITY1_COLLISION_GRID
+);
+assert(riverGridBlocked, 'River must be blocked on the collision grid');
+console.log('✓ Test 7 Passed: 8x8 spatial collision grid properly configured');
+
+// Test 8: End-to-End Reachability (BFS Pathfinding from Spawn to All Landmarks)
+console.log('Testing complete map reachability via BFS pathfinding...');
+const grid = CITY1_COLLISION_GRID;
+const startCol = Math.floor(CITY1_CONFIG.spawnPoint.x / grid.tileSize);
+const startRow = Math.floor(CITY1_CONFIG.spawnPoint.y / grid.tileSize);
+
+const visited = new Uint8Array(grid.cols * grid.rows);
+const queue: [number, number][] = [[startCol, startRow]];
+visited[startRow * grid.cols + startCol] = 1;
+
+const dirs = [
+  [0, 1],
+  [0, -1],
+  [1, 0],
+  [-1, 0],
+];
+
+while (queue.length > 0) {
+  const [c, r] = queue.shift()!;
+  for (const [dc, dr] of dirs) {
+    const nc = c + dc;
+    const nr = r + dr;
+    if (nc >= 0 && nc < grid.cols && nr >= 0 && nr < grid.rows) {
+      const idx = nr * grid.cols + nc;
+      if (!visited[idx]) {
+        // Player footprint check at this tile center
+        const px = nc * grid.tileSize + grid.tileSize / 2;
+        const py = nr * grid.tileSize + grid.tileSize / 2;
+        const blocked = checkFootCollision(
+          px,
+          py,
+          DEFAULT_PLAYER_FOOTPRINT.width,
+          DEFAULT_PLAYER_FOOTPRINT.height,
+          CITY1_COLLISION_BOXES,
+          CITY1_CONFIG.width,
+          CITY1_CONFIG.height,
+          grid
+        );
+        if (!blocked) {
+          visited[idx] = 1;
+          queue.push([nc, nr]);
+        }
+      }
+    }
+  }
+}
+
+const keyTargets: { name: string; x: number; y: number }[] = [
+  { name: 'Spawn Bridge', x: 75, y: 450 },
+  { name: 'South Road Promenade', x: 400, y: 450 },
+  { name: 'Western Avenue', x: 180, y: 360 },
+  { name: 'School/Library Courtyard', x: 200, y: 180 },
+  { name: 'Bookshop Entrance & Front', x: 375, y: 235 },
+  { name: 'Study Room Pathway', x: 520, y: 200 },
+  { name: 'Canteen Dining Patio', x: 380, y: 370 },
+  { name: 'Electronics Repair Counter', x: 630, y: 350 },
+  { name: 'Hostel Courtyard / Warden', x: 850, y: 180 },
+  { name: 'Savings Bank / ATM', x: 900, y: 505 },
+  { name: 'City 2 Northern Exit Portal', x: 685, y: 35 },
+  { name: 'Scholarship Notice Board', x: 180, y: 430 },
+];
+
+keyTargets.forEach((target) => {
+  const tCol = Math.floor(target.x / grid.tileSize);
+  const tRow = Math.floor(target.y / grid.tileSize);
+  const isReachable = visited[tRow * grid.cols + tCol] === 1;
+  assert(isReachable, `Target location "${target.name}" at (${target.x}, ${target.y}) must be reachable from Spawn`);
+});
+console.log('✓ Test 8 Passed: All 12 key destinations and City 2 exit 100% reachable from spawn');
+
+// Test 9: Continuous Sub-Pixel Movement Flush Against Solid Walls
+console.log('Testing continuous sub-pixel flush movement against solid obstacle walls...');
+// Bank south wall is at y: 495. Player walking upwards from forecourt (y: 520) towards bank.
+// Foot halfH is 4. When flush against south wall (y: 495), foot center y should stop at 499.
+const bankApproach = slideMove(
+  880,
+  520,
+  0,
+  -25,
+  DEFAULT_PLAYER_FOOTPRINT,
+  CITY1_COLLISION_BOXES,
+  CITY1_CONFIG.width,
+  CITY1_CONFIG.height,
+  CITY1_COLLISION_GRID
+);
+assert(bankApproach.moved, 'Player should be able to move forward until flush against wall');
+assert(bankApproach.y >= 499, `Player must not penetrate bank wall at y: 495 (stopped at ${bankApproach.y})`);
+assert(Math.abs(bankApproach.y - 499) <= 1.5, `Player should stop flush against wall (expected ~499, got ${bankApproach.y})`);
+console.log('✓ Test 9 Passed: Continuous sub-pixel movement brings player flush against wall with 0 penetration');
+
+// Test 10: Corner Assist through School Gate
+console.log('Testing corner assist nudging around gate corners...');
+// School wall left ends at x: 180, gate is open x: 180..245.
+// If player is at x: 185, y: 306 moving up (dy: -4), direct movement clips the left gate post at x: 180.
+// Corner assist nudges the player right into the open gate.
+const gateNudge = slideMove(
+  185,
+  306,
+  0,
+  -4,
+  DEFAULT_PLAYER_FOOTPRINT,
+  CITY1_COLLISION_BOXES,
+  CITY1_CONFIG.width,
+  CITY1_CONFIG.height,
+  CITY1_COLLISION_GRID
+);
+assert(gateNudge.moved, 'Corner assist should nudge player into open school gate');
+assert(gateNudge.x > 185, 'Corner assist should nudge player rightward into open opening');
+console.log('✓ Test 10 Passed: Corner assist nudges player around gate posts into courtyards');
 
 console.log('--- ALL CITY 1 WORLD ENGINE TESTS PASSED SUCCESSFULLY! ---');

@@ -3,6 +3,7 @@ import { StudentProfile, GameLanguage, NPC } from '../../types';
 import {
   CITY1_CONFIG,
   CITY1_COLLISION_BOXES,
+  CITY1_COLLISION_GRID,
   CITY1_NPCS,
   CITY1_INTERACTIVES,
   CityObject,
@@ -237,7 +238,8 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
           DEFAULT_PLAYER_FOOTPRINT,
           CITY1_COLLISION_BOXES,
           CITY1_CONFIG.width,
-          CITY1_CONFIG.height
+          CITY1_CONFIG.height,
+          CITY1_COLLISION_GRID
         );
 
         if (moveResult.moved) {
@@ -329,24 +331,48 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
         ctx.fillRect(25 + Math.sin(animTimer + i) * 8, rippleY, 35, 1.5);
       }
 
-      // 7. Render Debug Collision Geometry (When Enabled)
+      // 7. Render Development Collision Debug Overlay (Visualizes blocked & walkable spatial grid)
       if (showHitboxes) {
+        // A. Visualise 8x8 Spatial Collision Grid (blocked tiles in translucent red)
+        const ts = CITY1_COLLISION_GRID.tileSize;
+        const cols = CITY1_COLLISION_GRID.cols;
+        const rows = CITY1_COLLISION_GRID.rows;
+        const cells = CITY1_COLLISION_GRID.cells;
+
         ctx.fillStyle = 'rgba(239, 68, 68, 0.25)';
+        for (let r = 0; r < rows; r++) {
+          for (let c = 0; c < cols; c++) {
+            if (cells[r * cols + c] === 1) {
+              ctx.fillRect(c * ts, r * ts, ts, ts);
+            }
+          }
+        }
+
+        // B. Obstacle Physical Boundary Outlines
         ctx.strokeStyle = '#ef4444';
         ctx.lineWidth = 1;
         CITY1_COLLISION_BOXES.forEach((b) => {
-          ctx.fillRect(b.x, b.y, b.w, b.h);
           ctx.strokeRect(b.x, b.y, b.w, b.h);
         });
 
-        // Player Footprint Hitbox
-        ctx.fillStyle = 'rgba(34, 197, 94, 0.6)';
+        // C. Player Footprint Hitbox (Walk contact area)
+        ctx.fillStyle = 'rgba(34, 197, 94, 0.7)';
         ctx.strokeStyle = '#22c55e';
         ctx.lineWidth = 1.5;
         const halfFootW = DEFAULT_PLAYER_FOOTPRINT.width / 2;
         const halfFootH = DEFAULT_PLAYER_FOOTPRINT.height / 2;
         ctx.fillRect(player.x - halfFootW, player.y - halfFootH, DEFAULT_PLAYER_FOOTPRINT.width, DEFAULT_PLAYER_FOOTPRINT.height);
         ctx.strokeRect(player.x - halfFootW, player.y - halfFootH, DEFAULT_PLAYER_FOOTPRINT.width, DEFAULT_PLAYER_FOOTPRINT.height);
+
+        // D. Development HUD Badge
+        ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
+        ctx.fillRect(player.x - 46, player.y - 38, 92, 16);
+        ctx.strokeStyle = '#38bdf8';
+        ctx.strokeRect(player.x - 46, player.y - 38, 92, 16);
+        ctx.fillStyle = '#38bdf8';
+        ctx.font = 'bold 8px monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText(`COLLISION GRID 8x8`, player.x, player.y - 27);
       }
 
       // 8. Render Interactive Objects & Collectibles

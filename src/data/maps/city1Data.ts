@@ -54,57 +54,114 @@ export const CITY1_CONFIG: CityMapConfig = {
   },
 };
 
-// 2.5D Foot-Aligned Collision Geometry
+// 2.5D Foot-Aligned Physical Collision Geometry
 export const CITY1_COLLISION_BOXES: CollisionBox[] = [
-  // Outer perimeter boundaries (leaving North Road at x: 670-715 open for City 2 exit)
-  { name: 'boundary_top_left', x: 0, y: 0, w: 670, h: 15 },
-  { name: 'boundary_top_right', x: 715, y: 0, w: 309, h: 15 },
+  // 1. Perimeter Boundaries (Leaving North Highway open at x: 670-715 for City 2 exit)
+  { name: 'boundary_top_left', x: 0, y: 0, w: 670, h: 16 },
+  { name: 'boundary_top_right', x: 715, y: 0, w: 309, h: 16 },
   { name: 'boundary_west', x: 0, y: 0, w: 10, h: 572 },
   { name: 'boundary_east', x: 1014, y: 0, w: 10, h: 572 },
   { name: 'boundary_bottom', x: 0, y: 560, w: 1024, h: 12 },
 
-  // West River & Canal (Leaves bridge at y: 425-475 open)
+  // 2. West River & Canal (Leaves START bridge at y: 425-475 completely open)
   { name: 'river_north', x: 0, y: 290, w: 85, h: 135 },
   { name: 'river_south', x: 0, y: 475, w: 85, h: 95 },
 
-  // School & Library Complex (NW)
-  // Building foundation
+  // 3. School & Library Complex (NW)
+  // Building physical foundation (roof is non-solid)
   { name: 'school_main_building', x: 55, y: 30, w: 305, h: 125 },
-  // Front stone walls (gate opening at x: 180-245 open)
+  // Front stone walls (leaves central gate at x: 180-245 open)
   { name: 'school_wall_left', x: 110, y: 285, w: 70, h: 15 },
   { name: 'school_wall_right', x: 245, y: 285, w: 85, h: 15 },
+  { name: 'school_wall_west', x: 110, y: 155, w: 8, h: 130 },
+  { name: 'school_flagpole', x: 168, y: 216, w: 6, h: 6 },
 
-  // Bookshop (North-Center-West)
-  { name: 'bookshop_building', x: 330, y: 200, w: 85, h: 75 },
+  // 4. Bookshop (North-Center-West)
+  // Physical shop foundation (leaves front sidewalk & road at y: 230-300 open)
+  { name: 'bookshop_building', x: 330, y: 150, w: 85, h: 75 },
 
-  // Study Room (North-Center)
+  // 5. Study Room (North-Center)
   { name: 'study_room_building', x: 475, y: 65, w: 155, h: 115 },
 
-  // Hostel (NE)
-  // Building foundation
+  // 6. Hostel (NE)
+  // Building physical foundation
   { name: 'hostel_main_building', x: 745, y: 25, w: 225, h: 135 },
-  // Courtyard south stone walls (gate opening at x: 830-890 open)
+  // Courtyard south stone walls (leaves gate at x: 830-890 open)
   { name: 'hostel_wall_left', x: 740, y: 220, w: 90, h: 15 },
   { name: 'hostel_wall_right', x: 890, y: 220, w: 85, h: 15 },
+  { name: 'hostel_wall_west', x: 738, y: 135, w: 8, h: 85 },
+  // Parked scooters (physical footprints)
+  { name: 'hostel_scooter_nw', x: 755, y: 55, w: 30, h: 22 },
+  { name: 'hostel_scooter_west', x: 755, y: 110, w: 30, h: 20 },
+  { name: 'hostel_scooter_mid', x: 800, y: 135, w: 28, h: 18 },
 
-  // Campus Canteen & Patio Enclosure (Center)
-  // Kitchen building
-  { name: 'canteen_building', x: 340, y: 245, w: 160, h: 85 },
-  // Patio fences (south gate at x: 345-435 open)
-  { name: 'canteen_fence_west', x: 265, y: 250, w: 8, h: 160 },
-  { name: 'canteen_fence_east', x: 505, y: 250, w: 8, h: 160 },
-  { name: 'canteen_fence_south_left', x: 265, y: 410, w: 80, h: 10 },
-  { name: 'canteen_fence_south_right', x: 435, y: 410, w: 78, h: 10 },
+  // 7. Campus Canteen & Patio Enclosure (Center)
+  // Kitchen building foundation
+  { name: 'canteen_building', x: 340, y: 305, w: 160, h: 45 },
+  // Patio perimeter wooden fences (leaves south entrance at x: 345-435 open)
+  { name: 'canteen_fence_west', x: 265, y: 310, w: 8, h: 105 },
+  { name: 'canteen_fence_east', x: 505, y: 310, w: 8, h: 105 },
+  { name: 'canteen_fence_south_left', x: 265, y: 415, w: 80, h: 10 },
+  { name: 'canteen_fence_south_right', x: 435, y: 415, w: 78, h: 10 },
+  // Patio outdoor tables (physical bases only)
+  { name: 'canteen_table_top_left', x: 285, y: 315, w: 35, h: 25 },
+  { name: 'canteen_table_bot_left', x: 315, y: 380, w: 35, h: 25 },
+  { name: 'canteen_table_bot_right', x: 470, y: 380, w: 35, h: 25 },
 
-  // Electronics Repair Shop (Center-East)
-  { name: 'electronics_shop', x: 590, y: 235, w: 80, h: 95 },
+  // 8. Electronics Repair Shop (Center-East)
+  { name: 'electronics_shop', x: 590, y: 235, w: 80, h: 88 },
 
-  // Savings Bank (SE)
+  // 9. Savings Bank (SE)
   { name: 'savings_bank_building', x: 815, y: 400, w: 135, h: 95 },
 
-  // South Banyan Tree Trunk & Planter (completely south of road!)
-  { name: 'south_banyan_tree', x: 590, y: 475, w: 75, h: 45 },
+  // 10. Tree Trunks & Park Furniture (Solid physical areas only)
+  { name: 'south_banyan_trunk', x: 590, y: 475, w: 75, h: 45 },
+  { name: 'west_banyan_trunk', x: 25, y: 265, w: 65, h: 40 },
+  { name: 'tree_study_room', x: 435, y: 160, w: 25, h: 25 },
+  { name: 'tree_school_north', x: 365, y: 75, w: 25, h: 25 },
+  { name: 'tree_hostel_east', x: 945, y: 250, w: 25, h: 25 },
+  { name: 'south_park_bench_1', x: 300, y: 480, w: 35, h: 12 },
+  { name: 'south_park_bench_2', x: 480, y: 480, w: 35, h: 12 },
 ];
+
+// Spatial Tile-Based Collision Grid (8x8 px grid cells)
+export const COLLISION_GRID_TILE_SIZE = 8;
+export const COLLISION_GRID_COLS = Math.ceil(CITY1_CONFIG.width / COLLISION_GRID_TILE_SIZE); // 128
+export const COLLISION_GRID_ROWS = Math.ceil(CITY1_CONFIG.height / COLLISION_GRID_TILE_SIZE); // 72
+
+export interface CollisionGrid {
+  tileSize: number;
+  cols: number;
+  rows: number;
+  cells: Uint8Array;
+}
+
+// Generate compiled binary collision grid from physical boxes
+export function createCity1CollisionGrid(boxes: CollisionBox[]): CollisionGrid {
+  const cells = new Uint8Array(COLLISION_GRID_COLS * COLLISION_GRID_ROWS);
+
+  boxes.forEach((box) => {
+    const colStart = Math.max(0, Math.floor(box.x / COLLISION_GRID_TILE_SIZE));
+    const colEnd = Math.min(COLLISION_GRID_COLS - 1, Math.floor((box.x + box.w - 1) / COLLISION_GRID_TILE_SIZE));
+    const rowStart = Math.max(0, Math.floor(box.y / COLLISION_GRID_TILE_SIZE));
+    const rowEnd = Math.min(COLLISION_GRID_ROWS - 1, Math.floor((box.y + box.h - 1) / COLLISION_GRID_TILE_SIZE));
+
+    for (let r = rowStart; r <= rowEnd; r++) {
+      for (let c = colStart; c <= colEnd; c++) {
+        cells[r * COLLISION_GRID_COLS + c] = 1; // 1 = solid obstacle
+      }
+    }
+  });
+
+  return {
+    tileSize: COLLISION_GRID_TILE_SIZE,
+    cols: COLLISION_GRID_COLS,
+    rows: COLLISION_GRID_ROWS,
+    cells,
+  };
+}
+
+export const CITY1_COLLISION_GRID = createCity1CollisionGrid(CITY1_COLLISION_BOXES);
 
 // NPCs positioned on City 1 Map
 export const CITY1_NPCS: NPC[] = [
