@@ -619,9 +619,10 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
         npcSpriteImagesRef.current.set(npc.id, npcImg);
       }
       if (npcImg.complete && npcImg.naturalWidth > 0) {
-        // Dynamic NPC facing direction: turn to look at player when nearby
+        // Dynamic NPC facing direction: turn to look directly at player when in vicinity (within 70px)
         let facingDir: CharacterDirection = 'down';
-        if (isNearby) {
+        const distToPlayer = Math.hypot(player.x - npc.x, player.y - npc.y);
+        if (distToPlayer <= 70) {
           const dx = player.x - npc.x;
           const dy = player.y - npc.y;
           if (Math.abs(dx) > Math.abs(dy)) {
