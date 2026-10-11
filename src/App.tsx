@@ -7,6 +7,7 @@ import {
   PuzzleScenario,
 } from './types';
 import { GameStorage } from './engine/storage';
+import { GameEngine } from './engine/gameEngine';
 import { PUZZLES } from './data/puzzles';
 import { Navbar } from './components/ui/Navbar';
 import { LandingPage } from './components/landing/LandingPage';
@@ -110,7 +111,11 @@ export const App: React.FC = () => {
         <NpcDialogueModal
           npc={activeNpc}
           language={language}
-          isSolved={profile.completedCityIds.includes(activeNpc.cityId)}
+          isSolved={
+            activeNpc.scenarioId
+              ? GameEngine.isScenarioSolved(activeNpc.scenarioId, profile)
+              : false
+          }
           onClose={() => setActiveNpc(null)}
           onStartChallenge={handleStartChallenge}
         />

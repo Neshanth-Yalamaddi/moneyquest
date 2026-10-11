@@ -14,6 +14,7 @@ export interface StudentProfile {
   currentCityId: string;
   completedCityIds: string[];
   failedCityIds: string[];
+  completedScenarioIds?: string[];
   badges: string[];
   createdAt: number;
   lastActiveAt: number;
