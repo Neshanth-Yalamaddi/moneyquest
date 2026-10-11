@@ -7,6 +7,7 @@ import {
   CITY1_NPCS,
   CITY1_INTERACTIVES,
   CityObject,
+  getCity1NpcCollisionBoxes,
 } from '../../data/maps/city1Data';
 import {
   DEFAULT_PLAYER_FOOTPRINT,
@@ -17,9 +18,17 @@ import {
 import { ObjectInspectionModal } from './ObjectInspectionModal';
 import city1MapImageSrc from '../../assets/maps/city1_map.jpg';
 import playerSpriteSheetSrc from '../../assets/characters/player_spritesheet.png';
+import teacherSpriteSheetSrc from '../../assets/characters/npcs/teacher_spritesheet.png';
+import watchmanSpriteSheetSrc from '../../assets/characters/npcs/watchman_spritesheet.png';
+import hostelWardenSpriteSheetSrc from '../../assets/characters/npcs/hostel_warden_spritesheet.png';
+import repairTechSpriteSheetSrc from '../../assets/characters/npcs/repair_tech_spritesheet.png';
+import teaVendorSpriteSheetSrc from '../../assets/characters/npcs/tea_vendor_spritesheet.png';
 import {
+  CharacterDirection,
   PLAYER_SPRITE_CONFIG,
+  NPC_DEFAULT_SPRITE_CONFIG,
   NPC_SPRITE_REGISTRY,
+  registerNpcSprite,
   renderCharacterSprite,
 } from '../../engine/characterAnimation';
 import {
@@ -120,7 +129,16 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
     };
   }, []);
 
-  // Load Player Pixel Art Spritesheet Asset with Dynamic Cache Invalidation
+  // Register NPC pixel art spritesheets into the animation registry
+  useEffect(() => {
+    registerNpcSprite('npc_hostel_warden', { imageSrc: hostelWardenSpriteSheetSrc, config: NPC_DEFAULT_SPRITE_CONFIG });
+    registerNpcSprite('npc_repair_tech', { imageSrc: repairTechSpriteSheetSrc, config: NPC_DEFAULT_SPRITE_CONFIG });
+    registerNpcSprite('npc_canteen_manager', { imageSrc: teaVendorSpriteSheetSrc, config: NPC_DEFAULT_SPRITE_CONFIG });
+    registerNpcSprite('npc_senior_librarian', { imageSrc: teacherSpriteSheetSrc, config: NPC_DEFAULT_SPRITE_CONFIG });
+    registerNpcSprite('npc_security_guard', { imageSrc: watchmanSpriteSheetSrc, config: NPC_DEFAULT_SPRITE_CONFIG });
+  }, []);
+
+  // Load Player & NPC Pixel Art Spritesheets with Dynamic Cache Invalidation
   useEffect(() => {
     const spriteImg = new Image();
     spriteImg.src = `${playerSpriteSheetSrc}?v=${Date.now()}`;
@@ -134,6 +152,24 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
       console.warn('Player spritesheet could not be loaded. Falling back to stylized avatar.');
       setPlayerSpriteLoaded(false);
     };
+
+    // Preload NPC spritesheets
+    const npcSources: Record<string, string> = {
+      npc_hostel_warden: hostelWardenSpriteSheetSrc,
+      npc_repair_tech: repairTechSpriteSheetSrc,
+      npc_canteen_manager: teaVendorSpriteSheetSrc,
+      npc_senior_librarian: teacherSpriteSheetSrc,
+      npc_security_guard: watchmanSpriteSheetSrc,
+    };
+
+    Object.entries(npcSources).forEach(([id, src]) => {
+      const img = new Image();
+      img.src = `${src}?v=${Date.now()}`;
+      img.onload = () => {
+        npcSpriteImagesRef.current.set(id, img);
+      };
+      npcSpriteImagesRef.current.set(id, img);
+    });
 
     return () => {
       spriteImg.onload = null;
@@ -279,15 +315,20 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
 
       const isMoving = rawDx !== 0 || rawDy !== 0;
 
-      // 2. Perform 2.5D Foot-Aligned Collision & Wall Sliding
+      // 2. Perform 2.5D Foot-Aligned Collision & Wall Sliding (incorporating NPC physical hitboxes)
       if (isMoving) {
+        const dynamicCollisionBoxes = [
+          ...CITY1_COLLISION_BOXES,
+          ...getCity1NpcCollisionBoxes(CITY1_NPCS),
+        ];
+
         const moveResult = slideMove(
           player.x,
           player.y,
           rawDx,
           rawDy,
           DEFAULT_PLAYER_FOOTPRINT,
-          CITY1_COLLISION_BOXES,
+          dynamicCollisionBoxes,
           CITY1_CONFIG.width,
           CITY1_CONFIG.height,
           CITY1_COLLISION_GRID
@@ -403,6 +444,16 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
         ctx.strokeStyle = '#ef4444';
         ctx.lineWidth = 1;
         CITY1_COLLISION_BOXES.forEach((b) => {
+          ctx.strokeRect(b.x, b.y, b.w, b.h);
+        });
+
+        // C. NPC Foot Hitboxes (Translucent amber)
+        const npcBoxes = getCity1NpcCollisionBoxes(CITY1_NPCS);
+        ctx.fillStyle = 'rgba(245, 158, 11, 0.45)';
+        ctx.strokeStyle = '#f59e0b';
+        ctx.lineWidth = 1.5;
+        npcBoxes.forEach((b) => {
+          ctx.fillRect(b.x, b.y, b.w, b.h);
           ctx.strokeRect(b.x, b.y, b.w, b.h);
         });
 
@@ -568,16 +619,28 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
         npcSpriteImagesRef.current.set(npc.id, npcImg);
       }
       if (npcImg.complete && npcImg.naturalWidth > 0) {
+        // Dynamic NPC facing direction: turn to look at player when nearby
+        let facingDir: CharacterDirection = 'down';
+        if (isNearby) {
+          const dx = player.x - npc.x;
+          const dy = player.y - npc.y;
+          if (Math.abs(dx) > Math.abs(dy)) {
+            facingDir = dx > 0 ? 'right' : 'left';
+          } else {
+            facingDir = dy > 0 ? 'down' : 'up';
+          }
+        }
+
         renderCharacterSprite(
           ctx,
           npcImg,
           npc.x,
           npc.y,
-          'down',
+          facingDir,
           false,
           frameIndex,
           registeredNpc.config,
-          true
+          false // Sprites already have authentic pixel art shadow at base
         );
         renderedSprite = true;
       }
@@ -643,12 +706,24 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
       }
     }
 
-    // Floating Interaction Prompt
+    // Interactive Speech Bubble / Action Prompt when player is nearby
     if (isNearby) {
-      ctx.fillStyle = '#f59e0b';
-      ctx.font = 'bold 9px Inter, sans-serif';
-      const promptY = renderedSprite ? npc.y - 44 : npc.y - 38;
-      ctx.fillText('[E] Talk', npc.x, promptY);
+      const bubbleBob = Math.sin(animTimer * 5) * 2;
+      const bubbleY = renderedSprite ? npc.y - 48 + bubbleBob : npc.y - 38 + bubbleBob;
+
+      // Speech prompt balloon
+      ctx.fillStyle = 'rgba(15, 23, 42, 0.92)';
+      ctx.strokeStyle = '#f59e0b';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.roundRect(npc.x - 26, bubbleY - 11, 52, 16, 6);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = '#fbbf24';
+      ctx.font = 'bold 8.5px Inter, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('💬 [E] Talk', npc.x, bubbleY + 1.5);
     }
   };
 

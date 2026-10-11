@@ -250,7 +250,40 @@ export const CITY1_NPCS: NPC[] = [
       te: 'సెంట్రల్ లైబ్రరీకి స్వాగతం! ₹3,000 పెట్టి కొత్త పుస్తకాలు కొనేముందు లైబ్రరీ పుస్తకాలు లేదా సెకండ్ హ్యాండ్ పుస్తకాలు చూడండి!',
     },
   },
+  {
+    id: 'npc_security_guard',
+    name: 'Security Guard Ramu',
+    role: 'Campus Gate Security',
+    avatar: '👮',
+    x: 155,
+    y: 415,
+    cityId: 'city_hostel_commons',
+    dialogueIntro: {
+      en: 'Namaste student! Welcome to the Scholars\' District campus! Always keep your student ID ready and watch your step. If you need help finding your way, follow the signs north toward the Central Library and Canteen!',
+      hi: 'नमस्ते विद्यार्थी! स्कॉलर्स डिस्ट्रिक्ट कैंपस में आपका स्वागत है! अपना आईडी कार्ड हमेशा साथ रखें। रास्ते के लिए उत्तर में सेंट्रल लाइब्रेरी और कैंटीन के संकेत देखें!',
+      te: 'నమస్తే విద్యార్థి! స్కాలర్స్ డిస్ట్రిక్ట్ క్యాంపస్‌కు స్వాగతం! ఎల్లప్పుడూ మీ స్టూడెంట్ ఐడీ కార్డు వెంట ఉంచుకోండి. సహాయం కావాలంటే ఉత్తరాన ఉన్న సెంట్రల్ లైబ్రరీ మరియు క్యాంటీన్ వైపు వెళ్లండి!',
+    },
+    dialogueSolved: {
+      en: 'Stay safe and plan your daily campus budget wisely!',
+      hi: 'सुरक्षित रहें और अपने दैनिक कैंपस बजट की समझदारी से योजना बनाएं!',
+      te: 'సురక్షితంగా ఉండండి మరియు మీ రోజువారీ ఖర్చులను ప్రణాళికాబద్ధంగా ఉంచుకోండి!',
+    },
+  },
 ];
+
+/**
+ * Returns physical foot-aligned collision boxes for active NPCs.
+ * Prevents player from phasing through NPCs while preserving 2.5D depth sorting and dialogue accessibility.
+ */
+export function getCity1NpcCollisionBoxes(npcs: NPC[] = CITY1_NPCS): CollisionBox[] {
+  return npcs.map((npc) => ({
+    name: `npc_foot_${npc.id}`,
+    x: npc.x - 8,
+    y: npc.y - 4,
+    w: 16,
+    h: 8,
+  }));
+}
 
 // Interactive Objects & Environmental Discoveries
 export const CITY1_INTERACTIVES: CityObject[] = [

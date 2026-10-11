@@ -68,10 +68,57 @@ export interface NpcSpriteEntry {
   config: SpriteSheetConfig;
 }
 
+/**
+ * Standard NPC Sprite Sheet Configuration (96x180 Grid, 2 cols x 5 rows)
+ * Row 0: Idle South / Down (2 frames)
+ * Row 1: Walk South / Down (2 frames)
+ * Row 2: Walk North / Up (2 frames)
+ * Row 3: Walk West / Left (2 frames)
+ * Row 4: Walk East / Right (2 frames)
+ */
+export const NPC_DEFAULT_SPRITE_CONFIG: SpriteSheetConfig = {
+  frameWidth: 96,
+  frameHeight: 180,
+  baselineY: 172,
+  scale: 0.25, // Scaled to ~24x45 px, matching player character scale (~28x42 px)
+  rows: {
+    idle_down: 0,
+    walk_down: 1,
+    walk_up: 2,
+    walk_left: 3,
+    walk_right: 4,
+  },
+  frameCount: {
+    idle: 2,
+    walk: 2,
+  },
+  frameDurationMs: {
+    idle: 480,
+    walk: 220,
+  },
+};
+
 export const NPC_SPRITE_REGISTRY: Record<string, NpcSpriteEntry> = {
-  // NPCs in development will be registered here, e.g.:
-  // 'npc_hostel_warden': { imageSrc: wardenSpritesheetSrc, config: WARDEN_SPRITE_CONFIG },
-  // 'npc_repair_tech': { imageSrc: sureshSpritesheetSrc, config: SURESH_SPRITE_CONFIG },
+  npc_hostel_warden: {
+    imageSrc: '/assets/characters/npcs/hostel_warden_spritesheet.png',
+    config: NPC_DEFAULT_SPRITE_CONFIG,
+  },
+  npc_repair_tech: {
+    imageSrc: '/assets/characters/npcs/repair_tech_spritesheet.png',
+    config: NPC_DEFAULT_SPRITE_CONFIG,
+  },
+  npc_canteen_manager: {
+    imageSrc: '/assets/characters/npcs/tea_vendor_spritesheet.png',
+    config: NPC_DEFAULT_SPRITE_CONFIG,
+  },
+  npc_senior_librarian: {
+    imageSrc: '/assets/characters/npcs/teacher_spritesheet.png',
+    config: NPC_DEFAULT_SPRITE_CONFIG,
+  },
+  npc_security_guard: {
+    imageSrc: '/assets/characters/npcs/watchman_spritesheet.png',
+    config: NPC_DEFAULT_SPRITE_CONFIG,
+  },
 };
 
 /**

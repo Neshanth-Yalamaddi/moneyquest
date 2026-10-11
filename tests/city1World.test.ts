@@ -5,6 +5,7 @@ import {
   COLLISION_GRID_TILE_SIZE,
   CITY1_NPCS,
   CITY1_INTERACTIVES,
+  getCity1NpcCollisionBoxes,
 } from '../src/data/maps/city1Data';
 import {
   DEFAULT_PLAYER_FOOTPRINT,
@@ -361,16 +362,48 @@ const idleRight = getSpriteFrameCoordinates('right', false, 4, PLAYER_SPRITE_CON
 assert(idleRight.row === PLAYER_SPRITE_CONFIG.rows.walk_right && idleRight.col === 0, 'Idle right must map to Row 4 static Col 0');
 console.log('✓ Test 12 Passed: 4-Way walk cycles and idle stances correctly mapped to spritesheet grid');
 
-// Test 13: Extensible NPC Sprite Registry Architecture
-console.log('Testing NPC sprite registration architecture...');
-const sampleNpcConfig = { ...PLAYER_SPRITE_CONFIG };
-registerNpcSprite('npc_test_warden', {
-  imageSrc: '/assets/characters/test_warden.png',
-  config: sampleNpcConfig,
+// Test 13: Extensible NPC Sprite Registry Architecture & Physical Collision Integration
+console.log('Testing NPC sprite registration architecture and collision integration...');
+const expectedNpcIds = [
+  'npc_hostel_warden',
+  'npc_repair_tech',
+  'npc_canteen_manager',
+  'npc_senior_librarian',
+  'npc_security_guard',
+];
+
+expectedNpcIds.forEach((id) => {
+  const reg = NPC_SPRITE_REGISTRY[id];
+  assert(!!reg, `NPC "${id}" must be registered in NPC_SPRITE_REGISTRY`);
+  assert(reg.config.frameWidth === 96, `NPC "${id}" frameWidth must be 96px`);
+  assert(reg.config.frameHeight === 180, `NPC "${id}" frameHeight must be 180px`);
+  assert(reg.config.baselineY === 172, `NPC "${id}" baselineY must be 172px`);
+  assert(reg.config.scale === 0.25, `NPC "${id}" scale must be 0.25 for 24x45px render`);
 });
-assert(!!NPC_SPRITE_REGISTRY['npc_test_warden'], 'NPC sprite registry must store new NPC entry');
-assert(NPC_SPRITE_REGISTRY['npc_test_warden'].config.frameWidth === 48, 'Registered NPC must preserve config');
-console.log('✓ Test 13 Passed: Extensible NPC sprite registry verified and ready for upcoming NPC assets');
+
+// Verify NPC physical foot collision boxes
+const npcBoxes = getCity1NpcCollisionBoxes(CITY1_NPCS);
+assert(npcBoxes.length === CITY1_NPCS.length, 'Every NPC must have a physical foot collision box');
+
+CITY1_NPCS.forEach((npc) => {
+  // Test that attempting to walk directly inside the NPC's foot hitbox is blocked
+  const isBlocked = checkFootCollision(
+    npc.x,
+    npc.y,
+    DEFAULT_PLAYER_FOOTPRINT.width,
+    DEFAULT_PLAYER_FOOTPRINT.height,
+    npcBoxes,
+    CITY1_CONFIG.width,
+    CITY1_CONFIG.height
+  );
+  assert(isBlocked, `Player must not be able to walk through NPC "${npc.name}"`);
+
+  // Test that an adjacent player 30px away is within talking distance (<= 45px)
+  const nearbyNpc = findNearbyNpc(npc.x, npc.y + 30, [npc], 45);
+  assert(nearbyNpc?.id === npc.id, `Adjacent player must be able to interact with NPC "${npc.name}"`);
+});
+
+console.log('✓ Test 13 Passed: All 5 NPC pixel art sprites & physical foot collisions verified');
 
 // Test 14: Hardcoded User Roadside & Boundary Coordinates Verification
 console.log('Testing hardcoded roadside & boundary coordinates...');
