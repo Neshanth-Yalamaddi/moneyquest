@@ -15,6 +15,7 @@ import {
   calculateCamera,
   WorldAudio,
 } from '../../engine/worldEngine';
+import { GameEngine } from '../../engine/gameEngine';
 import { ObjectInspectionModal } from './ObjectInspectionModal';
 import city1MapImageSrc from '../../assets/maps/city1_map.jpg';
 import playerSpriteSheetSrc from '../../assets/characters/player_spritesheet.png';
@@ -104,7 +105,22 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
   const lastStepSoundTime = useRef<number>(0);
   const clickTarget = useRef<{ x: number; y: number } | null>(null);
 
-  const isCity1Solved = profile.completedCityIds.includes('city_hostel_commons');
+  // Per-NPC quest completion check
+  const isNpcSolved = useCallback(
+    (npc: NPC): boolean => {
+      if (!npc.scenarioId) return true;
+      return GameEngine.isScenarioSolved(npc.scenarioId, profile);
+    },
+    [profile]
+  );
+
+  // All quest-giving NPCs in City 1 (Hostel Warden Rao Sir & Electronics Tech Suresh Anna)
+  const city1QuestNpcs = CITY1_NPCS.filter((n) => Boolean(n.scenarioId));
+  const completedQuestCount = city1QuestNpcs.filter((n) => isNpcSolved(n)).length;
+  const totalQuestCount = city1QuestNpcs.length;
+
+  // Navigational arrow & portal unlock ONLY when ALL quests in the city are completed
+  const areAllQuestsCompleted = totalQuestCount > 0 && completedQuestCount === totalQuestCount;
 
   // Load Map Asset with Cache Invalidation & Fallback Protection
   useEffect(() => {
@@ -532,7 +548,7 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
       CITY1_NPCS.forEach((npc) => {
         renderEntities.push({
           y: npc.y,
-          render: () => renderNpc(ctx, npc, nearbyNpc?.id === npc.id, isCity1Solved, animTimer, animFrameCounter.current),
+          render: () => renderNpc(ctx, npc, nearbyNpc?.id === npc.id, isNpcSolved(npc), animTimer, animFrameCounter.current),
         });
       });
 
@@ -546,8 +562,8 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
       renderEntities.sort((a, b) => a.y - b.y);
       renderEntities.forEach((e) => e.render());
 
-      // 10. Navigational Guidance to City 2 when all City 1 quests are completed
-      if (isCity1Solved) {
+      // 10. Navigational Guidance to City 2 ONLY when ALL City 1 quests are completed
+      if (areAllQuestsCompleted) {
         renderCity2Guidance(ctx, player, animTimer);
       }
 
@@ -561,7 +577,7 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
     return () => {
       cancelAnimationFrame(animationFrameId);
     };
-  }, [player, nearbyNpc, nearbyObject, mapImageLoaded, mapImageError, showHitboxes, cameraZoom, zoomLevel, isCity1Solved, playerSpriteLoaded]);
+  }, [player, nearbyNpc, nearbyObject, mapImageLoaded, mapImageError, showHitboxes, cameraZoom, zoomLevel, areAllQuestsCompleted, isNpcSolved, playerSpriteLoaded]);
 
   // Procedural Fallback Map Generator (Ensures Zero Blank Screen if asset fails)
   const renderProceduralMapFallback = (ctx: CanvasRenderingContext2D, mapW: number, mapH: number) => {
@@ -693,10 +709,9 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
     ctx.font = '7.5px Inter, sans-serif';
     ctx.fillText(npc.role, npc.x, npc.y + (renderedSprite ? 23 : 25));
 
-    // Quest Indicator Beacon for Warden Rao Sir (Primary Challenge)
+    // Quest Indicator Beacon for Quest NPCs (Primary Challenges)
     // Only display beacon '!' when unsolved; no checkmark after completion
-    const isWarden = npc.id === 'npc_hostel_warden';
-    if (isWarden && !isSolved) {
+    if (npc.scenarioId && !isSolved) {
       const beaconBob = Math.sin(animTimer * 5) * 3;
       const beaconY = renderedSprite ? npc.y - 48 : npc.y - 36;
       ctx.fillStyle = '#ef4444';
@@ -967,8 +982,10 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
 
   // Transition handler for City 2 Portal
   const handleCityTransition = (targetCityId: string) => {
-    if (!isCity1Solved) {
-      setTransitionNotification('Warden Rao Sir requires your hostel mess dues cleared before leaving City 1!');
+    if (!areAllQuestsCompleted) {
+      setTransitionNotification(
+        `Complete all City 1 quests (${completedQuestCount}/${totalQuestCount} solved) before advancing to City 2!`
+      );
       setTimeout(() => setTransitionNotification(null), 4000);
       return;
     }
@@ -1008,20 +1025,27 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
           {/* Quest Status Pill */}
           <div
             className={`px-3 py-1 rounded-lg text-xs font-semibold flex items-center gap-2 border ${
-              isCity1Solved
+              areAllQuestsCompleted
                 ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-300'
                 : 'bg-amber-500/10 border-amber-500/30 text-amber-300'
             }`}
           >
-            {isCity1Solved ? (
+            {areAllQuestsCompleted ? (
               <>
                 <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                <span>City 1 Complete! Follow Arrow to City 2 ➔</span>
+                <span>All Quests Complete! Follow Arrow to City 2 ➔</span>
               </>
             ) : (
               <>
                 <MapPin className="w-3.5 h-3.5 text-amber-400 animate-pulse" />
-                <span>Meet Warden Rao Sir at Hostel</span>
+                <span>
+                  Quests: {completedQuestCount}/{totalQuestCount} Complete
+                  {completedQuestCount === 0
+                    ? ' — Find Quest NPCs (!)'
+                    : !isNpcSolved(CITY1_NPCS.find((n) => n.id === 'npc_hostel_warden')!)
+                    ? ' — Meet Warden Rao Sir'
+                    : ' — Visit Suresh Anna at Repair Shop'}
+                </span>
               </>
             )}
           </div>
@@ -1211,7 +1235,7 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
         <ObjectInspectionModal
           object={activeInspectObject}
           language={language}
-          isCitySolved={isCity1Solved}
+          isCitySolved={areAllQuestsCompleted}
           onClose={() => setActiveInspectObject(null)}
           onTransition={handleCityTransition}
         />

@@ -19,9 +19,11 @@ export class GameEngine {
 
     const completed = new Set(profile.completedCityIds);
     const failed = new Set(profile.failedCityIds);
+    const completedScenarios = new Set(profile.completedScenarioIds || []);
 
     if (isPassed) {
       completed.add(scenario.cityId);
+      completedScenarios.add(scenario.id);
       failed.delete(scenario.cityId);
     } else {
       failed.add(scenario.cityId);
@@ -34,6 +36,7 @@ export class GameEngine {
       totalScore: newScore,
       completedCityIds: Array.from(completed),
       failedCityIds: Array.from(failed),
+      completedScenarioIds: Array.from(completedScenarios),
       lastActiveAt: Date.now(),
     };
 
@@ -56,6 +59,16 @@ export class GameEngine {
   static isCityUnlocked(cityId: string, requiredPredecessorId?: string, completedCityIds: string[] = []): boolean {
     if (!requiredPredecessorId) return true;
     return completedCityIds.includes(requiredPredecessorId);
+  }
+
+  /**
+   * Check if a specific scenario has been successfully completed.
+   */
+  static isScenarioSolved(scenarioId: string, profile: StudentProfile): boolean {
+    if (profile.completedScenarioIds?.includes(scenarioId)) {
+      return true;
+    }
+    return false;
   }
 
   /**
