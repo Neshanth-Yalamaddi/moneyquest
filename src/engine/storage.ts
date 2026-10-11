@@ -7,7 +7,7 @@ const STORAGE_KEY_WORLD_STATE = 'moneyquest_world_state';
 const STORAGE_KEY_PROGRESS_SAVED = 'moneyquest_progress_saved';
 
 export interface SavedWorldState {
-  cityId: 'city_hostel_commons' | 'city_academic_bazaar' | 'city_investment_valley';
+  cityId: 'city_hostel_commons' | 'city_academic_bazaar' | 'city_investment_valley' | 'city_harbor_town';
   x: number;
   y: number;
   direction: 'up' | 'down' | 'left' | 'right';

@@ -148,6 +148,47 @@ assert(
   'All 5 City 3 quests must now be solved, unlocking navigation across the river'
 );
 console.log('✓ Test 5C Passed: City 3 multi-quest progression unlocks river exit');
+
+// Test 5D: City 4 Multi-Quest Progression (Pillar 4: Stay Financially Safe)
+console.log('Testing City 4 multi-quest progression...');
+const fs001 = PUZZLES['scenario_fs_001_fake_scholarship'];
+const fs002 = PUZZLES['scenario_fs_002_atm_helper'];
+const fs003 = PUZZLES['scenario_fs_003_double_money'];
+const fs004 = PUZZLES['scenario_fs_004_part_time_job'];
+const fs005 = PUZZLES['scenario_fs_005_sim_block'];
+assert(!!fs001 && !!fs002 && !!fs003 && !!fs004 && !!fs005, 'All 5 City 4 scenarios must exist in PUZZLES');
+
+const fs001Best = fs001.choices.find((c) => c.tier === 'best')!;
+const fs002Best = fs002.choices.find((c) => c.tier === 'best')!;
+const fs003Best = fs003.choices.find((c) => c.tier === 'best')!;
+const fs004Best = fs004.choices.find((c) => c.tier === 'best')!;
+const fs005Best = fs005.choices.find((c) => c.tier === 'best')!;
+
+let pCity4 = pCity3;
+pCity4 = GameEngine.evaluateChoice(pCity4, fs001, fs001Best, 'en').updatedProfile;
+assert(GameEngine.isScenarioSolved('scenario_fs_001_fake_scholarship', pCity4), 'Dock Master Tariq quest must be solved');
+
+pCity4 = GameEngine.evaluateChoice(pCity4, fs002, fs002Best, 'en').updatedProfile;
+assert(GameEngine.isScenarioSolved('scenario_fs_002_atm_helper', pCity4), 'Officer Vikram quest must be solved');
+
+pCity4 = GameEngine.evaluateChoice(pCity4, fs003, fs003Best, 'en').updatedProfile;
+assert(GameEngine.isScenarioSolved('scenario_fs_003_double_money', pCity4), 'Fishmonger Lakshmi quest must be solved');
+
+pCity4 = GameEngine.evaluateChoice(pCity4, fs004, fs004Best, 'en').updatedProfile;
+assert(GameEngine.isScenarioSolved('scenario_fs_004_part_time_job', pCity4), 'Curator Anand quest must be solved');
+
+pCity4 = GameEngine.evaluateChoice(pCity4, fs005, fs005Best, 'en').updatedProfile;
+assert(GameEngine.isScenarioSolved('scenario_fs_005_sim_block', pCity4), 'Groundskeeper Deva quest must be solved');
+
+assert(
+  GameEngine.isScenarioSolved('scenario_fs_001_fake_scholarship', pCity4) &&
+  GameEngine.isScenarioSolved('scenario_fs_002_atm_helper', pCity4) &&
+  GameEngine.isScenarioSolved('scenario_fs_003_double_money', pCity4) &&
+  GameEngine.isScenarioSolved('scenario_fs_004_part_time_job', pCity4) &&
+  GameEngine.isScenarioSolved('scenario_fs_005_sim_block', pCity4),
+  'All 5 City 4 quests must now be solved, unlocking full financial safety mastery'
+);
+console.log('✓ Test 5D Passed: City 4 multi-quest progression completes Pillar 4');
 // Test 6: Reload Game State Persistence (Continues from where player stopped)
 console.log('Testing reload state persistence (continue from exact stopped position)...');
 // Mock localStorage in Node environment if not present
