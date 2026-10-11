@@ -121,6 +121,9 @@ export const CITY1_COLLISION_BOXES: CollisionBox[] = [
 
   // East highway roadside barrier post (Hardcoded obstacle blocking 707, 276)
   { name: 'east_highway_barrier_post', x: 700, y: 268, w: 16, h: 16 },
+  // Highway corridor curbs & barriers (Hardcoded obstacles blocking 689, 281 and 737, 282)
+  { name: 'roadside_barrier_689_281', x: 684, y: 275, w: 12, h: 14 },
+  { name: 'roadside_barrier_737_282', x: 728, y: 275, w: 18, h: 16 },
 
   // 11. Tree Trunks & Park Obstacles (Solid physical areas only)
   // South banyan tree & road planter (Hardcoded obstacle blocking 654, 430)
