@@ -108,13 +108,8 @@ export const CITY1_COLLISION_BOXES: CollisionBox[] = [
   { name: 'canteen_table_bot_left', x: 315, y: 380, w: 35, h: 25 },
   { name: 'canteen_table_bot_right', x: 470, y: 380, w: 35, h: 25 },
 
-  // 8. Electronics Repair Shop Complex & Surrounding Hazards (Center-East)
-  // Full building foundation & roof (spans north roof from y: 175 down to service counter base at y: 325)
-  { name: 'electronics_shop', x: 580, y: 175, w: 90, h: 150 },
-  // West impassable green hedge & buffer between Canteen and Shop
-  { name: 'electronics_west_green_buffer', x: 513, y: 225, w: 67, h: 110 },
-  // East water drainage ditch / culvert basin
-  { name: 'electronics_east_culvert', x: 675, y: 290, w: 40, h: 35 },
+  // 8. Electronics Repair Shop (Center-East)
+  { name: 'electronics_shop', x: 590, y: 235, w: 80, h: 88 },
 
   // 9. Savings Bank (SE)
   { name: 'savings_bank_building', x: 815, y: 400, w: 135, h: 95 },

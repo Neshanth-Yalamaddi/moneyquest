@@ -384,9 +384,6 @@ const userProvidedCoords = [
   { x: 707, y: 276, name: 'East Highway Roadside Barrier (707, 276)' },
   { x: 737, y: 282, name: 'Hostel Approach Roadside Barrier (737, 282)' },
   { x: 980, y: 425, name: 'East Bank Alley Dead-End Wall (980, 425)' },
-  { x: 630, y: 200, name: 'Electronics Shop North Roof Annex (630, 200)' },
-  { x: 550, y: 280, name: 'Electronics Shop West Buffer/Hedge (550, 280)' },
-  { x: 695, y: 310, name: 'Electronics Shop East Drainage Culvert (695, 310)' },
 ];
 
 userProvidedCoords.forEach((pt) => {
@@ -402,6 +399,6 @@ userProvidedCoords.forEach((pt) => {
   );
   assert(isBlocked, `Point ${pt.name} must be blocked by collision geometry`);
 });
-console.log('✓ Test 14 Passed: All 11 hardcoded roadside, shop, and boundary coordinates are strictly blocked');
+console.log('✓ Test 14 Passed: All 8 hardcoded roadside/boundary coordinates are strictly blocked');
 
 console.log('--- ALL CITY 1 WORLD ENGINE & CHARACTER TESTS PASSED SUCCESSFULLY! ---');
