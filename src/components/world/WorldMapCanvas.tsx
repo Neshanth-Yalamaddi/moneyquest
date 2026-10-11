@@ -240,7 +240,12 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
   // Fullscreen toggle handler
   const toggleFullscreen = () => {
     if (!isFullscreen) {
-      if (containerRef.current?.requestFullscreen) {
+      const elem = document.documentElement;
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen().catch(() => {
+          containerRef.current?.requestFullscreen().catch(() => {});
+        });
+      } else if (containerRef.current?.requestFullscreen) {
         containerRef.current.requestFullscreen().catch(() => {});
       }
       setIsFullscreen(true);
@@ -898,7 +903,7 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
       ref={containerRef}
       className={`w-full flex flex-col transition-all duration-300 ${
         isFullscreen
-          ? 'fixed inset-0 z-50 bg-slate-950 p-2 sm:p-3 w-screen h-screen'
+          ? 'fixed inset-0 z-30 bg-slate-950 p-2 sm:p-3 w-screen h-screen'
           : 'w-full flex-1 flex flex-col px-2 sm:px-4 py-1.5 h-[calc(100vh-70px)] max-h-[calc(100vh-70px)]'
       }`}
     >

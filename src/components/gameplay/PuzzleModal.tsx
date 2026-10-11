@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
 import {
   PuzzleScenario,
   PuzzleChoice,
@@ -146,8 +147,8 @@ export const PuzzleModal: React.FC<PuzzleModalProps> = ({
     setActiveHint(null);
   };
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md overflow-y-auto animate-fadeIn">
+  const content = (
+    <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md overflow-y-auto animate-fadeIn">
       <div className="max-w-2xl w-full bg-slate-900 border border-slate-700 rounded-3xl p-6 sm:p-8 shadow-2xl relative my-8">
         {/* Close Button */}
         <button
@@ -327,4 +328,7 @@ export const PuzzleModal: React.FC<PuzzleModalProps> = ({
       </div>
     </div>
   );
+
+  const mountNode = document.fullscreenElement || document.body;
+  return createPortal(content, mountNode);
 };

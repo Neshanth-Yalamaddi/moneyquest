@@ -1,4 +1,5 @@
 import React from 'react';
+import { createPortal } from 'react-dom';
 import { GameLanguage } from '../../types';
 import { CityObject } from '../../data/maps/city1Data';
 import { Landmark, FileText, Receipt, Compass, X, CheckCircle, AlertCircle, ArrowRight } from 'lucide-react';
@@ -38,8 +39,8 @@ export const ObjectInspectionModal: React.FC<ObjectInspectionModalProps> = ({
 
   const isPortal = object.type === 'portal';
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm animate-fadeIn">
+  const modalContent = (
+    <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm animate-fadeIn">
       <div className="max-w-md w-full bg-slate-900 border border-slate-700 rounded-2xl p-6 shadow-2xl relative text-slate-100">
         <button
           onClick={onClose}
@@ -126,4 +127,7 @@ export const ObjectInspectionModal: React.FC<ObjectInspectionModalProps> = ({
       </div>
     </div>
   );
+
+  const mountNode = document.fullscreenElement || document.body;
+  return createPortal(modalContent, mountNode);
 };
