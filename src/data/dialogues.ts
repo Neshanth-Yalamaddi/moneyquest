@@ -9,7 +9,7 @@ export const NPCS: Record<string, NPC> = {
     x: 150,
     y: 190,
     cityId: 'city_hostel_commons',
-    scenarioId: 'scenario_hostel_stipend',
+    scenarioId: 'PB_001',
     dialogueIntro: {
       en: "Congratulations on the scholarship! But remember: hostel mess dues must be cleared on the 1st of every month. Plan your budget before you spend a single rupee!",
       hi: "छात्रवृत्ति के लिए बधाई! लेकिन याद रखें: हर महीने की पहली तारीख को मेस का बकाया चुकाना होगा। एक भी रुपया खर्च करने से पहले बजट बनाएं!",
@@ -29,7 +29,7 @@ export const NPCS: Record<string, NPC> = {
     x: 620,
     y: 170,
     cityId: 'city_rainy_day_refuge',
-    scenarioId: 'scenario_broken_phone',
+    scenarioId: 'PB_004',
     dialogueIntro: {
       en: "Ouch, that phone glass is completely smashed. I can fix it for ₹1,200. Do you have emergency savings, or did you fall for one of those sketchy instant-loan apps?",
       hi: "अरे, स्क्रीन तो पूरी तरह टूट गई है। इसे ₹1,200 में ठीक कर दूंगा। क्या आपके पास इमरजेंसी पैसे हैं, या किसी फर्जी लोन ऐप के चक्कर में पड़ गए?",
@@ -49,7 +49,7 @@ export const NPCS: Record<string, NPC> = {
     x: 160,
     y: 370,
     cityId: 'city_compounding_grove',
-    scenarioId: 'scenario_compounding_tree',
+    scenarioId: 'INV_001',
     dialogueIntro: {
       en: "Namaste! Did you know starting just ₹500 a month in Class 11 grows exponentially faster than starting with ₹2,000 after college? Let me show you how compounding works.",
       hi: "नमस्ते! क्या आप जानते हैं कि 11वीं कक्षा में केवल ₹500 प्रति माह शुरू करना कॉलेज के बाद ₹2,000 शुरू करने से कहीं तेजी से बढ़ता है?",
@@ -69,7 +69,7 @@ export const NPCS: Record<string, NPC> = {
     x: 340,
     y: 560,
     cityId: 'city_upi_maze',
-    scenarioId: 'scenario_upi_pin_trap',
+    scenarioId: 'FS_001',
     dialogueIntro: {
       en: "Alert, student! Thousands in Hyderabad lose their stipends to fake QR codes every day. Someone wants to send you money? Remember the rule: NEVER enter your PIN to receive money!",
       hi: "सावधान छात्र! हैदराबाद में हर दिन हजारों लोग फर्जी QR कोड से पैसे गंवाते हैं। याद रखें: पैसे प्राप्त करने के लिए कभी PIN न डालें!",
@@ -89,7 +89,7 @@ export const NPCS: Record<string, NPC> = {
     x: 840,
     y: 240,
     cityId: 'city_hostel_commons',
-    scenarioId: 'scenario_hostel_stipend',
+    scenarioId: 'PB_001',
     dialogueIntro: {
       en: 'Hey there, roommate! Congratulations on your ₹6,000 scholarship pocket money. Remember, we have 30 days ahead of us. Before spending on branded shoes or parties, make sure you divide your stipend smartly between Important Needs, Fun Wants, and Emergency Money!',
       hi: 'अरे रूममेट! ₹6,000 की छात्रवृत्ति मिलने पर बधाई। याद रखें, 30 दिन का महीना है। फिजूलखर्ची से पहले अपने पैसे को जरूरी आवश्यकताओं, शौक और आपातकालीन बचत में समझदारी से बांटें!',
@@ -109,7 +109,7 @@ export const NPCS: Record<string, NPC> = {
     x: 365,
     y: 235,
     cityId: 'city_hostel_commons',
-    scenarioId: 'scenario_school_books',
+    scenarioId: 'PB_002',
     dialogueIntro: {
       en: "Namaste beta! Looking for your semester science textbooks and exam geometry box? Don't drain your wallet on brand-new hardcover books when you can get quality second-hand copies or share library copies!",
       hi: 'नमस्ते बेटा! सेमेस्टर की साइंस किताबें और ज्यामिति बॉक्स चाहिए? नई महंगी किताबों पर पूरा पैसा खर्च करने के बजाय पुरानी अच्छी किताबें या लाइब्रेरी की मदद लें!',
@@ -129,7 +129,7 @@ export const NPCS: Record<string, NPC> = {
     x: 440,
     y: 365,
     cityId: 'city_hostel_commons',
-    scenarioId: 'scenario_canteen_party',
+    scenarioId: 'PB_003',
     dialogueIntro: {
       en: 'Hey buddy! A bunch of us are heading to that trendy cafe across town for ₹1,200 burgers and shakes. Are you coming along, or should we just chill here at the campus tea stall for ₹15 chai?',
       hi: 'अरे दोस्त! हम सब ₹1,200 वाले महंगे कैफे में बर्गर और शेक पार्टी के लिए जा रहे हैं। क्या तुम चल रहे हो, या यहीं चाय स्टाल पर ₹15 की चाय पिएं?',
