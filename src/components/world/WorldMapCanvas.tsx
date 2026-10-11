@@ -47,6 +47,7 @@ import city2MapImageSrc from '../../assets/maps/city2_map.jpg';
 import city3MapImageSrc from '../../assets/maps/city3_map.jpg';
 import city4MapImageSrc from '../../assets/maps/city4_map.jpg';
 import playerSpriteSheetSrc from '../../assets/characters/player_spritesheet.png';
+import girlSpriteSheetSrc from '../../assets/characters/girl_spritesheet.png';
 import teacherSpriteSheetSrc from '../../assets/characters/npcs/teacher_spritesheet.png';
 import watchmanSpriteSheetSrc from '../../assets/characters/npcs/watchman_spritesheet.png';
 import hostelWardenSpriteSheetSrc from '../../assets/characters/npcs/hostel_warden_spritesheet.png';
@@ -378,8 +379,11 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
 
   // Load Player & NPC Pixel Art Spritesheets with Dynamic Cache Invalidation
   useEffect(() => {
+    const isGirl = profile.characterGender === 'girl';
+    const activePlayerSrc = isGirl ? girlSpriteSheetSrc : playerSpriteSheetSrc;
+
     const spriteImg = new Image();
-    spriteImg.src = `${playerSpriteSheetSrc}?v=${Date.now()}`;
+    spriteImg.src = `${activePlayerSrc}?v=${Date.now()}`;
 
     spriteImg.onload = () => {
       playerSpriteRef.current = spriteImg;
@@ -438,7 +442,7 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
       spriteImg.onload = null;
       spriteImg.onerror = null;
     };
-  }, []);
+  }, [profile.characterGender]);
 
   // Keyboard Event Listeners (Strict 4-Way Movement)
   useEffect(() => {

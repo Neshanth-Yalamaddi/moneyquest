@@ -1,11 +1,14 @@
 export type GameLanguage = 'en' | 'hi' | 'te';
 
-export type GameScreen = 'landing' | 'prologue' | 'world' | 'puzzle' | 'ngo_dashboard';
+export type CharacterGender = 'boy' | 'girl';
+
+export type GameScreen = 'landing' | 'character_select' | 'prologue' | 'world' | 'puzzle' | 'ngo_dashboard';
 
 export interface StudentProfile {
   studentId: string; // e.g. "STU-1042"
   sessionId: string;
   preferredLanguage: GameLanguage;
+  characterGender?: CharacterGender;
   scholarshipStipend: number; // monthly ₹5,000
   walletBalance: number;
   emergencyFund: number;

@@ -19,6 +19,7 @@ import { NpcDialogueModal } from './components/world/NpcDialogueModal';
 import { PuzzleModal } from './components/gameplay/PuzzleModal';
 import { BankruptcyModal } from './components/gameplay/BankruptcyModal';
 import { NgoDashboardModal } from './components/analytics/NgoDashboardModal';
+import { CharacterSelectScreen } from './components/character/CharacterSelectScreen';
 
 export const App: React.FC = () => {
   const [profile, setProfile] = useState<StudentProfile>(() => GameStorage.getOrCreateProfile());
@@ -95,7 +96,7 @@ export const App: React.FC = () => {
       const fresh = GameStorage.resetWallet(profile);
       setProfile(fresh);
     }
-    setScreen('prologue');
+    setScreen('character_select');
   };
 
   const handleContinueJourney = () => {
@@ -130,8 +131,8 @@ export const App: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans selection:bg-amber-500 selection:text-slate-950">
-      {/* Global Navigation Bar (shown in world & gameplay, hidden on start title screen for immersion) */}
-      {screen !== 'landing' && (
+      {/* Global Navigation Bar (shown in world & gameplay, hidden on start & character select screens for immersion) */}
+      {screen !== 'landing' && screen !== 'character_select' && (
         <Navbar
           profile={profile}
           language={language}
@@ -155,6 +156,19 @@ export const App: React.FC = () => {
             onContinueJourney={handleContinueJourney}
             onOpenDashboard={() => setIsNgoDashboardOpen(true)}
             onOpenSettings={() => setIsTitleSettingsOpen(true)}
+          />
+        )}
+
+        {screen === 'character_select' && (
+          <CharacterSelectScreen
+            language={language}
+            initialGender={profile.characterGender || 'boy'}
+            onSelectCharacter={(gender) => {
+              const updated = { ...profile, characterGender: gender };
+              handleUpdateProfile(updated);
+              setScreen('prologue');
+            }}
+            onBack={() => setScreen('landing')}
           />
         )}
 
@@ -229,6 +243,7 @@ export const App: React.FC = () => {
           onToggleSaveProgress={handleToggleSaveProgress}
           onResetProgress={handleResetProgress}
           onResetWallet={handleResetWallet}
+          onUpdateCharacter={(gender) => handleUpdateProfile({ ...profile, characterGender: gender })}
         />
       )}
     </div>
