@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import {
   PuzzleScenario,
@@ -66,6 +66,17 @@ export const PuzzleModal: React.FC<PuzzleModalProps> = ({
     situationContext: scenario.situationContext,
     choices: scenario.choices,
   } : undefined);
+
+  // Randomize MCQ choice order so options don't appear in predictable decreasing order
+  const shuffledChoices = useMemo(() => {
+    if (!currentStep?.choices) return [];
+    const array = [...currentStep.choices];
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }, [currentStep?.id, currentStepIndex]);
 
   const handleRequestHint = async () => {
     setIsLoadingHint(true);
@@ -297,7 +308,7 @@ export const PuzzleModal: React.FC<PuzzleModalProps> = ({
               <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
                 Step {currentStepIndex + 1}: {currentStep.title[language] || currentStep.title.en}
               </div>
-              {currentStep.choices.map((choice) => {
+              {shuffledChoices.map((choice) => {
                 const choiceText = choice.text[language] || choice.text.en;
                 const isSelected = selectedChoiceId === choice.id;
                 return (

@@ -11,7 +11,6 @@ import {
   ShieldAlert,
   Award,
   Globe,
-  BarChart3,
   RotateCcw,
   Volume2,
   VolumeX,
@@ -200,18 +199,6 @@ export const Navbar: React.FC<NavbarProps> = ({
               <span>{t.achievements}</span>
             </button>
 
-            {/* NGO Dashboard Button */}
-            <button
-              onClick={() => {
-                audioManager.playClick();
-                onOpenDashboard();
-              }}
-              className="hidden lg:flex items-center gap-1.5 px-2.5 py-1.5 bg-indigo-600/80 hover:bg-indigo-600 text-indigo-100 rounded-lg text-xs font-semibold border border-indigo-500/30 transition shadow-sm"
-            >
-              <BarChart3 className="w-3.5 h-3.5" />
-              <span>{t.ngoDashboard}</span>
-            </button>
-
             {/* Save Progress Toggle */}
             {onSaveProgress && (
               <button
@@ -318,18 +305,6 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <span>{t.achievements}</span>
               </button>
             </div>
-
-            <button
-              onClick={() => {
-                audioManager.playClick();
-                onOpenDashboard();
-                setIsMobileMenuOpen(false);
-              }}
-              className="p-2 bg-indigo-900/60 text-indigo-200 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 border border-indigo-500/30"
-            >
-              <BarChart3 className="w-3.5 h-3.5" />
-              <span>{t.ngoDashboard}</span>
-            </button>
           </div>
         )}
       </header>
