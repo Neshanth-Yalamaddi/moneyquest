@@ -1,6 +1,6 @@
 export type LearningPillar = 'budget' | 'save' | 'invest' | 'safety';
 
-export type ChoiceTier = 'best' | 'better' | 'good' | 'very_bad';
+export type ChoiceTier = 'best' | 'better' | 'good' | 'bad' | 'very_bad';
 
 export interface FinancialImpact {
   walletDelta: number; // e.g. -1500

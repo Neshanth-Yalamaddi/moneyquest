@@ -271,6 +271,66 @@ export const CITY1_NPCS: NPC[] = [
       te: 'సురక్షితంగా ఉండండి మరియు 2-ఫాక్టర్ అథెంటికేషన్‌తో మీ బ్యాంక్ ఖాతాను రక్షించుకోండి!',
     },
   },
+  {
+    id: 'npc_anand_senior',
+    name: 'Anand',
+    role: 'Senior Roommate',
+    avatar: '🧑‍🎓',
+    x: 840,
+    y: 240,
+    cityId: 'city_hostel_commons',
+    scenarioId: 'scenario_hostel_stipend',
+    dialogueIntro: {
+      en: 'Hey there, roommate! Congratulations on your ₹6,000 scholarship pocket money. Remember, we have 30 days ahead of us. Before spending on branded shoes or parties, make sure you divide your stipend smartly between Important Needs, Fun Wants, and Emergency Money!',
+      hi: 'अरे रूममेट! ₹6,000 की छात्रवृत्ति मिलने पर बधाई। याद रखें, 30 दिन का महीना है। फिजूलखर्ची से पहले अपने पैसे को जरूरी आवश्यकताओं, शौक और आपातकालीन बचत में समझदारी से बांटें!',
+      te: 'హలో రూమ్‌మేట్! ₹6,000 స్కాలర్‌షిప్ వచ్చినందుకు అభినందనలు. ముందు 30 రోజుల నెలకు సరిపడేలా మీ స్టైపెండ్‌ను అవసరాలు, సరదాలు మరియు ఎమర్జెన్సీ ఫండ్‌గా తెలివిగా కేటాయించుకోండి!',
+    },
+    dialogueSolved: {
+      en: "Smart budget split! You've protected your food and travel needs while building a solid safety cushion. That's how scholars thrive!",
+      hi: 'शानदार बजट आवंटन! आपने अपने भोजन और यात्रा खर्च को सुरक्षित रखा और एक मजबूत बचत भी बनाई।',
+      te: 'చక్కని బడ్జెట్ విభజన! భోజనం, చదువు ఖర్చులను కాపాడుకుంటూ భవిష్యత్తు కోసం పొదుపు చేశారు.',
+    },
+  },
+  {
+    id: 'npc_bookshop_owner',
+    name: 'Masterji Gupta',
+    role: 'Bookshop Keeper',
+    avatar: '👴',
+    x: 365,
+    y: 235,
+    cityId: 'city_hostel_commons',
+    scenarioId: 'scenario_school_books',
+    dialogueIntro: {
+      en: "Namaste beta! Looking for your semester science textbooks and exam geometry box? Don't drain your wallet on brand-new hardcover books when you can get quality second-hand copies or share library copies!",
+      hi: 'नमस्ते बेटा! सेमेस्टर की साइंस किताबें और ज्यामिति बॉक्स चाहिए? नई महंगी किताबों पर पूरा पैसा खर्च करने के बजाय पुरानी अच्छी किताबें या लाइब्रेरी की मदद लें!',
+      te: 'నమస్తే బాబూ! సైన్స్ పాఠ్యపుస్తకాలు, జామెట్రీ బాక్స్ కావాలా? కొత్త పుస్తకాలపై మొత్తం ఖర్చు చేయకుండా సెకండ్ హ్యాండ్ పుస్తకాలు ఎంచుకుని తెలివిగా ఆదా చేసుకోండి!',
+    },
+    dialogueSolved: {
+      en: 'A wise student invests in knowledge, not flashy book covers! You saved a big chunk of pocket money for daily commute and exams.',
+      hi: 'एक समझदार छात्र दिखावे के बजाय ज्ञान में निवेश करता है! आपने रोजमर्रा के खर्चों के लिए पैसे बचा लिए।',
+      te: 'తెలివైన విద్యార్థి జ్ఞానంపై దృష్టి పెడతాడు. సెకండ్ హ్యాండ్ పుస్తకాలతో డబ్బు ఆదా చేసి భవిష్యత్ అవసరాలకు సిద్ధంగా ఉన్నారు.',
+    },
+  },
+  {
+    id: 'npc_student_friend',
+    name: 'Kabir',
+    role: 'Classmate & Friend',
+    avatar: '🎒',
+    x: 440,
+    y: 365,
+    cityId: 'city_hostel_commons',
+    scenarioId: 'scenario_canteen_party',
+    dialogueIntro: {
+      en: 'Hey buddy! A bunch of us are heading to that trendy cafe across town for ₹1,200 burgers and shakes. Are you coming along, or should we just chill here at the campus tea stall for ₹15 chai?',
+      hi: 'अरे दोस्त! हम सब ₹1,200 वाले महंगे कैफे में बर्गर और शेक पार्टी के लिए जा रहे हैं। क्या तुम चल रहे हो, या यहीं चाय स्टाल पर ₹15 की चाय पिएं?',
+      te: 'హేయ్ దోస్త్! మేమంతా ₹1,200 ఖరీదైన కేఫ్‌కి వెళ్తున్నాం. నువ్వు వస్తున్నావా, లేక మన క్యాంపస్ టీ స్టాల్‌లోనే కూర్చుని మాట్లాడుకుందామా?',
+    },
+    dialogueSolved: {
+      en: 'You made the right call! Hanging out with friends is about conversations, not burning through next week\'s bus pass on overpriced food.',
+      hi: 'बिल्कुल सही फैसला! दोस्तों के साथ समय बिताना जरूरी है, न कि अगले हफ्ते का किराया महंगे खाने पर लुटाना।',
+      te: 'మంచి నిర్ణయం! స్నేహితులతో సరదాగా గడపడం ముఖ్యం, అనవసరమైన ఖర్చులతో బడ్జెట్ పాడుచేసుకోకూడదు.',
+    },
+  },
 ];
 
 /**

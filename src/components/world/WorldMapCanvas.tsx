@@ -24,6 +24,9 @@ import watchmanSpriteSheetSrc from '../../assets/characters/npcs/watchman_sprite
 import hostelWardenSpriteSheetSrc from '../../assets/characters/npcs/hostel_warden_spritesheet.png';
 import repairTechSpriteSheetSrc from '../../assets/characters/npcs/repair_tech_spritesheet.png';
 import teaVendorSpriteSheetSrc from '../../assets/characters/npcs/tea_vendor_spritesheet.png';
+import anandSpriteSheetSrc from '../../assets/characters/npcs/anand_spritesheet.png';
+import bookshopKeeperSpriteSheetSrc from '../../assets/characters/npcs/bookshop_keeper_spritesheet.png';
+import studentFriendSpriteSheetSrc from '../../assets/characters/npcs/student_friend_spritesheet.png';
 import {
   CharacterDirection,
   PLAYER_SPRITE_CONFIG,
@@ -152,6 +155,9 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
     registerNpcSprite('npc_canteen_manager', { imageSrc: teaVendorSpriteSheetSrc, config: NPC_DEFAULT_SPRITE_CONFIG });
     registerNpcSprite('npc_senior_librarian', { imageSrc: teacherSpriteSheetSrc, config: NPC_DEFAULT_SPRITE_CONFIG });
     registerNpcSprite('npc_security_guard', { imageSrc: watchmanSpriteSheetSrc, config: NPC_DEFAULT_SPRITE_CONFIG });
+    registerNpcSprite('npc_anand_senior', { imageSrc: anandSpriteSheetSrc, config: NPC_DEFAULT_SPRITE_CONFIG });
+    registerNpcSprite('npc_bookshop_owner', { imageSrc: bookshopKeeperSpriteSheetSrc, config: NPC_DEFAULT_SPRITE_CONFIG });
+    registerNpcSprite('npc_student_friend', { imageSrc: studentFriendSpriteSheetSrc, config: NPC_DEFAULT_SPRITE_CONFIG });
   }, []);
 
   // Load Player & NPC Pixel Art Spritesheets with Dynamic Cache Invalidation
@@ -176,6 +182,9 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
       npc_canteen_manager: teaVendorSpriteSheetSrc,
       npc_senior_librarian: teacherSpriteSheetSrc,
       npc_security_guard: watchmanSpriteSheetSrc,
+      npc_anand_senior: anandSpriteSheetSrc,
+      npc_bookshop_owner: bookshopKeeperSpriteSheetSrc,
+      npc_student_friend: studentFriendSpriteSheetSrc,
     };
 
     Object.entries(npcSources).forEach(([id, src]) => {
@@ -1042,9 +1051,7 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
                   Quests: {completedQuestCount}/{totalQuestCount} Complete
                   {completedQuestCount === 0
                     ? ' — Find Quest NPCs (!)'
-                    : !isNpcSolved(CITY1_NPCS.find((n) => n.id === 'npc_hostel_warden')!)
-                    ? ' — Meet Warden Rao Sir'
-                    : ' — Visit Suresh Anna at Repair Shop'}
+                    : ` — ${totalQuestCount - completedQuestCount} remaining (!)`}
                 </span>
               </>
             )}

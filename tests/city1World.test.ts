@@ -370,6 +370,9 @@ const expectedNpcIds = [
   'npc_canteen_manager',
   'npc_senior_librarian',
   'npc_security_guard',
+  'npc_anand_senior',
+  'npc_bookshop_owner',
+  'npc_student_friend',
 ];
 
 expectedNpcIds.forEach((id) => {

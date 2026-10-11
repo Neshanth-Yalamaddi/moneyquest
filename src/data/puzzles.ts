@@ -445,4 +445,226 @@ export const PUZZLES: Record<string, PuzzleScenario> = {
       },
     ],
   },
+
+  // Scenario: Buying Your School Books (Pillar 1: PB_002)
+  scenario_school_books: {
+    id: 'scenario_school_books',
+    cityId: 'city_hostel_commons',
+    pillar: 'budget',
+    title: {
+      en: 'Buying Your School Books',
+      hi: 'स्कूल की किताबें खरीदना',
+      te: 'పాఠ్యపుస్తకాల కొనుగోలు',
+    },
+    subtitle: {
+      en: 'Source 3 Science Textbooks and Exam Supplies',
+      hi: 'साइंस की 3 किताबें और स्टेशनरी खरीदें',
+      te: '3 సైన్స్ పాఠ్యపుస్తకాలు మరియు స్టేషనరీ కొనుగోలు',
+    },
+    situationContext: {
+      en: 'You need 3 science textbooks and study supplies for class. The bookstall offers new copies for ₹2,400, second-hand books from a senior for ₹800, or library copies with ₹200 photocopying. What will you do?',
+      hi: 'आपको कक्षा के लिए साइंस की 3 किताबें और अध्ययन सामग्री चाहिए। नई किताबें ₹2,400 की हैं, सीनियर से पुरानी किताबें ₹800 में मिलती हैं, या लाइब्रेरी से ₹200 की फोटोकॉपी करा सकते हैं। आप क्या चुनेंगे?',
+      te: 'మీకు 3 సైన్స్ పాఠ్యపుస్తకాలు, పరీక్ష సామాగ్రి అవసరం. కొత్తవి ₹2,400, సీనియర్ వద్ద సెకండ్ హ్యాండ్ ₹800, లైబ్రరీ జిరాక్స్ ₹200. మీ నిర్ణయం ఏమిటి?',
+    },
+    stipendContext: 'Semester Study Budget: ₹2,400 Available Cash',
+    educationalHint: {
+      en: 'Knowledge is the same whether pages are shiny or used! Buying second-hand saves 66% of your study budget for daily transport and emergency needs.',
+      hi: 'किताबें नई हों या पुरानी, ज्ञान वही रहता है! पुरानी किताबें खरीदकर 66% बजट बचाएं और उसे जरूरी खर्चों के लिए रखें।',
+      te: 'కొత్తవైనా పాతవైనా పాఠం ఒకటే! సెకండ్ హ్యాండ్ పుస్తకాలు కొనడం ద్వారా 66% బడ్జెట్ ఆదా చేయవచ్చు.',
+    },
+    choices: [
+      {
+        id: 'choice_books_best',
+        tier: 'best',
+        text: {
+          en: 'Buy neat second-hand books from a senior student for ₹800.',
+          hi: 'सीनियर छात्र से ₹800 में साफ-सुथरी पुरानी किताबें खरीदें।',
+          te: 'సీనియర్ విద్యార్థి నుండి ₹800కే మంచి సెకండ్ హ్యాండ్ పుస్తకాలు కొనండి.',
+        },
+        outcomeDescription: {
+          en: 'You get all the study material you need and keep ₹1,600 safely in your pocket for daily needs!',
+          hi: 'पढ़ाई की पूरी सामग्री मिल गई और ₹1,600 जेब में रोज के खर्च के लिए सुरक्षित बच गए!',
+          te: 'కావాల్సిన పుస్తకాలన్నీ సమకూరాయి, ₹1,600 జేబులో సురక్షితంగా మిగిలాయి!',
+        },
+        financialImpact: { walletDelta: -800, emergencyDelta: 0, scoreDelta: 100, stressDelta: -10 },
+        pedagogicalFeedback: {
+          en: 'Smart scholars prioritize content over condition. You saved 66% of your book allocation!',
+          hi: 'समझदार छात्र दिखावे के बजाय सामग्री को प्राथमिकता देते हैं। आपने 66% बजट बचाया!',
+          te: 'తెలివైన విద్యార్థి జ్ఞానానికి ప్రాధాన్యత ఇస్తాడు. పుస్తకాల బడ్జెట్‌లో 66% ఆదా చేశారు!',
+        },
+        educationalVideoTitle: 'Smart Student Textbook Sourcing',
+      },
+      {
+        id: 'choice_books_good',
+        tier: 'good',
+        text: {
+          en: 'Borrow from the school library for free, spending ₹200 on photocopying important reference chapters.',
+          hi: 'लाइब्रेरी से मुफ्त में किताबें लें और ₹200 में जरूरी पन्नों की फोटोकॉपी कराएं।',
+          te: 'లైబ్రరీ నుండి ఉచితంగా తీసుకుని, ముఖ్యమైన అధ్యాయాల జిరాక్స్ కోసం ₹200 ఖర్చు చేయండి.',
+        },
+        outcomeDescription: {
+          en: 'Super thrifty! You saved massive cash, though sharing the library copy requires strict scheduling.',
+          hi: 'बड़ी बचत! आपने बहुत पैसे बचाए, हालांकि लाइब्रेरी कॉपी साझा करने के लिए समय प्रबंधन जरूरी है।',
+          te: 'మంచి పొదుపు! ఖర్చు చాలా తగ్గింది, అయితే లైబ్రరీ పుస్తకం పంచుకోవడానికి క్రమశిక్షణ అవసరం.',
+        },
+        financialImpact: { walletDelta: -200, emergencyDelta: 0, scoreDelta: 80, stressDelta: 5 },
+        pedagogicalFeedback: {
+          en: 'Using public and school resources is highly cost-effective for disciplined students.',
+          hi: 'लाइब्रेरी संसाधनों का उपयोग अनुशासित छात्रों के लिए सबसे किफायती तरीका है।',
+          te: 'ప్రభుత్వ, పాఠశాల వనరులను సద్వినియోగం చేసుకోవడం చాలా మంచి పద్ధతి.',
+        },
+      },
+      {
+        id: 'choice_books_bad',
+        tier: 'bad',
+        text: {
+          en: 'Buy shiny, expensive brand-new copies for ₹2,400, leaving zero pocket money for meals.',
+          hi: '₹2,400 में एकदम नई महंगी किताबें खरीदें, जिससे खाने के लिए पैसे न बचें।',
+          te: '₹2,400 పెట్టి సరికొత్త పుస్తకాలు కొనండి, భోజనానికి డబ్బులు లేకుండా చేసుకోండి.',
+        },
+        outcomeDescription: {
+          en: 'You have crisp books, but no money left for lunch and daily bus fare for two weeks!',
+          hi: 'किताबें तो चमक रही हैं, लेकिन दो हफ्ते तक दोपहर के भोजन और बस के पैसे खत्म हो गए!',
+          te: 'కొత్త పుస్తకాలు వచ్చాయి కానీ రెండు వారాల పాటు భోజనానికి, బస్సు చార్జీలకు చిల్లిగవ్వ లేదు!',
+        },
+        financialImpact: { walletDelta: -2400, emergencyDelta: 0, scoreDelta: -30, stressDelta: 30 },
+        pedagogicalFeedback: {
+          en: 'Draining all liquid cash on brand-new editions starves your daily essentials like food and commute.',
+          hi: 'नई किताबों पर सारा पैसा खर्च करने से भोजन और यात्रा जैसी बुनियादी जरूरतें रुक जाती हैं।',
+          te: 'మొత్తం డబ్బును పుస్తకాలపైనే పెట్టడం వల్ల రోజువారీ భోజనం, ప్రయాణాలకు ఇబ్బంది కలుగుతుంది.',
+        },
+      },
+      {
+        id: 'choice_books_very_bad',
+        tier: 'very_bad',
+        text: {
+          en: 'Click an unverified online link offering "Free Books" that asks to install an unknown APK file.',
+          hi: 'इंटरनेट पर "फ्री बुक्स" के अनजान लिंक पर क्लिक करके अज्ञात ऐप इंस्टॉल करें।',
+          te: '"ఉచిత పుస్తకాలు" అని వచ్చే తెలియని లింక్‌పై క్లిక్ చేసి అనుమానాస్పద యాప్ ఇన్‌స్టాల్ చేయండి.',
+        },
+        outcomeDescription: {
+          en: 'MALWARE INFECTION! Spyware accessed your phone and leaked student account data!',
+          hi: 'वायरस हमला! स्पाइवेयर ने आपके फोन से छात्र खाते की जानकारी चुरा ली!',
+          te: 'వైరస్ దాడి! మాల్‌వేర్ మీ ఫోన్‌లోకి ప్రవేశించి బ్యాంకింగ్ వివరాలు దొంగిలించింది!',
+        },
+        financialImpact: { walletDelta: -500, emergencyDelta: 0, scoreDelta: -90, stressDelta: 60 },
+        pedagogicalFeedback: {
+          en: 'Pirated download links often distribute banking trojans. Always stick to verified academic repositories!',
+          hi: 'फ्री डाउनलोड के झांसे में मैलवेयर होता है। हमेशा प्रामाणिक शैक्षिक स्रोतों का उपयोग करें!',
+          te: 'ఉచిత లింకుల వెనుక సైబర్ నేరగాళ్లు ఉంటారు. ఎల్లప్పుడూ అధికారిక విద్యా వెబ్‌సైట్లను మాత్రమే నమ్మండి!',
+        },
+      },
+    ],
+  },
+
+  // Scenario: The Expensive Weekend Party (Pillar 1: PB_003)
+  scenario_canteen_party: {
+    id: 'scenario_canteen_party',
+    cityId: 'city_hostel_commons',
+    pillar: 'budget',
+    title: {
+      en: 'The Expensive Weekend Party',
+      hi: 'महंगी वीकेंड पार्टी',
+      te: 'ఖరీదైన వీకెండ్ పార్టీ',
+    },
+    subtitle: {
+      en: 'Navigating Peer Pressure and Group Dining',
+      hi: 'दोस्तों के साथ पार्टी और बजट की सीमा',
+      te: 'స్నేహితుల ఒత్తిడి మరియు బడ్జెట్ నియంత్రణ',
+    },
+    situationContext: {
+      en: 'Friends invite you to a fancy cafe where a burger and shake cost ₹1,200. You only have ₹400 set aside for fun this week. How do you respond?',
+      hi: 'दोस्त आपको एक महंगे कैफे में ₹1,200 की बर्गर पार्टी के लिए बुला रहे हैं। इस हफ्ते शौक के लिए आपके पास सिर्फ ₹400 हैं। आप क्या करेंगे?',
+      te: 'స్నేహితులు ₹1,200 ఖరీదైన కేఫ్‌కి పిలుస్తున్నారు. ఈ వారానికి మీ వద్ద సరదాల కోసం ₹400 మాత్రమే ఉంది. మీ నిర్ణయం ఏమిటి?',
+    },
+    stipendContext: 'Weekly Wants Budget: ₹400 Remaining',
+    educationalHint: {
+      en: 'Respect your 30% Wants limit! True friendships celebrate being together, not how much you spend. Suggest affordable spots or order within your wallet limit.',
+      hi: 'अपने 30% शौक के बजट का सम्मान करें! सच्ची दोस्ती साथ रहने में है, दिखावे में नहीं। चाय की दुकान पर बैठें या अपने बजट में ऑर्डर करें।',
+      te: 'మీ 30% సరదాల పరిమితిని దాటకండి! స్నేహం సమయం గడపడంలో ఉంది, డబ్బులు వృథా చేయడంలో కాదు.',
+    },
+    choices: [
+      {
+        id: 'choice_party_best',
+        tier: 'best',
+        text: {
+          en: 'Say: "Let\'s hang out at the campus ground or local tea stall instead!" (Spends ₹150).',
+          hi: 'कहें: "चलो कैंपस मैदान या पास की चाय की टपरी पर बैठते हैं!" (₹150 खर्च)।',
+          te: '"మనం క్యాంపస్ గ్రౌండ్ లేదా టీ స్టాల్ వద్ద కూర్చుని మాట్లాడుకుందాం!" అని చెప్పండి (₹150 ఖర్చు).',
+        },
+        outcomeDescription: {
+          en: 'You had great banter with friends, stayed within your ₹400 limit, and kept ₹250 for snacks!',
+          hi: 'दोस्तों के साथ खूब मस्ती हुई और ₹400 के बजट के अंदर रहकर ₹250 बच भी गए!',
+          te: 'స్నేహితులతో సరదాగా గడిపారు, బడ్జెట్ దాటలేదు, ఇంకా ₹250 మిగిలింది!',
+        },
+        financialImpact: { walletDelta: -150, emergencyDelta: 0, scoreDelta: 100, stressDelta: -10 },
+        pedagogicalFeedback: {
+          en: 'Leadership is setting confident boundaries! Suggesting low-cost alternatives keeps your friendships strong without financial strain.',
+          hi: 'सही नेतृत्व सीमाएं तय करने में है! किफायती विकल्प सुझाकर आप बिना कर्ज लिए दोस्ती निभाते हैं।',
+          te: 'మంచి నిర్ణయం! తక్కువ ఖర్చుతో కూడిన ప్రత్యామ్నాయాలు స్నేహాన్ని నిలబెడతాయి, జేబును కాపాడతాయి.',
+        },
+        educationalVideoTitle: 'Handling Peer Pressure on a Student Budget',
+      },
+      {
+        id: 'choice_party_good',
+        tier: 'good',
+        text: {
+          en: 'Join the table to socialize, order only a small fresh juice for ₹250, and enjoy the company.',
+          hi: 'दोस्तों के साथ जाएं, केवल ₹250 का जूस ऑर्डर करें और बातचीत का आनंद लें।',
+          te: 'వెళ్ళండి, కేవలం ₹250 జ్యూస్ మాత్రమే ఆర్డర్ చేసి స్నేహితులతో సమయం గడపండి.',
+        },
+        outcomeDescription: {
+          en: 'You enjoyed the party vibes without overspending beyond your ₹400 entertainment budget.',
+          hi: 'आपने अपने ₹400 के बजट को पार किए बिना पार्टी का आनंद लिया।',
+          te: 'మీ ₹400 వినోద బడ్జెట్‌ను దాటకుండా పార్టీలో పాల్గొన్నారు.',
+        },
+        financialImpact: { walletDelta: -250, emergencyDelta: 0, scoreDelta: 75, stressDelta: 0 },
+        pedagogicalFeedback: {
+          en: 'Ordering consciously allows you to be social while honoring personal financial constraints.',
+          hi: 'अपनी सीमा में ऑर्डर करने से आप बिना कर्ज लिए सामाजिक कार्यक्रमों में भाग ले सकते हैं।',
+          te: 'పరిమితిలో ఆర్డర్ చేయడం ద్వారా ఆర్థిక ఇబ్బందులు లేకుండా సరదాగా ఉండవచ్చు.',
+        },
+      },
+      {
+        id: 'choice_party_bad',
+        tier: 'bad',
+        text: {
+          en: 'Order the full ₹1,200 luxury meal by using money allocated for next week\'s bus pass.',
+          hi: 'अगले हफ्ते के बस पास के पैसे खर्च करके ₹1,200 का पूरा भोजन ऑर्डर करें।',
+          te: 'వచ్చే వారం బస్సు పాస్ డబ్బులను వాడి ₹1,200 ఖరీదైన భోజనం ఆర్డర్ చేయండి.',
+        },
+        outcomeDescription: {
+          en: 'You had a lavish burger, but you now have to walk 5 kilometers to college every day next week!',
+          hi: 'बर्गर तो खा लिया, लेकिन अगले हफ्ते रोज 5 किलोमीटर पैदल कॉलेज जाना पड़ेगा!',
+          te: 'తిండి తిన్నారు కానీ వచ్చే వారం రోజూ 5 కిలోమీటర్లు నడవాల్సిన పరిస్థితి వచ్చింది!',
+        },
+        financialImpact: { walletDelta: -1200, emergencyDelta: 0, scoreDelta: -40, stressDelta: 30 },
+        pedagogicalFeedback: {
+          en: 'Never cannibalize mandatory transportation needs for a one-time social meal.',
+          hi: 'एक समय के भोजन के लिए यात्रा जैसे अनिवार्य खर्चों का पैसा कभी न निकालें।',
+          te: 'ఒక్క పూట సరదా కోసం ప్రయాణ ఖర్చులను త్యాగం చేయడం తప్పుడు నిర్ణయం.',
+        },
+      },
+      {
+        id: 'choice_party_very_bad',
+        tier: 'very_bad',
+        text: {
+          en: 'Download an instant mobile loan app to borrow ₹1,200 at 35% weekly interest to treat the table.',
+          hi: 'टेबल को ट्रीट देने के लिए 35% साप्ताहिक ब्याज पर ₹1,200 का इंस्टेंट लोन लें।',
+          te: 'స్నేహితులకు ట్రీట్ ఇవ్వడానికి 35% వడ్డీకి ఇన్‌స్టంట్ లోన్ యాప్‌లో ₹1,200 అప్పు తీసుకోండి.',
+        },
+        outcomeDescription: {
+          en: 'DEBT SPIRAL! The predatory app demands ₹2,000 next week and calls your family contacts!',
+          hi: 'कर्ज का चक्रव्यूह! लोन ऐप ने अगले हफ्ते ₹2,000 मांगे और परिवार को कॉल करना शुरू किया!',
+          te: 'తీవ్ర అప్పుల ఊబి! లోన్ యాప్ వచ్చే వారానికి ₹2,000 డిమాండ్ చేస్తూ వేధింపులు మొదలుపెట్టింది!',
+        },
+        financialImpact: { walletDelta: -2000, emergencyDelta: 0, scoreDelta: -100, stressDelta: 75 },
+        pedagogicalFeedback: {
+          en: 'Borrowing money for discretionary parties is financial suicide. Predatory loan apps harass borrowers.',
+          hi: 'पार्टियों के लिए कर्ज लेना बर्बादी है। फर्जी लोन ऐप्स मानसिक तनाव और ब्लैकमेल करते हैं।',
+          te: 'సరదాల కోసం అధిక వడ్డీ యాప్‌లలో అప్పు చేయడం చాలా ప్రమాదకరం.',
+        },
+      },
+    ],
+  },
 };

@@ -119,6 +119,18 @@ export const NPC_SPRITE_REGISTRY: Record<string, NpcSpriteEntry> = {
     imageSrc: '/assets/characters/npcs/watchman_spritesheet.png',
     config: NPC_DEFAULT_SPRITE_CONFIG,
   },
+  npc_anand_senior: {
+    imageSrc: '/assets/characters/npcs/anand_spritesheet.png',
+    config: NPC_DEFAULT_SPRITE_CONFIG,
+  },
+  npc_bookshop_owner: {
+    imageSrc: '/assets/characters/npcs/bookshop_keeper_spritesheet.png',
+    config: NPC_DEFAULT_SPRITE_CONFIG,
+  },
+  npc_student_friend: {
+    imageSrc: '/assets/characters/npcs/student_friend_spritesheet.png',
+    config: NPC_DEFAULT_SPRITE_CONFIG,
+  },
 };
 
 /**
