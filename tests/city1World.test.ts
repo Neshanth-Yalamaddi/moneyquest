@@ -417,6 +417,7 @@ const userProvidedCoords = [
   { x: 707, y: 276, name: 'East Highway Roadside Barrier (707, 276)' },
   { x: 737, y: 282, name: 'Hostel Approach Roadside Barrier (737, 282)' },
   { x: 980, y: 425, name: 'East Bank Alley Dead-End Wall (980, 425)' },
+  { x: 151, y: 380, name: 'Western Park / Roadside Obstacle Tile (151, 380)' },
 ];
 
 userProvidedCoords.forEach((pt) => {

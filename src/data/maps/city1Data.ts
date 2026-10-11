@@ -134,6 +134,8 @@ export const CITY1_COLLISION_BOXES: CollisionBox[] = [
   { name: 'tree_hostel_east', x: 945, y: 250, w: 25, h: 25 },
   { name: 'south_park_bench_1', x: 300, y: 480, w: 35, h: 12 },
   { name: 'south_park_bench_2', x: 480, y: 480, w: 35, h: 12 },
+  // Park planter / obstacle tile (Hardcoded obstacle blocking 151, 380)
+  { name: 'obstacle_tile_151_380', x: 144, y: 372, w: 16, h: 16 },
 ];
 
 // Spatial Tile-Based Collision Grid (8x8 px grid cells)
