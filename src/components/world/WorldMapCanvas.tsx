@@ -546,6 +546,11 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
       renderEntities.sort((a, b) => a.y - b.y);
       renderEntities.forEach((e) => e.render());
 
+      // 10. Navigational Guidance to City 2 when all City 1 quests are completed
+      if (isCity1Solved) {
+        renderCity2Guidance(ctx, player, animTimer);
+      }
+
       ctx.restore();
 
       animationFrameId = requestAnimationFrame(gameLoop);
@@ -689,27 +694,18 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
     ctx.fillText(npc.role, npc.x, npc.y + (renderedSprite ? 23 : 25));
 
     // Quest Indicator Beacon for Warden Rao Sir (Primary Challenge)
+    // Only display beacon '!' when unsolved; no checkmark after completion
     const isWarden = npc.id === 'npc_hostel_warden';
-    if (isWarden) {
+    if (isWarden && !isSolved) {
       const beaconBob = Math.sin(animTimer * 5) * 3;
       const beaconY = renderedSprite ? npc.y - 48 : npc.y - 36;
-      if (!isSolved) {
-        ctx.fillStyle = '#ef4444';
-        ctx.beginPath();
-        ctx.arc(npc.x, beaconY + beaconBob, 8, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.fillStyle = '#ffffff';
-        ctx.font = 'bold 10px Inter, sans-serif';
-        ctx.fillText('!', npc.x, beaconY + 3 + beaconBob);
-      } else {
-        ctx.fillStyle = '#10b981';
-        ctx.beginPath();
-        ctx.arc(npc.x, beaconY + beaconBob, 8, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.fillStyle = '#ffffff';
-        ctx.font = 'bold 9px Inter, sans-serif';
-        ctx.fillText('✓', npc.x, beaconY + 3 + beaconBob);
-      }
+      ctx.fillStyle = '#ef4444';
+      ctx.beginPath();
+      ctx.arc(npc.x, beaconY + beaconBob, 8, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 10px Inter, sans-serif';
+      ctx.fillText('!', npc.x, beaconY + 3 + beaconBob);
     }
 
     // Interactive Speech Bubble / Action Prompt when player is nearby
@@ -785,6 +781,107 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
     if (p.direction === 'right') pipX += 15;
     ctx.arc(pipX, pipY, 3, 0, Math.PI * 2);
     ctx.fill();
+  };
+
+  // Navigational Guidance to City 2 (Active once all City 1 quests are solved)
+  const renderCity2Guidance = (
+    ctx: CanvasRenderingContext2D,
+    p: { x: number; y: number },
+    animTimer: number
+  ) => {
+    const targetX = 685;
+    const targetY = 30;
+    const dx = targetX - p.x;
+    const dy = targetY - p.y;
+    const dist = Math.hypot(dx, dy);
+    const angle = Math.atan2(dy, dx);
+
+    // 1. Floating directional guidance arrow hovering near player
+    if (dist > 45) {
+      const orbitDist = 38 + Math.sin(animTimer * 5) * 3;
+      const arrowX = p.x + Math.cos(angle) * orbitDist;
+      const arrowY = p.y + Math.sin(angle) * orbitDist;
+
+      ctx.save();
+      ctx.translate(arrowX, arrowY);
+      ctx.rotate(angle);
+
+      // Glowing navigation arrowhead
+      ctx.shadowColor = 'rgba(16, 185, 129, 0.9)';
+      ctx.shadowBlur = 8;
+      ctx.fillStyle = '#10b981';
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 1.5;
+
+      ctx.beginPath();
+      ctx.moveTo(13, 0);       // Tip
+      ctx.lineTo(-7, -7);     // Left wing
+      ctx.lineTo(-3, 0);      // Inner notch
+      ctx.lineTo(-7, 7);      // Right wing
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.restore();
+
+      // Floating label pill next to player
+      ctx.save();
+      const pillDist = orbitDist + 18;
+      const pillX = p.x + Math.cos(angle) * pillDist;
+      const pillY = p.y + Math.sin(angle) * pillDist;
+      const pillW = 48;
+      const pillH = 15;
+
+      ctx.fillStyle = 'rgba(15, 23, 42, 0.92)';
+      ctx.strokeStyle = '#10b981';
+      ctx.lineWidth = 1.2;
+      ctx.beginPath();
+      ctx.roundRect(pillX - pillW / 2, pillY - pillH / 2, pillW, pillH, 4);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = '#34d399';
+      ctx.font = 'bold 8px Inter, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('City 2 ➔', pillX, pillY);
+      ctx.restore();
+    }
+
+    // 2. Highway Portal Destination Beacon & Directional Chevrons at (685, 30)
+    ctx.save();
+    const portalPulse = Math.sin(animTimer * 4) * 4;
+    ctx.strokeStyle = '#10b981';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.arc(targetX, targetY, 22 + portalPulse, 0, Math.PI * 2);
+    ctx.stroke();
+
+    // Animated upward chevrons pointing into North Highway
+    const chevronShift = (animTimer * 28) % 16;
+    ctx.fillStyle = '#34d399';
+    ctx.font = 'bold 15px monospace';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('▲', targetX, targetY + 6 - chevronShift);
+
+    // Highway Signboard
+    const signW = 96;
+    const signH = 16;
+    ctx.fillStyle = 'rgba(6, 78, 59, 0.95)';
+    ctx.strokeStyle = '#34d399';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.roundRect(targetX - signW / 2, targetY - 26, signW, signH, 4);
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.fillStyle = '#ecfdf5';
+    ctx.font = 'bold 8.5px Inter, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('★ TO CITY 2 ★', targetX, targetY - 18);
+    ctx.restore();
   };
 
   // Direct Canvas Click Handling
@@ -937,7 +1034,7 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
             {isCity1Solved ? (
               <>
                 <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                <span>Mess Dues Cleared</span>
+                <span>City 1 Complete! Follow Arrow to City 2 ➔</span>
               </>
             ) : (
               <>
