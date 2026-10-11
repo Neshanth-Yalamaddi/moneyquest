@@ -262,7 +262,7 @@ const keyTargets: { name: string; x: number; y: number }[] = [
   { name: 'Spawn Bridge', x: 75, y: 450 },
   { name: 'South Road Promenade', x: 400, y: 450 },
   { name: 'Western Avenue', x: 180, y: 360 },
-  { name: 'School/Library Courtyard', x: 200, y: 180 },
+  { name: 'School/Library Courtyard', x: 200, y: 230 },
   { name: 'Bookshop Entrance & Front', x: 375, y: 235 },
   { name: 'Study Room Pathway', x: 520, y: 200 },
   { name: 'Canteen Dining Patio', x: 380, y: 370 },
@@ -371,5 +371,31 @@ registerNpcSprite('npc_test_warden', {
 assert(!!NPC_SPRITE_REGISTRY['npc_test_warden'], 'NPC sprite registry must store new NPC entry');
 assert(NPC_SPRITE_REGISTRY['npc_test_warden'].config.frameWidth === 48, 'Registered NPC must preserve config');
 console.log('✓ Test 13 Passed: Extensible NPC sprite registry verified and ready for upcoming NPC assets');
+
+// Test 14: Hardcoded User Roadside & Boundary Coordinates Verification
+console.log('Testing hardcoded roadside & boundary coordinates...');
+const userProvidedCoords = [
+  { x: 130, y: 495, name: 'South Road Curb West (130, 495)' },
+  { x: 194, y: 495, name: 'South Road Curb Mid (194, 495)' },
+  { x: 252, y: 495, name: 'South Road Curb East (252, 495)' },
+  { x: 219, y: 196, name: 'School North Courtyard Wall (219, 196)' },
+  { x: 654, y: 430, name: 'South Banyan Planter / Curb (654, 430)' },
+  { x: 980, y: 425, name: 'East Bank Alley Dead-End Wall (980, 425)' },
+];
+
+userProvidedCoords.forEach((pt) => {
+  const isBlocked = checkFootCollision(
+    pt.x,
+    pt.y,
+    DEFAULT_PLAYER_FOOTPRINT.width,
+    DEFAULT_PLAYER_FOOTPRINT.height,
+    CITY1_COLLISION_BOXES,
+    CITY1_CONFIG.width,
+    CITY1_CONFIG.height,
+    CITY1_COLLISION_GRID
+  );
+  assert(isBlocked, `Point ${pt.name} must be blocked by collision geometry`);
+});
+console.log('✓ Test 14 Passed: All 6 hardcoded roadside/boundary coordinates are strictly blocked');
 
 console.log('--- ALL CITY 1 WORLD ENGINE & CHARACTER TESTS PASSED SUCCESSFULLY! ---');

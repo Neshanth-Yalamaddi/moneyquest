@@ -68,8 +68,8 @@ export const CITY1_COLLISION_BOXES: CollisionBox[] = [
   { name: 'river_south', x: 0, y: 475, w: 85, h: 95 },
 
   // 3. School & Library Complex (NW)
-  // Building physical foundation (roof is non-solid)
-  { name: 'school_main_building', x: 55, y: 30, w: 305, h: 125 },
+  // Building physical foundation (roof is non-solid; north courtyard wall blocks y: 196)
+  { name: 'school_main_building', x: 55, y: 30, w: 305, h: 168 },
   // Front stone walls (leaves central gate at x: 180-245 open)
   { name: 'school_wall_left', x: 110, y: 285, w: 70, h: 15 },
   { name: 'school_wall_right', x: 245, y: 285, w: 85, h: 15 },
@@ -113,9 +113,15 @@ export const CITY1_COLLISION_BOXES: CollisionBox[] = [
 
   // 9. Savings Bank (SE)
   { name: 'savings_bank_building', x: 815, y: 400, w: 135, h: 95 },
+  // East bank alley dead-end wall (Hardcoded obstacle blocking 980, 425)
+  { name: 'east_bank_alley_wall', x: 950, y: 400, w: 64, h: 95 },
 
-  // 10. Tree Trunks & Park Furniture (Solid physical areas only)
-  { name: 'south_banyan_trunk', x: 590, y: 475, w: 75, h: 45 },
+  // 10. South Road Curbs & Borders (Hardcoded roadside obstacles blocking 130,495; 194,495; 252,495)
+  { name: 'south_road_curb_west', x: 85, y: 490, w: 185, h: 75 },
+
+  // 11. Tree Trunks & Park Obstacles (Solid physical areas only)
+  // South banyan tree & road planter (Hardcoded obstacle blocking 654, 430)
+  { name: 'south_banyan_planter', x: 585, y: 430, w: 85, h: 90 },
   { name: 'west_banyan_trunk', x: 25, y: 265, w: 65, h: 40 },
   { name: 'tree_study_room', x: 435, y: 160, w: 25, h: 25 },
   { name: 'tree_school_north', x: 365, y: 75, w: 25, h: 25 },
