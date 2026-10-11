@@ -186,4 +186,12 @@ export class GameStorage {
     }
     return this.getOrCreateProfile();
   }
+
+  static isNewUser(profile?: StudentProfile | null): boolean {
+    if (!profile) return true;
+    if (typeof profile.isNewUser === 'boolean') {
+      return profile.isNewUser;
+    }
+    return !profile.characterGender;
+  }
 }

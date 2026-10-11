@@ -98,7 +98,12 @@ export const App: React.FC = () => {
       const fresh = GameStorage.resetWallet(profile);
       setProfile(fresh);
     }
-    setScreen('character_select');
+    // Only give choice of character for new users (returning users proceed directly)
+    if (GameStorage.isNewUser(profile)) {
+      setScreen('character_select');
+    } else {
+      setScreen('prologue');
+    }
   };
 
   const handleContinueJourney = () => {
@@ -107,8 +112,25 @@ export const App: React.FC = () => {
       setScreen('world');
     } else if ((profile.completedScenarioIds && profile.completedScenarioIds.length > 0) || isProgressSaved) {
       setScreen('world');
+    } else if (GameStorage.isNewUser(profile)) {
+      // New users who haven't selected a character get the choice
+      setScreen('character_select');
     } else {
-      handleStartAdventure();
+      setScreen('world');
+    }
+  };
+
+  // Dedicated post-authentication callback for teammate's upcoming authentication implementation
+  const handleAuthComplete = (authenticatedProfile: StudentProfile, isNewUser?: boolean) => {
+    handleUpdateProfile(authenticatedProfile);
+    const isNew = typeof isNewUser === 'boolean' ? isNewUser : GameStorage.isNewUser(authenticatedProfile);
+    if (isNew) {
+      // Only give choice of character for new users
+      setScreen('character_select');
+    } else {
+      // Existing returning users skip character select and resume journey
+      const savedScreen = GameStorage.getSavedScreen();
+      setScreen(savedScreen === 'world' ? 'world' : 'prologue');
     }
   };
 
@@ -145,6 +167,7 @@ export const App: React.FC = () => {
           onSaveProgress={handleToggleSaveProgress}
           onResetWallet={handleResetWallet}
           onOpenGameCompletion={() => setIsGameCompletionOpen(true)}
+          onUpdateProfile={handleAuthComplete}
           isProgressSaved={isProgressSaved}
         />
       )}
@@ -167,7 +190,7 @@ export const App: React.FC = () => {
             language={language}
             initialGender={profile.characterGender || 'boy'}
             onSelectCharacter={(gender) => {
-              const updated = { ...profile, characterGender: gender };
+              const updated = { ...profile, characterGender: gender, isNewUser: false };
               handleUpdateProfile(updated);
               setScreen('prologue');
             }}

@@ -10,7 +10,7 @@ interface AuthModalProps {
   language: GameLanguage;
   isOpen: boolean;
   onClose: () => void;
-  onProfileUpdated: (profile: StudentProfile) => void;
+  onProfileUpdated: (profile: StudentProfile, isNewUser?: boolean) => void;
 }
 
 const AVATARS = [
@@ -64,10 +64,11 @@ export const AuthModal: React.FC<AuthModalProps> = ({
       badges: ['Scholarship Recipient', 'Verified Scholar'],
       createdAt: Date.now(),
       lastActiveAt: Date.now(),
+      isNewUser: true,
     };
 
     GameStorage.saveProfile(newProfile);
-    onProfileUpdated(newProfile);
+    onProfileUpdated(newProfile, true);
     setSuccessMsg(`Scholar ${newId} initialized with ₹5,000 stipend!`);
     setTimeout(() => {
       onClose();
@@ -93,10 +94,11 @@ export const AuthModal: React.FC<AuthModalProps> = ({
       ...existing,
       studentId: trimmed,
       lastActiveAt: Date.now(),
+      isNewUser: false,
     };
 
     GameStorage.saveProfile(restoredProfile);
-    onProfileUpdated(restoredProfile);
+    onProfileUpdated(restoredProfile, false);
     setSuccessMsg(`${t.sessionResumed} (${trimmed})`);
     setTimeout(() => {
       onClose();

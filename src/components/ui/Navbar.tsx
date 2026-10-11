@@ -30,7 +30,7 @@ export interface NavbarProps {
   onOpenDashboard: () => void;
   onResetProgress: () => void;
   onReturnToHome: () => void;
-  onUpdateProfile?: (profile: StudentProfile) => void;
+  onUpdateProfile?: (profile: StudentProfile, isNewUser?: boolean) => void;
   onSaveProgress?: () => void;
   onResetWallet?: () => void;
   onOpenGameCompletion?: () => void;
@@ -67,9 +67,9 @@ export const Navbar: React.FC<NavbarProps> = ({
     setIsMuted(muted);
   };
 
-  const handleProfileUpdated = (updated: StudentProfile) => {
+  const handleProfileUpdated = (updated: StudentProfile, isNewUser?: boolean) => {
     if (onUpdateProfile) {
-      onUpdateProfile(updated);
+      onUpdateProfile(updated, isNewUser);
     }
   };
 

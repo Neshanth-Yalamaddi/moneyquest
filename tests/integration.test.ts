@@ -298,5 +298,42 @@ assert(completionProfile.completedScenarioIds!.length >= 15, 'All major scenario
 assert(completionProfile.characterGender === 'girl', 'Character gender Ananya correctly identified');
 console.log('✓ Test 8 Passed: Grand 4-Pillar game completion & graduation state validated');
 
+// Test 9: Character Selection Conditional Routing (New Users Only)
+console.log('Testing character selection conditional routing for new users only...');
+const brandNewUser: StudentProfile = {
+  studentId: 'STU-NEWBIE-01',
+  sessionId: 'SESS-NEW-01',
+  preferredLanguage: 'en',
+  scholarshipStipend: 5000,
+  walletBalance: 5000,
+  emergencyFund: 0,
+  totalScore: 0,
+  currentRegionId: 'region_scholars_district',
+  currentCityId: 'city_hostel_commons',
+  completedCityIds: [],
+  failedCityIds: [],
+  badges: [],
+  createdAt: Date.now(),
+  lastActiveAt: Date.now(),
+};
+assert(GameStorage.isNewUser(brandNewUser) === true, 'Brand new user without characterGender MUST be detected as new user');
+
+const existingUserBoy: StudentProfile = {
+  ...brandNewUser,
+  studentId: 'STU-RETURNING-02',
+  characterGender: 'boy',
+};
+assert(GameStorage.isNewUser(existingUserBoy) === false, 'Existing user with Aarav (boy) character MUST bypass character select');
+
+const existingUserGirl: StudentProfile = {
+  ...brandNewUser,
+  studentId: 'STU-RETURNING-03',
+  characterGender: 'girl',
+  isNewUser: false,
+};
+assert(GameStorage.isNewUser(existingUserGirl) === false, 'Existing user with Ananya (girl) character MUST bypass character select');
+
+console.log('✓ Test 9 Passed: Character selection strictly restricted to new users only');
+
 console.log('--- ALL INTEGRATION ENGINE TESTS PASSED SUCCESSFULLY! ---');
 
