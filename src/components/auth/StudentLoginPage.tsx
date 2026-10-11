@@ -65,7 +65,7 @@ export const StudentLoginPage: React.FC = () => {
         avatar: selectedAvatar,
       });
       audioManager.playFanfare();
-      navigate('/game');
+      navigate('/game/character-select');
     } catch (err: any) {
       audioManager.playError();
       setErrorMsg(err.message || 'Registration failed.');

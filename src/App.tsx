@@ -198,10 +198,18 @@ const MainAppContent: React.FC = () => {
             initialGender={profile.characterGender || 'boy'}
             onSelectCharacter={(gender) => {
               handleUpdateProfile({ ...profile, characterGender: gender, isNewUser: false });
-              setIsPrologueActive(true);
-              navigate('/game');
+              navigate('/game/prologue');
             }}
             onBack={() => navigate('/game')}
+          />
+        );
+      }
+
+      if (path === '/game/prologue') {
+        return (
+          <PrologueModal
+            language={language}
+            onProceed={() => navigate('/game/world')}
           />
         );
       }
@@ -220,7 +228,7 @@ const MainAppContent: React.FC = () => {
             onResetWallet={handleResetWallet}
             isProgressSaved={true}
             onLogout={handleLogout}
-              onOpenGameCompletion={() => setIsGameCompletionOpen(true)}
+            onOpenGameCompletion={() => setIsGameCompletionOpen(true)}
           />
         )}
 
@@ -245,6 +253,7 @@ const MainAppContent: React.FC = () => {
               onInteractWithNpc={(npc) => setActiveNpc(npc)}
               onEnterCity={(cityId) => console.log('Entered city:', cityId)}
               onResetWallet={handleResetWallet}
+              onOpenGameCompletion={() => setIsGameCompletionOpen(true)}
             />
           )}
 
