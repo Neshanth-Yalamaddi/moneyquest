@@ -62,11 +62,8 @@ export const CITY3_COLLISION_BOXES: CollisionBox[] = [
   { name: 'sw_garden_lawn', x: 50, y: 474, w: 190, h: 88 },
 
   // 8. Indian Town Grocery Market (center)
-  { name: 'market_building', x: 375, y: 310, w: 310, h: 175 },
-  { name: 'market_stall_left', x: 375, y: 480, w: 75, h: 60 },
-  { name: 'market_stall_right', x: 610, y: 480, w: 75, h: 60 },
-  { name: 'market_sacks_front', x: 450, y: 480, w: 80, h: 35 },
-  { name: 'market_bottom_building', x: 375, y: 515, w: 310, h: 57 },
+  { name: 'market_building', x: 375, y: 310, w: 310, h: 130 },
+  { name: 'market_bottom_building', x: 375, y: 520, w: 310, h: 52 },
 
   // 9. River Boat Dock area (right side)
   { name: 'dock_shed', x: 700, y: 320, w: 70, h: 105 },
