@@ -203,7 +203,7 @@ export const CITY1_NPCS: NPC[] = [
     role: 'Electronics Repair Tech',
     avatar: '🔧',
     x: 650,
-    y: 340,
+    y: 352,
     cityId: 'city_rainy_day_refuge',
     scenarioId: 'scenario_broken_phone',
     dialogueIntro: {
@@ -220,10 +220,10 @@ export const CITY1_NPCS: NPC[] = [
   {
     id: 'npc_canteen_manager',
     name: 'Chary Garu',
-    role: 'Canteen Cashier',
+    role: 'Canteen Cashier & Tea Stall Vendor',
     avatar: '☕',
     x: 395,
-    y: 340,
+    y: 360,
     cityId: 'city_hostel_commons',
     dialogueIntro: {
       en: 'Namaste thammudu! Our Irani chai is ₹15 and samosa is ₹20. Seems small, right? But having two every day is ₹1,050 a month! Discretionary micro-spending silently drains your wallet.',
@@ -253,20 +253,20 @@ export const CITY1_NPCS: NPC[] = [
   {
     id: 'npc_security_guard',
     name: 'Security Guard Ramu',
-    role: 'Campus Gate Security',
+    role: 'Savings Bank & Campus Security',
     avatar: '👮',
-    x: 155,
-    y: 415,
+    x: 845,
+    y: 505,
     cityId: 'city_hostel_commons',
     dialogueIntro: {
-      en: 'Namaste student! Welcome to the Scholars\' District campus! Always keep your student ID ready and watch your step. If you need help finding your way, follow the signs north toward the Central Library and Canteen!',
-      hi: 'नमस्ते विद्यार्थी! स्कॉलर्स डिस्ट्रिक्ट कैंपस में आपका स्वागत है! अपना आईडी कार्ड हमेशा साथ रखें। रास्ते के लिए उत्तर में सेंट्रल लाइब्रेरी और कैंटीन के संकेत देखें!',
-      te: 'నమస్తే విద్యార్థి! స్కాలర్స్ డిస్ట్రిక్ట్ క్యాంపస్‌కు స్వాగతం! ఎల్లప్పుడూ మీ స్టూడెంట్ ఐడీ కార్డు వెంట ఉంచుకోండి. సహాయం కావాలంటే ఉత్తరాన ఉన్న సెంట్రల్ లైబ్రరీ మరియు క్యాంటీన్ వైపు వెళ్లండి!',
+      en: 'Namaste student! I am on security duty at the State Bank and ATM. Always remember: guard your 4-digit ATM PIN, never share OTPs with strangers, and make sure your monthly scholarship stipend is safely deposited in your zero-balance student account!',
+      hi: 'नमस्ते विद्यार्थी! मैं स्टेट बैंक और एटीएम की सुरक्षा ड्यूटी पर हूं। याद रखें: अपना 4-अंकीय एटीएम पिन किसी को न बताएं, अजनबियों से ओटीपी साझा न करें और छात्रवृत्ति सुरक्षित रखें!',
+      te: 'నమస్తే విద్యార్థి! నేను స్టేట్ బ్యాంక్ మరియు ఏటీఎం వద్ద సెక్యూరిటీ డ్యూటీలో ఉన్నాను. మీ 4 అంకెల ఏటీఎం పిన్ ఎవరికీ చెప్పకండి, ఓటీపీ ఎవరితోనూ పంచుకోవద్దు మరియు స్కాలర్‌షిప్ సురక్షితంగా డిపాజిట్ చేయండి!',
     },
     dialogueSolved: {
-      en: 'Stay safe and plan your daily campus budget wisely!',
-      hi: 'सुरक्षित रहें और अपने दैनिक कैंपस बजट की समझदारी से योजना बनाएं!',
-      te: 'సురక్షితంగా ఉండండి మరియు మీ రోజువారీ ఖర్చులను ప్రణాళికాబద్ధంగా ఉంచుకోండి!',
+      en: 'Stay safe and protect your bank account with 2-Factor Authentication!',
+      hi: 'सुरक्षित रहें और 2FA के साथ अपने बैंक खाते को सुरक्षित रखें!',
+      te: 'సురక్షితంగా ఉండండి మరియు 2-ఫాక్టర్ అథెంటికేషన్‌తో మీ బ్యాంక్ ఖాతాను రక్షించుకోండి!',
     },
   },
 ];
