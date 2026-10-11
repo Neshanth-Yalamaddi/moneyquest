@@ -927,25 +927,7 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
       clickY = clickY / zoomFactor + camY;
     }
 
-    // 1. Check if clicked an NPC directly
-    for (const npc of CITY1_NPCS) {
-      if (Math.hypot(clickX - npc.x, clickY - npc.y) <= 45) {
-        WorldAudio.playInteract();
-        onInteractWithNpc(npc);
-        return;
-      }
-    }
-
-    // 2. Check if clicked an Interactive Object directly
-    for (const obj of CITY1_INTERACTIVES) {
-      if (Math.hypot(clickX - obj.x, clickY - obj.y) <= obj.radius + 15) {
-        WorldAudio.playDiscovery();
-        setActiveInspectObject(obj);
-        return;
-      }
-    }
-
-    // 3. Set click walk destination
+    // Set click walk destination (mouse click interaction is disabled; interactions require [E] / [Space])
     clickTarget.current = { x: clickX, y: clickY };
   };
 
@@ -1147,43 +1129,33 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
 
         {/* Proximity Interaction Prompt Banner */}
         {nearbyNpc && (
-          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-slate-950/95 border-2 border-amber-400 text-slate-100 px-5 py-2.5 rounded-2xl shadow-2xl flex items-center gap-3 animate-bounce z-20">
+          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-slate-950/95 border-2 border-amber-400 text-slate-100 px-5 py-2.5 rounded-2xl shadow-2xl flex items-center gap-3 animate-bounce z-20 pointer-events-none">
             <span className="text-2xl">{nearbyNpc.avatar}</span>
             <div className="text-xs">
               <div>
                 <span className="font-bold text-amber-300">{nearbyNpc.name}</span>{' '}
                 <span className="text-slate-400">({nearbyNpc.role})</span>
               </div>
-              <div className="text-slate-400 text-[11px]">Press [E] or Click to Converse</div>
+              <div className="text-slate-400 text-[11px]">Press [E] or [Space] to Converse</div>
             </div>
-            <button
-              onClick={() => {
-                WorldAudio.playInteract();
-                onInteractWithNpc(nearbyNpc);
-              }}
-              className="px-3.5 py-1.5 bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-bold rounded-xl ml-2 shadow-md transition"
-            >
-              Talk
-            </button>
+            <div className="px-3 py-1.5 bg-amber-500/20 border border-amber-500/50 text-amber-300 text-xs font-bold rounded-xl ml-2 shadow-md flex items-center gap-1.5">
+              <kbd className="px-1.5 py-0.5 bg-amber-500 text-slate-950 rounded text-[10px] font-black">E</kbd>
+              <span>Talk</span>
+            </div>
           </div>
         )}
 
         {nearbyObject && !nearbyNpc && (
-          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-slate-950/95 border-2 border-sky-400 text-slate-100 px-5 py-2.5 rounded-2xl shadow-2xl flex items-center gap-3 animate-bounce z-20">
+          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-slate-950/95 border-2 border-sky-400 text-slate-100 px-5 py-2.5 rounded-2xl shadow-2xl flex items-center gap-3 animate-bounce z-20 pointer-events-none">
             <span className="text-xl">📍</span>
             <div className="text-xs">
               <div className="font-bold text-sky-300">{nearbyObject.name}</div>
-              <div className="text-slate-400 text-[11px]">Press [E] or Click to Inspect</div>
+              <div className="text-slate-400 text-[11px]">Press [E] or [Space] to Inspect</div>
             </div>
-            <button
-              onClick={() => {
-                WorldAudio.playDiscovery();
-                setActiveInspectObject(nearbyObject);
-              }}
-              className="px-3.5 py-1.5 bg-sky-500 hover:bg-sky-400 text-slate-950 text-xs font-bold rounded-xl ml-2 shadow-md transition"
-            >
-              Inspect
-            </button>
+            <div className="px-3 py-1.5 bg-sky-500/20 border border-sky-500/50 text-sky-300 text-xs font-bold rounded-xl ml-2 shadow-md flex items-center gap-1.5">
+              <kbd className="px-1.5 py-0.5 bg-sky-400 text-slate-950 rounded text-[10px] font-black">E</kbd>
+              <span>Inspect</span>
+            </div>
           </div>
         )}
 
