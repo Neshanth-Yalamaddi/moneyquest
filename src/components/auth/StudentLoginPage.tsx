@@ -40,9 +40,13 @@ export const StudentLoginPage: React.FC = () => {
 
     try {
       audioManager.playClick();
-      await AuthService.login(email.trim(), password, 'student');
+      const data = await AuthService.login(email.trim(), password, 'student');
       audioManager.playFanfare();
-      navigate('/game');
+      if (data.profile && !data.profile.characterGender) {
+        navigate('/game/character-select');
+      } else {
+        navigate('/game');
+      }
     } catch (err: any) {
       audioManager.playError();
       setErrorMsg(err.message || 'Login failed. Please check your credentials.');
@@ -221,21 +225,31 @@ export const StudentLoginPage: React.FC = () => {
 
               {/* Fast Demo Autofill Helper */}
               <div className="pt-1">
-                <span className="text-[11px] text-slate-400 block mb-1.5">Quick Demo Scholars:</span>
-                <div className="flex gap-2">
+                <div className="flex items-center justify-between mb-1.5">
+                  <span className="text-[11px] text-slate-400">Quick Demo Scholars:</span>
+                  <span className="text-[10px] text-amber-400 font-mono">PIN: Scholar@123</span>
+                </div>
+                <div className="grid grid-cols-3 gap-1.5">
                   <button
                     type="button"
                     onClick={() => handleQuickDemoStudent('arjun@student.in')}
-                    className="flex-1 text-[10px] py-1 px-2 rounded-lg bg-slate-950 hover:bg-slate-800 text-amber-300 border border-slate-800 transition"
+                    className="text-[10px] py-1 px-1 rounded-lg bg-slate-950 hover:bg-slate-800 text-amber-300 border border-slate-800 transition text-center truncate"
                   >
                     Arjun (STU-1042)
                   </button>
                   <button
                     type="button"
                     onClick={() => handleQuickDemoStudent('priya@student.in')}
-                    className="flex-1 text-[10px] py-1 px-2 rounded-lg bg-slate-950 hover:bg-slate-800 text-amber-300 border border-slate-800 transition"
+                    className="text-[10px] py-1 px-1 rounded-lg bg-slate-950 hover:bg-slate-800 text-amber-300 border border-slate-800 transition text-center truncate"
                   >
                     Priya (STU-2088)
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleQuickDemoStudent('rahul@student.in')}
+                    className="text-[10px] py-1 px-1 rounded-lg bg-slate-950 hover:bg-slate-800 text-amber-300 border border-slate-800 transition text-center truncate"
+                  >
+                    Rahul (STU-3015)
                   </button>
                 </div>
               </div>

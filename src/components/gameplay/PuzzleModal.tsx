@@ -129,7 +129,7 @@ export const PuzzleModal: React.FC<PuzzleModalProps> = ({
     finalChoices.forEach((choice, idx) => {
       EventLogger.recordDecision({
         studentId: profile.studentId,
-        sessionId: profile.sessionId,
+        sessionId: profile.sessionId || 'SESS-DEFAULT',
         regionId: profile.currentRegionId,
         cityId: scenario.cityId,
         scenarioId: scenario.id,

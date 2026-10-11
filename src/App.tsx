@@ -76,7 +76,11 @@ const MainAppContent: React.FC = () => {
         replace('/login');
       }
     } else if (path === '/login' && isStudentAuth) {
-      replace('/game');
+      if (GameStorage.isNewUser(profile)) {
+        replace('/game/character-select');
+      } else {
+        replace('/game');
+      }
     } else if (path === '/ngo/login' && isNgoAuth) {
       replace('/ngo/dashboard');
     } else if (path.startsWith('/game') && !isStudentAuth) {
@@ -128,7 +132,7 @@ const MainAppContent: React.FC = () => {
   }, [profile.walletBalance]);
 
   const handleStartAdventure = () => {
-    if (!GameStorage.isProgressSaved()) {
+    if (!AuthService.isStudentAuthenticated() && !GameStorage.isProgressSaved()) {
       const fresh = GameStorage.resetWallet(profile);
       handleUpdateProfile(fresh);
     }

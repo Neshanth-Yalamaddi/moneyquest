@@ -289,7 +289,9 @@ export class Database {
 
   public static findUserByEmail(email: string): DbUser | undefined {
     this.initialize();
-    return this.data.users.find((u) => u.email.toLowerCase() === email.toLowerCase());
+    if (!email) return undefined;
+    const clean = email.trim().toLowerCase();
+    return this.data.users.find((u) => u.email.trim().toLowerCase() === clean);
   }
 
   public static findUserById(id: string): DbUser | undefined {

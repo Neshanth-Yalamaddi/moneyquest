@@ -6,7 +6,9 @@ export type GameScreen = 'landing' | 'auth' | 'character_select' | 'prologue' | 
 
 export interface StudentProfile {
   studentId: string; // e.g. "STU-1042"
-  sessionId: string;
+  sessionId?: string;
+  userId?: string;
+  organizationId?: string;
   preferredLanguage: GameLanguage;
   characterGender?: CharacterGender;
   isNewUser?: boolean;
@@ -20,6 +22,7 @@ export interface StudentProfile {
   failedCityIds: string[];
   completedScenarioIds?: string[];
   badges: string[];
+  savedWorldState?: any;
   createdAt: number;
   lastActiveAt: number;
 }

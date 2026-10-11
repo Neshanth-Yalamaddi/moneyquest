@@ -75,7 +75,8 @@ app.post('/api/auth/register', (req: Request, res: Response) => {
     return res.status(400).json({ error: 'Password must be at least 6 characters long.' });
   }
 
-  const existing = Database.findUserByEmail(email);
+  const cleanEmail = (email || '').trim().toLowerCase();
+  const existing = Database.findUserByEmail(cleanEmail);
   if (existing) {
     return res.status(409).json({ error: 'An account with this email already exists.' });
   }
@@ -160,7 +161,8 @@ app.post('/api/auth/login', (req: Request, res: Response) => {
     return res.status(400).json({ error: 'Email and password are required.' });
   }
 
-  const user = Database.findUserByEmail(email);
+  const cleanEmail = (email || '').trim().toLowerCase();
+  const user = Database.findUserByEmail(cleanEmail);
   if (!user) {
     return res.status(401).json({ error: 'Invalid email or password.' });
   }

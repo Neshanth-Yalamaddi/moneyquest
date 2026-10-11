@@ -24,7 +24,7 @@
       "studentId": "STU-1042",
       "avatar": "avatar_arjun",
       "createdAt": 1791091077746,
-      "lastLoginAt": 1791695877944
+      "lastLoginAt": 1791697532732
     },
     {
       "id": "usr_student_priya",
@@ -36,7 +36,7 @@
       "studentId": "STU-2088",
       "avatar": "avatar_priya",
       "createdAt": 1791263877746,
-      "lastLoginAt": 1791688677746
+      "lastLoginAt": 1791697536710
     },
     {
       "id": "usr_student_rahul",
@@ -48,7 +48,7 @@
       "studentId": "STU-3015",
       "avatar": "avatar_rahul",
       "createdAt": 1791350277746,
-      "lastLoginAt": 1791692277746
+      "lastLoginAt": 1791697540397
     },
     {
       "id": "usr_staff_vanguard",
@@ -58,7 +58,7 @@
       "organizationId": "org_vanguard",
       "name": "Vanguard Educational Officer",
       "createdAt": 1789967877746,
-      "lastLoginAt": 1791695878017
+      "lastLoginAt": 1791697549287
     },
     {
       "id": "usr_staff_pratham",
@@ -90,7 +90,7 @@
       "organizationId": "org_vanguard",
       "preferredLanguage": "en",
       "scholarshipStipend": 5000,
-      "walletBalance": 0,
+      "walletBalance": 4200,
       "emergencyFund": 1200,
       "totalScore": 380,
       "currentRegionId": "region_scholars_district",
