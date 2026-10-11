@@ -26,6 +26,14 @@ import {
   getCity3NpcCollisionBoxes,
 } from '../../data/maps/city3Data';
 import {
+  CITY4_CONFIG,
+  CITY4_COLLISION_BOXES,
+  CITY4_COLLISION_GRID,
+  CITY4_NPCS,
+  CITY4_INTERACTIVES,
+  getCity4NpcCollisionBoxes,
+} from '../../data/maps/city4Data';
+import {
   DEFAULT_PLAYER_FOOTPRINT,
   slideMove,
   calculateCamera,
@@ -37,7 +45,9 @@ import { ObjectInspectionModal } from './ObjectInspectionModal';
 import city1MapImageSrc from '../../assets/maps/city1_map.jpg';
 import city2MapImageSrc from '../../assets/maps/city2_map.jpg';
 import city3MapImageSrc from '../../assets/maps/city3_map.jpg';
+import city4MapImageSrc from '../../assets/maps/city4_map.jpg';
 import playerSpriteSheetSrc from '../../assets/characters/player_spritesheet.png';
+import girlSpriteSheetSrc from '../../assets/characters/girl_spritesheet.png';
 import teacherSpriteSheetSrc from '../../assets/characters/npcs/teacher_spritesheet.png';
 import watchmanSpriteSheetSrc from '../../assets/characters/npcs/watchman_spritesheet.png';
 import hostelWardenSpriteSheetSrc from '../../assets/characters/npcs/hostel_warden_spritesheet.png';
@@ -49,11 +59,19 @@ import studentFriendSpriteSheetSrc from '../../assets/characters/npcs/student_fr
 import cycleMechanicSpriteSheetSrc from '../../assets/characters/npcs/cycle_mechanic_spritesheet.png';
 import postTellerSpriteSheetSrc from '../../assets/characters/npcs/post_teller_spritesheet.png';
 import boatDriverSpriteSheetSrc from '../../assets/characters/npcs/boat_driver_spritesheet.png';
+import dockMasterSpriteSrc from '../../assets/characters/npcs/dock_master_sprite.png';
+import fishmongerSpriteSrc from '../../assets/characters/npcs/fishmonger_sprite.png';
+import museumCuratorSpriteSrc from '../../assets/characters/npcs/museum_curator_sprite.png';
+import groundskeeperSpriteSrc from '../../assets/characters/npcs/groundskeeper_sprite.png';
 import postalDeskSrc from '../../assets/props/postal_desk.png';
 import {
   CharacterDirection,
   PLAYER_SPRITE_CONFIG,
   NPC_DEFAULT_SPRITE_CONFIG,
+  DOCK_MASTER_SPRITE_CONFIG,
+  FISHMONGER_SPRITE_CONFIG,
+  CURATOR_SPRITE_CONFIG,
+  GROUNDSKEEPER_SPRITE_CONFIG,
   NPC_SPRITE_REGISTRY,
   registerNpcSprite,
   renderCharacterSprite,
@@ -72,6 +90,7 @@ import {
   ZoomOut,
   Maximize2,
   Minimize2,
+  Trophy,
 } from 'lucide-react';
 
 interface WorldMapCanvasProps {
@@ -80,6 +99,7 @@ interface WorldMapCanvasProps {
   onInteractWithNpc: (npc: NPC) => void;
   onEnterCity: (cityId: string) => void;
   onResetWallet?: () => void;
+  onOpenGameCompletion?: () => void;
 }
 
 export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
@@ -88,6 +108,7 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
   onInteractWithNpc,
   onEnterCity,
   onResetWallet,
+  onOpenGameCompletion,
 }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
@@ -96,10 +117,18 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
   const initialWorld = savedWorldRef.current;
 
   // Active City Navigation State
-  const [currentCityId, setCurrentCityId] = useState<'city_hostel_commons' | 'city_academic_bazaar' | 'city_investment_valley'>(() => {
-    if (initialWorld?.cityId === 'city_investment_valley' || initialWorld?.cityId === 'city_academic_bazaar' || initialWorld?.cityId === 'city_hostel_commons') {
+  const [currentCityId, setCurrentCityId] = useState<
+    'city_hostel_commons' | 'city_academic_bazaar' | 'city_investment_valley' | 'city_harbor_town'
+  >(() => {
+    if (
+      initialWorld?.cityId === 'city_harbor_town' ||
+      initialWorld?.cityId === 'city_investment_valley' ||
+      initialWorld?.cityId === 'city_academic_bazaar' ||
+      initialWorld?.cityId === 'city_hostel_commons'
+    ) {
       return initialWorld.cityId;
     }
+    if ((profile.currentCityId as any) === 'city_harbor_town') return 'city_harbor_town';
     if ((profile.currentCityId as any) === 'city_investment_valley') return 'city_investment_valley';
     if ((profile.currentCityId as any) === 'city_academic_bazaar') return 'city_academic_bazaar';
     return 'city_hostel_commons';
@@ -108,23 +137,52 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
   const isCity1 = currentCityId === 'city_hostel_commons';
   const isCity2 = currentCityId === 'city_academic_bazaar';
   const isCity3 = currentCityId === 'city_investment_valley';
+  const isCity4 = currentCityId === 'city_harbor_town';
 
-  const activeConfig = isCity1 ? CITY1_CONFIG : isCity2 ? CITY2_CONFIG : CITY3_CONFIG;
-  const activeCollisionBoxes = isCity1 ? CITY1_COLLISION_BOXES : isCity2 ? CITY2_COLLISION_BOXES : CITY3_COLLISION_BOXES;
-  const activeCollisionGrid = isCity1 ? CITY1_COLLISION_GRID : isCity2 ? CITY2_COLLISION_GRID : CITY3_COLLISION_GRID;
-  const activeNpcs = isCity1 ? CITY1_NPCS : isCity2 ? CITY2_NPCS : CITY3_NPCS;
-  const activeInteractives = isCity1 ? CITY1_INTERACTIVES : isCity2 ? CITY2_INTERACTIVES : CITY3_INTERACTIVES;
+  const activeConfig = isCity1
+    ? CITY1_CONFIG
+    : isCity2
+    ? CITY2_CONFIG
+    : isCity3
+    ? CITY3_CONFIG
+    : CITY4_CONFIG;
+  const activeCollisionBoxes = isCity1
+    ? CITY1_COLLISION_BOXES
+    : isCity2
+    ? CITY2_COLLISION_BOXES
+    : isCity3
+    ? CITY3_COLLISION_BOXES
+    : CITY4_COLLISION_BOXES;
+  const activeCollisionGrid = isCity1
+    ? CITY1_COLLISION_GRID
+    : isCity2
+    ? CITY2_COLLISION_GRID
+    : isCity3
+    ? CITY3_COLLISION_GRID
+    : CITY4_COLLISION_GRID;
+  const activeNpcs = isCity1 ? CITY1_NPCS : isCity2 ? CITY2_NPCS : isCity3 ? CITY3_NPCS : CITY4_NPCS;
+  const activeInteractives = isCity1
+    ? CITY1_INTERACTIVES
+    : isCity2
+    ? CITY2_INTERACTIVES
+    : isCity3
+    ? CITY3_INTERACTIVES
+    : CITY4_INTERACTIVES;
   const activeNpcBoxes = isCity1
     ? getCity1NpcCollisionBoxes(CITY1_NPCS)
     : isCity2
     ? getCity2NpcCollisionBoxes(CITY2_NPCS)
-    : getCity3NpcCollisionBoxes(CITY3_NPCS);
+    : isCity3
+    ? getCity3NpcCollisionBoxes(CITY3_NPCS)
+    : getCity4NpcCollisionBoxes(CITY4_NPCS);
 
   // Player state restored from saved position
   const [player, setPlayer] = useState(() => {
     if (initialWorld && typeof initialWorld.x === 'number' && typeof initialWorld.y === 'number') {
       const targetConfig =
-        initialWorld.cityId === 'city_investment_valley'
+        initialWorld.cityId === 'city_harbor_town'
+          ? CITY4_CONFIG
+          : initialWorld.cityId === 'city_investment_valley'
           ? CITY3_CONFIG
           : initialWorld.cityId === 'city_academic_bazaar'
           ? CITY2_CONFIG
@@ -185,12 +243,13 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
     };
   }, [currentCityId, player.x, player.y, player.direction]);
 
-  // Map image state & preloaded references for City 1, City 2 & City 3
+  // Map image state & preloaded references for City 1, City 2, City 3 & City 4
   const [mapImageLoaded, setMapImageLoaded] = useState<boolean>(false);
   const [mapImageError, setMapImageError] = useState<boolean>(false);
   const city1MapRef = useRef<HTMLImageElement | null>(null);
   const city2MapRef = useRef<HTMLImageElement | null>(null);
   const city3MapRef = useRef<HTMLImageElement | null>(null);
+  const city4MapRef = useRef<HTMLImageElement | null>(null);
 
   // Player & NPC Pixel Art Sprite Sheet State
   const [playerSpriteLoaded, setPlayerSpriteLoaded] = useState<boolean>(false);
@@ -229,7 +288,7 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
     [profile]
   );
 
-  // All quest-giving NPCs in the current city (City 1, City 2, or City 3)
+  // All quest-giving NPCs in the current city (City 1, City 2, City 3, or City 4)
   const currentCityQuestNpcs = activeNpcs.filter((n) => Boolean(n.scenarioId));
   const completedQuestCount = currentCityQuestNpcs.filter((n) => isNpcSolved(n)).length;
   const totalQuestCount = currentCityQuestNpcs.length;
@@ -237,7 +296,31 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
   // Navigational arrow & portal unlock ONLY when ALL quests in the active city are completed
   const areAllQuestsCompleted = totalQuestCount > 0 && completedQuestCount === totalQuestCount;
 
-  // Load Map Assets with Cache Invalidation & Fallback Protection for City 1, City 2 and City 3
+  // Auto-trigger Grand Game Completion graduation celebration modal when City 4 completes
+  const [hasCelebratedCompletion, setHasCelebratedCompletion] = useState<boolean>(() => {
+    try {
+      return sessionStorage.getItem('moneyquest_celebration_shown') === 'true';
+    } catch {
+      return false;
+    }
+  });
+
+  useEffect(() => {
+    if (isCity4 && areAllQuestsCompleted && !hasCelebratedCompletion) {
+      setHasCelebratedCompletion(true);
+      try {
+        sessionStorage.setItem('moneyquest_celebration_shown', 'true');
+      } catch {}
+      if (onOpenGameCompletion) {
+        const timer = setTimeout(() => {
+          onOpenGameCompletion();
+        }, 500);
+        return () => clearTimeout(timer);
+      }
+    }
+  }, [isCity4, areAllQuestsCompleted, hasCelebratedCompletion, onOpenGameCompletion]);
+
+  // Load Map Assets with Cache Invalidation & Fallback Protection for City 1, City 2, City 3 and City 4
   useEffect(() => {
     const img1 = new Image();
     img1.src = `${city1MapImageSrc}?v=${Date.now()}`;
@@ -270,6 +353,15 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
       console.warn('City 3 map asset could not be loaded directly.');
     };
 
+    const img4 = new Image();
+    img4.src = `${city4MapImageSrc}?v=${Date.now()}`;
+    img4.onload = () => {
+      city4MapRef.current = img4;
+    };
+    img4.onerror = () => {
+      console.warn('City 4 map asset could not be loaded directly.');
+    };
+
     return () => {
       img1.onload = null;
       img1.onerror = null;
@@ -277,10 +369,12 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
       img2.onerror = null;
       img3.onload = null;
       img3.onerror = null;
+      img4.onload = null;
+      img4.onerror = null;
     };
   }, []);
 
-  // Register NPC pixel art spritesheets into the animation registry (City 1, City 2 & City 3)
+  // Register NPC pixel art spritesheets into the animation registry (City 1, City 2, City 3 & City 4)
   useEffect(() => {
     registerNpcSprite('npc_hostel_warden', { imageSrc: hostelWardenSpriteSheetSrc, config: NPC_DEFAULT_SPRITE_CONFIG });
     registerNpcSprite('npc_repair_tech', { imageSrc: repairTechSpriteSheetSrc, config: NPC_DEFAULT_SPRITE_CONFIG });
@@ -302,12 +396,21 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
     registerNpcSprite('npc_meera_club_president', { imageSrc: teacherSpriteSheetSrc, config: NPC_DEFAULT_SPRITE_CONFIG });
     registerNpcSprite('npc_uncle_karim', { imageSrc: anandSpriteSheetSrc, config: NPC_DEFAULT_SPRITE_CONFIG });
     registerNpcSprite('npc_counselor_deepa', { imageSrc: postTellerSpriteSheetSrc, config: NPC_DEFAULT_SPRITE_CONFIG });
+    // City 4 NPCs (Dock Master Tariq, Officer Vikram, Fishmonger Lakshmi, Curator Anand, Groundskeeper Deva)
+    registerNpcSprite('npc_dock_master_tariq', { imageSrc: dockMasterSpriteSrc, config: DOCK_MASTER_SPRITE_CONFIG });
+    registerNpcSprite('npc_atm_officer_vikram', { imageSrc: watchmanSpriteSheetSrc, config: NPC_DEFAULT_SPRITE_CONFIG });
+    registerNpcSprite('npc_fishmonger_lakshmi', { imageSrc: fishmongerSpriteSrc, config: FISHMONGER_SPRITE_CONFIG });
+    registerNpcSprite('npc_curator_anand', { imageSrc: museumCuratorSpriteSrc, config: CURATOR_SPRITE_CONFIG });
+    registerNpcSprite('npc_groundskeeper_deva', { imageSrc: groundskeeperSpriteSrc, config: GROUNDSKEEPER_SPRITE_CONFIG });
   }, []);
 
   // Load Player & NPC Pixel Art Spritesheets with Dynamic Cache Invalidation
   useEffect(() => {
+    const isGirl = profile.characterGender === 'girl';
+    const activePlayerSrc = isGirl ? girlSpriteSheetSrc : playerSpriteSheetSrc;
+
     const spriteImg = new Image();
-    spriteImg.src = `${playerSpriteSheetSrc}?v=${Date.now()}`;
+    spriteImg.src = `${activePlayerSrc}?v=${Date.now()}`;
 
     spriteImg.onload = () => {
       playerSpriteRef.current = spriteImg;
@@ -346,6 +449,11 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
       npc_meera_club_president: teacherSpriteSheetSrc,
       npc_uncle_karim: anandSpriteSheetSrc,
       npc_counselor_deepa: postTellerSpriteSheetSrc,
+      npc_dock_master_tariq: dockMasterSpriteSrc,
+      npc_atm_officer_vikram: watchmanSpriteSheetSrc,
+      npc_fishmonger_lakshmi: fishmongerSpriteSrc,
+      npc_curator_anand: museumCuratorSpriteSrc,
+      npc_groundskeeper_deva: groundskeeperSpriteSrc,
     };
 
     Object.entries(npcSources).forEach(([id, src]) => {
@@ -361,7 +469,7 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
       spriteImg.onload = null;
       spriteImg.onerror = null;
     };
-  }, []);
+  }, [profile.characterGender]);
 
   // Keyboard Event Listeners (Strict 4-Way Movement)
   useEffect(() => {
@@ -604,7 +712,9 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
         ? city1MapRef.current
         : isCity2
         ? city2MapRef.current
-        : city3MapRef.current;
+        : isCity3
+        ? city3MapRef.current
+        : city4MapRef.current;
       if (currentMapImg && currentMapImg.complete && currentMapImg.naturalWidth > 0) {
         ctx.drawImage(currentMapImg, 0, 0, mapW, mapH);
       } else {
@@ -612,7 +722,7 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
         renderProceduralMapFallback(ctx, mapW, mapH);
       }
 
-      // 6. Environmental Atmospheric Animation (Water Ripples on Canal / Fountains / River)
+      // 6. Environmental Atmospheric Animation (Water Ripples on Canal / Fountains / River / Harbor)
       ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
       if (isCity1) {
         for (let i = 0; i < 4; i++) {
@@ -625,11 +735,17 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
           const bubbleY = 125 + Math.sin(animTimer * 4 + i) * 6;
           ctx.fillRect(495 + Math.cos(animTimer * 3 + i) * 10, bubbleY, 3, 3);
         }
-      } else {
+      } else if (isCity3) {
         // City 3 River water shimmer near dock
         for (let i = 0; i < 4; i++) {
           const rippleY = 320 + ((animTimer * 10 + i * 60) % 220);
           ctx.fillRect(940 + Math.sin(animTimer + i) * 12, rippleY, 40, 2);
+        }
+      } else {
+        // City 4 Harbor water shimmer near pier / docks
+        for (let i = 0; i < 4; i++) {
+          const rippleY = 480 + ((animTimer * 8 + i * 40) % 70);
+          ctx.fillRect(440 + Math.sin(animTimer + i) * 10, rippleY, 30, 2);
         }
       }
 
@@ -779,7 +895,7 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
     return () => {
       cancelAnimationFrame(animationFrameId);
     };
-  }, [player, nearbyNpc, nearbyObject, mapImageLoaded, mapImageError, showHitboxes, cameraZoom, zoomLevel, areAllQuestsCompleted, isNpcSolved, playerSpriteLoaded, isCity1, isCity2, isCity3, activeConfig, activeCollisionBoxes, activeCollisionGrid, activeNpcs, activeInteractives, activeNpcBoxes, currentCityId]);
+  }, [player, nearbyNpc, nearbyObject, mapImageLoaded, mapImageError, showHitboxes, cameraZoom, zoomLevel, areAllQuestsCompleted, isNpcSolved, playerSpriteLoaded, isCity1, isCity2, isCity3, isCity4, activeConfig, activeCollisionBoxes, activeCollisionGrid, activeNpcs, activeInteractives, activeNpcBoxes, currentCityId]);
 
   // Procedural Fallback Map Generator (Ensures Zero Blank Screen if asset fails)
   const renderProceduralMapFallback = (ctx: CanvasRenderingContext2D, mapW: number, mapH: number) => {
@@ -1015,6 +1131,11 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
       targetY = 500;
       destPillLabel = 'City 4 ➔';
       destSignLabel = '★ TO CITY 4 ★';
+    } else if (cityId === 'city_harbor_town') {
+      targetX = 480;
+      targetY = 490;
+      destPillLabel = 'City 3 ➔';
+      destSignLabel = '★ TO CITY 3 (FERRY) ★';
     }
 
     const dx = targetX - p.x;
@@ -1195,7 +1316,7 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
     }
   };
 
-  // Transition handler for City 1 <-> City 2 <-> City 3 Portals
+  // Transition handler for City 1 <-> City 2 <-> City 3 <-> City 4 Portals
   const handleCityTransition = (targetCityId: string) => {
     if (targetCityId === 'city_academic_bazaar') {
       if (isCity1 && !areAllQuestsCompleted) {
@@ -1238,23 +1359,58 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
       }
       WorldAudio.playDiscovery();
       setCurrentCityId('city_investment_valley');
+      const targetSpawn: { x: number; y: number; dir: 'up' | 'down' | 'left' | 'right' } = isCity4
+        ? { x: 860, y: 500, dir: 'left' }
+        : { x: CITY3_CONFIG.spawnPoint.x, y: CITY3_CONFIG.spawnPoint.y, dir: 'right' };
       setPlayer({
-        x: CITY3_CONFIG.spawnPoint.x,
-        y: CITY3_CONFIG.spawnPoint.y,
-        direction: CITY3_CONFIG.spawnPoint.direction as 'right',
+        x: targetSpawn.x,
+        y: targetSpawn.y,
+        direction: targetSpawn.dir,
         speed: 3.2,
         isMoving: false,
         frame: 0,
       });
       GameStorage.saveWorldState({
         cityId: 'city_investment_valley',
-        x: CITY3_CONFIG.spawnPoint.x,
-        y: CITY3_CONFIG.spawnPoint.y,
-        direction: 'right',
+        x: targetSpawn.x,
+        y: targetSpawn.y,
+        direction: targetSpawn.dir,
       });
       GameStorage.saveScreen('world');
-      setTransitionNotification(`Arrived at City 3: Investment Valley! Explore the Science Garden & River Dock.`);
+      setTransitionNotification(
+        isCity4
+          ? `Returned to City 3: Investment Valley.`
+          : `Arrived at City 3: Investment Valley! Explore the Science Garden & River Dock.`
+      );
       onEnterCity('city_investment_valley');
+      setTimeout(() => setTransitionNotification(null), 4500);
+    } else if (targetCityId === 'city_harbor_town' || targetCityId === 'city_4') {
+      if (isCity3 && !areAllQuestsCompleted) {
+        setTransitionNotification(
+          `Complete all City 3 quests (${completedQuestCount}/${totalQuestCount} solved) before crossing to City 4!`
+        );
+        setTimeout(() => setTransitionNotification(null), 4000);
+        return;
+      }
+      WorldAudio.playDiscovery();
+      setCurrentCityId('city_harbor_town');
+      setPlayer({
+        x: CITY4_CONFIG.spawnPoint.x,
+        y: CITY4_CONFIG.spawnPoint.y,
+        direction: CITY4_CONFIG.spawnPoint.direction as 'down',
+        speed: 3.2,
+        isMoving: false,
+        frame: 0,
+      });
+      GameStorage.saveWorldState({
+        cityId: 'city_harbor_town',
+        x: CITY4_CONFIG.spawnPoint.x,
+        y: CITY4_CONFIG.spawnPoint.y,
+        direction: 'down',
+      });
+      GameStorage.saveScreen('world');
+      setTransitionNotification(`Arrived at City 4: Harbor Town! Explore the Docks, Market Square & Museum.`);
+      onEnterCity('city_harbor_town');
       setTimeout(() => setTransitionNotification(null), 4500);
     } else if (targetCityId === 'city_hostel_commons') {
       WorldAudio.playDiscovery();
@@ -1276,9 +1432,6 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
       GameStorage.saveScreen('world');
       setTransitionNotification(`Returned to City 1: Hostel Commons.`);
       onEnterCity('city_hostel_commons');
-      setTimeout(() => setTransitionNotification(null), 4000);
-    } else if (targetCityId === 'city_canteen_corner' || targetCityId === 'city_4') {
-      setTransitionNotification(`City 4 will unlock in the next chapter!`);
       setTimeout(() => setTransitionNotification(null), 4000);
     }
   };
@@ -1305,14 +1458,18 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
                   ? 'City 1: Hostel Commons'
                   : isCity2
                   ? 'City 2: Academic Bazaar'
-                  : 'City 3: Investment Valley'}
+                  : isCity3
+                  ? 'City 3: Investment Valley'
+                  : 'City 4: Harbor Town'}
               </span>
               <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-amber-500/20 text-amber-300 border border-amber-500/30">
                 {isCity1
                   ? 'Pillar 1: Plan & Budget'
                   : isCity2
                   ? 'Pillar 1: Smart Sourcing & Market Budgeting'
-                  : 'Pillar 3: Understand Investing (Simulations)'}
+                  : isCity3
+                  ? 'Pillar 3: Understand Investing (Simulations)'
+                  : 'Pillar 4: Stay Financially Safe (Security & Anti-Fraud)'}
               </span>
             </div>
             <div className="text-xs text-slate-400">
@@ -1320,7 +1477,9 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
                 ? "The Scholar's District — Full City Map"
                 : isCity2
                 ? 'Koti Book Market & University District'
-                : 'School Garden, Economics Club & River Dock'}
+                : isCity3
+                ? 'School Garden, Economics Club & River Dock'
+                : 'Harbor Docks, Market Square & Shipwreck Museum'}
             </div>
           </div>
         </div>
@@ -1357,7 +1516,7 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
                 </button>
               )}
             </div>
-          ) : (
+          ) : isCity3 ? (
             <div className="flex items-center gap-1.5">
               <button
                 onClick={() => handleCityTransition('city_academic_bazaar')}
@@ -1368,11 +1527,31 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
               </button>
               {areAllQuestsCompleted && (
                 <button
-                  onClick={() => handleCityTransition('city_4')}
+                  onClick={() => handleCityTransition('city_harbor_town')}
                   className="px-2.5 py-1 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold rounded-lg flex items-center gap-1 shadow-sm transition"
                 >
-                  <span>Cross River to City 4</span>
+                  <span>Travel to City 4</span>
                   <Navigation className="w-3 h-3" />
+                </button>
+              )}
+            </div>
+          ) : (
+            <div className="flex items-center gap-1.5">
+              <button
+                onClick={() => handleCityTransition('city_investment_valley')}
+                className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-bold rounded-lg flex items-center gap-1 shadow-sm transition"
+              >
+                <span>Return to City 3</span>
+                <Navigation className="w-3 h-3" />
+              </button>
+              {areAllQuestsCompleted && onOpenGameCompletion && (
+                <button
+                  onClick={onOpenGameCompletion}
+                  className="px-2.5 py-1 bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 hover:from-amber-400 hover:to-amber-300 text-slate-950 text-xs font-black rounded-lg flex items-center gap-1 shadow-md animate-pulse transition"
+                  title="View Grand Graduation Certificate & Honors"
+                >
+                  <Trophy className="w-3.5 h-3.5 text-slate-950" />
+                  <span>Graduation Ceremony 🏆</span>
                 </button>
               )}
             </div>
@@ -1394,14 +1573,16 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
                     ? 'All Quests Complete! Follow Arrow to City 2 ➔'
                     : isCity2
                     ? 'All Bazaar Quests Complete! Follow Arrow to City 3 ➔'
-                    : 'All Valley Quests Complete! Follow Arrow to River Exit ➔'}
+                    : isCity3
+                    ? 'All Valley Quests Complete! Follow Arrow to City 4 ➔'
+                    : 'All Security Quests Complete! You are a Financial Master! 🏆'}
                 </span>
               </>
             ) : (
               <>
                 <MapPin className="w-3.5 h-3.5 text-amber-400 animate-pulse" />
                 <span>
-                  {isCity1 ? 'Hostel Quests: ' : isCity2 ? 'Bazaar Quests: ' : 'Valley Quests: '}
+                  {isCity1 ? 'Hostel Quests: ' : isCity2 ? 'Bazaar Quests: ' : isCity3 ? 'Valley Quests: ' : 'Harbor Quests: '}
                   {completedQuestCount}/{totalQuestCount} Complete
                   {completedQuestCount === 0
                     ? ' — Find Quest NPCs (!)'

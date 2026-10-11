@@ -66,15 +66,15 @@ export const AchievementsModal: React.FC<AchievementsModalProps> = ({
       pillar: 'save',
       desc: 'Built an emergency cushion of ₹1,000+ for unexpected crises.',
       icon: '🛡️',
-      isUnlocked: (p) => p.emergencyFund >= 1000 || p.completedCityIds.includes('city_rainy_day_refuge'),
+      isUnlocked: (p) => p.emergencyFund >= 1000 || p.completedCityIds.includes('city_academic_bazaar') || p.completedCityIds.includes('city_rainy_day_refuge'),
     },
     {
       id: 'badge_compound',
       name: 'Compound Alchemist',
       pillar: 'invest',
-      desc: 'Understood exponential returns and time horizons in Compounding Grove.',
+      desc: 'Understood exponential returns and time horizons in Investment Valley.',
       icon: '🌱',
-      isUnlocked: (p) => p.completedCityIds.includes('city_compounding_grove'),
+      isUnlocked: (p) => p.completedCityIds.includes('city_investment_valley') || p.completedCityIds.includes('city_compounding_grove'),
     },
     {
       id: 'badge_diversified',
@@ -82,31 +82,31 @@ export const AchievementsModal: React.FC<AchievementsModalProps> = ({
       pillar: 'invest',
       desc: 'Balanced risk and return across diversified student assets.',
       icon: '⚖️',
-      isUnlocked: (p) => p.completedCityIds.includes('city_diversified_market'),
+      isUnlocked: (p) => p.completedCityIds.includes('city_investment_valley') || p.completedCityIds.includes('city_diversified_market'),
     },
     {
       id: 'badge_phish_buster',
       name: 'Phish Buster',
       pillar: 'safety',
-      desc: 'Intercepted deceptive scholarship SMS and fraudulent KYC links.',
+      desc: 'Intercepted deceptive scholarship SMS and fraudulent KYC links in Harbor Town.',
       icon: '🎣',
-      isUnlocked: (p) => p.completedCityIds.includes('city_phishers_cove'),
+      isUnlocked: (p) => p.completedCityIds.includes('city_harbor_town') || p.completedCityIds.includes('city_phishers_cove'),
     },
     {
       id: 'badge_upi_sentinel',
       name: 'UPI Sentinel',
       pillar: 'safety',
-      desc: 'Refused to enter PIN for money-receive QR scams.',
+      desc: 'Refused to enter PIN for money-receive QR scams and ATM skimmers.',
       icon: '📱',
-      isUnlocked: (p) => p.completedCityIds.includes('city_upi_maze'),
+      isUnlocked: (p) => p.completedCityIds.includes('city_harbor_town') || p.completedCityIds.includes('city_upi_maze'),
     },
     {
       id: 'badge_grand_steward',
       name: 'Grand Financial Steward',
       pillar: 'general',
-      desc: 'Conquered the Capstone Conclave combining all four pillars.',
+      desc: 'Mastered all four financial pillars across the student journey.',
       icon: '👑',
-      isUnlocked: (p) => p.completedCityIds.includes('city_grand_conclave'),
+      isUnlocked: (p) => p.completedCityIds.includes('city_harbor_town') || p.completedCityIds.includes('city_grand_conclave'),
     },
   ];
 
@@ -116,20 +116,20 @@ export const AchievementsModal: React.FC<AchievementsModalProps> = ({
   const budgetDone = profile.completedCityIds.filter((c) =>
     ['city_hostel_commons', 'city_academic_bazaar', 'city_canteen_corner'].includes(c)
   ).length;
-  const saveDone = profile.completedCityIds.filter((c) =>
-    ['city_rainy_day_refuge', 'city_digital_hub', 'city_opportunity_guild'].includes(c)
-  ).length;
+  const saveDone = profile.emergencyFund >= 1000 || profile.completedCityIds.filter((c) =>
+    ['city_academic_bazaar', 'city_rainy_day_refuge', 'city_digital_hub', 'city_opportunity_guild'].includes(c)
+  ).length ? 1 : 0;
   const investDone = profile.completedCityIds.filter((c) =>
-    ['city_compounding_grove', 'city_diversified_market', 'city_inflation_alley', 'city_skill_forge'].includes(c)
+    ['city_investment_valley', 'city_compounding_grove', 'city_diversified_market', 'city_inflation_alley', 'city_skill_forge'].includes(c)
   ).length;
   const safetyDone = profile.completedCityIds.filter((c) =>
-    ['city_phishers_cove', 'city_upi_maze', 'city_pyramid_peak', 'city_credential_vault', 'city_grand_conclave'].includes(c)
+    ['city_harbor_town', 'city_phishers_cove', 'city_upi_maze', 'city_pyramid_peak', 'city_credential_vault', 'city_grand_conclave'].includes(c)
   ).length;
 
-  const budgetPct = Math.round((budgetDone / 3) * 100);
-  const savePct = Math.round((saveDone / 3) * 100);
-  const investPct = Math.round((investDone / 4) * 100);
-  const safetyPct = Math.round((safetyDone / 5) * 100);
+  const budgetPct = Math.min(100, Math.round((budgetDone / 2) * 100));
+  const savePct = Math.min(100, Math.round((saveDone / 1) * 100));
+  const investPct = Math.min(100, Math.round((investDone / 1) * 100));
+  const safetyPct = Math.min(100, Math.round((safetyDone / 1) * 100));
 
   const handlePrint = () => {
     window.print();

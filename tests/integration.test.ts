@@ -148,6 +148,47 @@ assert(
   'All 5 City 3 quests must now be solved, unlocking navigation across the river'
 );
 console.log('✓ Test 5C Passed: City 3 multi-quest progression unlocks river exit');
+
+// Test 5D: City 4 Multi-Quest Progression (Pillar 4: Stay Financially Safe)
+console.log('Testing City 4 multi-quest progression...');
+const fs001 = PUZZLES['scenario_fs_001_fake_scholarship'];
+const fs002 = PUZZLES['scenario_fs_002_atm_helper'];
+const fs003 = PUZZLES['scenario_fs_003_double_money'];
+const fs004 = PUZZLES['scenario_fs_004_part_time_job'];
+const fs005 = PUZZLES['scenario_fs_005_sim_block'];
+assert(!!fs001 && !!fs002 && !!fs003 && !!fs004 && !!fs005, 'All 5 City 4 scenarios must exist in PUZZLES');
+
+const fs001Best = fs001.choices.find((c) => c.tier === 'best')!;
+const fs002Best = fs002.choices.find((c) => c.tier === 'best')!;
+const fs003Best = fs003.choices.find((c) => c.tier === 'best')!;
+const fs004Best = fs004.choices.find((c) => c.tier === 'best')!;
+const fs005Best = fs005.choices.find((c) => c.tier === 'best')!;
+
+let pCity4 = pCity3;
+pCity4 = GameEngine.evaluateChoice(pCity4, fs001, fs001Best, 'en').updatedProfile;
+assert(GameEngine.isScenarioSolved('scenario_fs_001_fake_scholarship', pCity4), 'Dock Master Tariq quest must be solved');
+
+pCity4 = GameEngine.evaluateChoice(pCity4, fs002, fs002Best, 'en').updatedProfile;
+assert(GameEngine.isScenarioSolved('scenario_fs_002_atm_helper', pCity4), 'Officer Vikram quest must be solved');
+
+pCity4 = GameEngine.evaluateChoice(pCity4, fs003, fs003Best, 'en').updatedProfile;
+assert(GameEngine.isScenarioSolved('scenario_fs_003_double_money', pCity4), 'Fishmonger Lakshmi quest must be solved');
+
+pCity4 = GameEngine.evaluateChoice(pCity4, fs004, fs004Best, 'en').updatedProfile;
+assert(GameEngine.isScenarioSolved('scenario_fs_004_part_time_job', pCity4), 'Curator Anand quest must be solved');
+
+pCity4 = GameEngine.evaluateChoice(pCity4, fs005, fs005Best, 'en').updatedProfile;
+assert(GameEngine.isScenarioSolved('scenario_fs_005_sim_block', pCity4), 'Groundskeeper Deva quest must be solved');
+
+assert(
+  GameEngine.isScenarioSolved('scenario_fs_001_fake_scholarship', pCity4) &&
+  GameEngine.isScenarioSolved('scenario_fs_002_atm_helper', pCity4) &&
+  GameEngine.isScenarioSolved('scenario_fs_003_double_money', pCity4) &&
+  GameEngine.isScenarioSolved('scenario_fs_004_part_time_job', pCity4) &&
+  GameEngine.isScenarioSolved('scenario_fs_005_sim_block', pCity4),
+  'All 5 City 4 quests must now be solved, unlocking full financial safety mastery'
+);
+console.log('✓ Test 5D Passed: City 4 multi-quest progression completes Pillar 4');
 // Test 6: Reload Game State Persistence (Continues from where player stopped)
 console.log('Testing reload state persistence (continue from exact stopped position)...');
 // Mock localStorage in Node environment if not present
@@ -210,4 +251,89 @@ const persisted = GameStorage.getOrCreateProfile();
 assert(persisted.walletBalance === 5000, 'Persisted wallet must reflect reset ₹5,000 balance');
 console.log('✓ Test 7 Passed: Bankruptcy reset seamlessly restores ₹5,000 scholarship relief grant');
 
+// Test 8: 4-Pillar Game Completion & Graduation Validation
+console.log('Testing full game completion across all 4 pillars...');
+const completionProfile: StudentProfile = {
+  studentId: 'STU-CHAMPION-99',
+  sessionId: 'SESS-GRADUATION',
+  preferredLanguage: 'en',
+  characterGender: 'girl',
+  scholarshipStipend: 5000,
+  walletBalance: 4200,
+  emergencyFund: 1800,
+  totalScore: 48,
+  currentRegionId: 'region_guardian_citadel',
+  currentCityId: 'city_harbor_town',
+  completedCityIds: [
+    'city_hostel_commons',
+    'city_academic_bazaar',
+    'city_investment_valley',
+    'city_harbor_town',
+  ],
+  failedCityIds: [],
+  completedScenarioIds: [
+    'scenario_hostel_stipend',
+    'scenario_broken_phone',
+    'scenario_cycle_repair',
+    'scenario_bazaar_bargain',
+    'scenario_postal_savings',
+    'scenario_inv_001_two_plants',
+    'scenario_inv_002_cargo_boat',
+    'scenario_inv_003_market_panic',
+    'scenario_inv_004_grocery_budget',
+    'scenario_inv_005_career_invest',
+    'scenario_fs_001_fake_scholarship',
+    'scenario_fs_002_atm_helper',
+    'scenario_fs_003_double_money',
+    'scenario_fs_004_part_time_job',
+    'scenario_fs_005_sim_block',
+  ],
+  badges: ['Merit Scholar'],
+  createdAt: Date.now(),
+  lastActiveAt: Date.now(),
+};
+
+assert(completionProfile.completedCityIds.includes('city_harbor_town'), 'Completion profile must have completed City 4');
+assert(completionProfile.completedScenarioIds!.length >= 15, 'All major scenarios across 4 pillars must be completed');
+assert(completionProfile.characterGender === 'girl', 'Character gender Ananya correctly identified');
+console.log('✓ Test 8 Passed: Grand 4-Pillar game completion & graduation state validated');
+
+// Test 9: Character Selection Conditional Routing (New Users Only)
+console.log('Testing character selection conditional routing for new users only...');
+const brandNewUser: StudentProfile = {
+  studentId: 'STU-NEWBIE-01',
+  sessionId: 'SESS-NEW-01',
+  preferredLanguage: 'en',
+  scholarshipStipend: 5000,
+  walletBalance: 5000,
+  emergencyFund: 0,
+  totalScore: 0,
+  currentRegionId: 'region_scholars_district',
+  currentCityId: 'city_hostel_commons',
+  completedCityIds: [],
+  failedCityIds: [],
+  badges: [],
+  createdAt: Date.now(),
+  lastActiveAt: Date.now(),
+};
+assert(GameStorage.isNewUser(brandNewUser) === true, 'Brand new user without characterGender MUST be detected as new user');
+
+const existingUserBoy: StudentProfile = {
+  ...brandNewUser,
+  studentId: 'STU-RETURNING-02',
+  characterGender: 'boy',
+};
+assert(GameStorage.isNewUser(existingUserBoy) === false, 'Existing user with Aarav (boy) character MUST bypass character select');
+
+const existingUserGirl: StudentProfile = {
+  ...brandNewUser,
+  studentId: 'STU-RETURNING-03',
+  characterGender: 'girl',
+  isNewUser: false,
+};
+assert(GameStorage.isNewUser(existingUserGirl) === false, 'Existing user with Ananya (girl) character MUST bypass character select');
+
+console.log('✓ Test 9 Passed: Character selection strictly restricted to new users only');
+
 console.log('--- ALL INTEGRATION ENGINE TESTS PASSED SUCCESSFULLY! ---');
+

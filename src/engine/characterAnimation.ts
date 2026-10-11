@@ -152,6 +152,99 @@ export const NPC_SPRITE_REGISTRY: Record<string, NpcSpriteEntry> = {
     imageSrc: '/assets/characters/npcs/student_friend_spritesheet.png',
     config: NPC_DEFAULT_SPRITE_CONFIG,
   },
+  // City 4 NPCs
+  npc_dock_master_tariq: {
+    imageSrc: '/assets/characters/npcs/dock_master_sprite.png',
+    config: {
+      frameWidth: 125,
+      frameHeight: 140,
+      baselineY: 135,
+      scale: 0.28,
+      rows: { idle_down: 0, walk_down: 0, walk_up: 0, walk_left: 0, walk_right: 0 },
+      frameCount: { idle: 1, walk: 1 },
+      frameDurationMs: { idle: 1000, walk: 1000 },
+    },
+  },
+  npc_atm_officer_vikram: {
+    imageSrc: '/assets/characters/npcs/watchman_spritesheet.png',
+    config: NPC_DEFAULT_SPRITE_CONFIG,
+  },
+  npc_fishmonger_lakshmi: {
+    imageSrc: '/assets/characters/npcs/fishmonger_sprite.png',
+    config: {
+      frameWidth: 100,
+      frameHeight: 115,
+      baselineY: 110,
+      scale: 0.30,
+      rows: { idle_down: 0, walk_down: 0, walk_up: 0, walk_left: 0, walk_right: 0 },
+      frameCount: { idle: 1, walk: 1 },
+      frameDurationMs: { idle: 1000, walk: 1000 },
+    },
+  },
+  npc_curator_anand: {
+    imageSrc: '/assets/characters/npcs/museum_curator_sprite.png',
+    config: {
+      frameWidth: 110,
+      frameHeight: 120,
+      baselineY: 115,
+      scale: 0.30,
+      rows: { idle_down: 0, walk_down: 0, walk_up: 0, walk_left: 0, walk_right: 0 },
+      frameCount: { idle: 1, walk: 1 },
+      frameDurationMs: { idle: 1000, walk: 1000 },
+    },
+  },
+  npc_groundskeeper_deva: {
+    imageSrc: '/assets/characters/npcs/groundskeeper_sprite.png',
+    config: {
+      frameWidth: 110,
+      frameHeight: 130,
+      baselineY: 125,
+      scale: 0.28,
+      rows: { idle_down: 0, walk_down: 0, walk_up: 0, walk_left: 0, walk_right: 0 },
+      frameCount: { idle: 1, walk: 1 },
+      frameDurationMs: { idle: 1000, walk: 1000 },
+    },
+  },
+};
+
+export const DOCK_MASTER_SPRITE_CONFIG: SpriteSheetConfig = {
+  frameWidth: 125,
+  frameHeight: 140,
+  baselineY: 135,
+  scale: 0.28,
+  rows: { idle_down: 0, walk_down: 0, walk_up: 0, walk_left: 0, walk_right: 0 },
+  frameCount: { idle: 1, walk: 1 },
+  frameDurationMs: { idle: 1000, walk: 1000 },
+};
+
+export const FISHMONGER_SPRITE_CONFIG: SpriteSheetConfig = {
+  frameWidth: 100,
+  frameHeight: 115,
+  baselineY: 110,
+  scale: 0.30,
+  rows: { idle_down: 0, walk_down: 0, walk_up: 0, walk_left: 0, walk_right: 0 },
+  frameCount: { idle: 1, walk: 1 },
+  frameDurationMs: { idle: 1000, walk: 1000 },
+};
+
+export const CURATOR_SPRITE_CONFIG: SpriteSheetConfig = {
+  frameWidth: 110,
+  frameHeight: 120,
+  baselineY: 115,
+  scale: 0.30,
+  rows: { idle_down: 0, walk_down: 0, walk_up: 0, walk_left: 0, walk_right: 0 },
+  frameCount: { idle: 1, walk: 1 },
+  frameDurationMs: { idle: 1000, walk: 1000 },
+};
+
+export const GROUNDSKEEPER_SPRITE_CONFIG: SpriteSheetConfig = {
+  frameWidth: 110,
+  frameHeight: 130,
+  baselineY: 125,
+  scale: 0.28,
+  rows: { idle_down: 0, walk_down: 0, walk_up: 0, walk_left: 0, walk_right: 0 },
+  frameCount: { idle: 1, walk: 1 },
+  frameDurationMs: { idle: 1000, walk: 1000 },
 };
 
 /**

@@ -180,6 +180,67 @@ class AudioManager {
   }
 
   /**
+   * Grand celebratory victory fanfare arpeggio with sustained harmonic chord finale
+   * Triggered upon game completion (finishing all 4 cities / pillars)
+   */
+  public playGrandVictoryFanfare() {
+    if (this.isMuted || !this.isSfxActive) return;
+    this.initContext();
+    if (!this.ctx) return;
+
+    try {
+      const melody = [
+        { freq: 261.63, delay: 0.0, dur: 0.18 }, // C4
+        { freq: 329.63, delay: 0.12, dur: 0.18 }, // E4
+        { freq: 392.0, delay: 0.24, dur: 0.18 }, // G4
+        { freq: 523.25, delay: 0.36, dur: 0.22 }, // C5
+        { freq: 659.25, delay: 0.48, dur: 0.22 }, // E5
+        { freq: 783.99, delay: 0.60, dur: 0.25 }, // G5
+        { freq: 1046.5, delay: 0.75, dur: 0.9 }, // C6
+      ];
+
+      melody.forEach(({ freq, delay, dur }) => {
+        const osc = this.ctx!.createOscillator();
+        const gain = this.ctx!.createGain();
+        const start = this.ctx!.currentTime + delay;
+
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(freq, start);
+
+        gain.gain.setValueAtTime(0.25 * this.volume, start);
+        gain.gain.exponentialRampToValueAtTime(0.0001, start + dur);
+
+        osc.connect(gain);
+        gain.connect(this.ctx!.destination);
+
+        osc.start(start);
+        osc.stop(start + dur);
+      });
+
+      // Harmonized sustained victory chord at the climax
+      const chordNotes = [523.25, 659.25, 783.99, 1046.5];
+      chordNotes.forEach((freq) => {
+        const osc = this.ctx!.createOscillator();
+        const gain = this.ctx!.createGain();
+        const start = this.ctx!.currentTime + 0.75;
+        const dur = 1.2;
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, start);
+
+        gain.gain.setValueAtTime(0.12 * this.volume, start);
+        gain.gain.exponentialRampToValueAtTime(0.0001, start + dur);
+
+        osc.connect(gain);
+        gain.connect(this.ctx!.destination);
+
+        osc.start(start);
+        osc.stop(start + dur);
+      });
+    } catch (e) {}
+  }
+
+  /**
    * Soft error buzzer (for invalid input)
    */
   public playError() {

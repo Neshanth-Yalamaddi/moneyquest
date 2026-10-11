@@ -20,6 +20,7 @@ import {
   X,
   User,
   Save,
+  Trophy,
 } from 'lucide-react';
 
 export interface NavbarProps {
@@ -29,9 +30,10 @@ export interface NavbarProps {
   onOpenDashboard?: () => void;
   onResetProgress: () => void;
   onReturnToHome: () => void;
-  onUpdateProfile?: (profile: StudentProfile) => void;
+  onUpdateProfile?: (profile: StudentProfile, isNewUser?: boolean) => void;
   onSaveProgress?: () => void;
   onResetWallet?: () => void;
+  onOpenGameCompletion?: () => void;
   isProgressSaved?: boolean;
   onLogout?: () => void;
 }
@@ -46,6 +48,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   onUpdateProfile,
   onSaveProgress,
   onResetWallet,
+  onOpenGameCompletion,
   isProgressSaved = false,
   onLogout,
 }) => {
@@ -66,9 +69,9 @@ export const Navbar: React.FC<NavbarProps> = ({
     setIsMuted(muted);
   };
 
-  const handleProfileUpdated = (updated: StudentProfile) => {
+  const handleProfileUpdated = (updated: StudentProfile, isNewUser?: boolean) => {
     if (onUpdateProfile) {
-      onUpdateProfile(updated);
+      onUpdateProfile(updated, isNewUser);
     }
   };
 
@@ -201,6 +204,21 @@ export const Navbar: React.FC<NavbarProps> = ({
               <span>{t.achievements}</span>
             </button>
 
+            {/* Game Completion / Graduation Button */}
+            {onOpenGameCompletion && profile.completedCityIds.includes('city_harbor_town') && (
+              <button
+                onClick={() => {
+                  audioManager.playGrandVictoryFanfare();
+                  onOpenGameCompletion();
+                }}
+                title="View Grand Graduation Certificate & Honors"
+                className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 hover:from-amber-400 hover:to-amber-300 text-slate-950 font-black text-xs rounded-lg shadow-md transition animate-pulse border border-amber-300/60"
+              >
+                <Trophy className="w-3.5 h-3.5 text-slate-950" />
+                <span>Graduation 🏆</span>
+              </button>
+            )}
+
             {/* Save Progress Toggle */}
             {onSaveProgress && (
               <button
@@ -306,6 +324,20 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <Award className="w-3.5 h-3.5 text-sky-400" />
                 <span>{t.achievements}</span>
               </button>
+
+              {onOpenGameCompletion && profile.completedCityIds.includes('city_harbor_town') && (
+                <button
+                  onClick={() => {
+                    audioManager.playGrandVictoryFanfare();
+                    onOpenGameCompletion();
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="col-span-2 p-2 bg-gradient-to-r from-amber-500 to-amber-400 text-slate-950 font-black rounded-lg text-xs flex items-center justify-center gap-1.5 shadow-md"
+                >
+                  <Trophy className="w-3.5 h-3.5 text-slate-950" />
+                  <span>Graduation Ceremony 🏆</span>
+                </button>
+              )}
             </div>
           </div>
         )}

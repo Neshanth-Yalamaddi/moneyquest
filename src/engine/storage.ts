@@ -7,7 +7,7 @@ const STORAGE_KEY_WORLD_STATE = 'moneyquest_world_state';
 const STORAGE_KEY_PROGRESS_SAVED = 'moneyquest_progress_saved';
 
 export interface SavedWorldState {
-  cityId: 'city_hostel_commons' | 'city_academic_bazaar' | 'city_investment_valley';
+  cityId: 'city_hostel_commons' | 'city_academic_bazaar' | 'city_investment_valley' | 'city_harbor_town';
   x: number;
   y: number;
   direction: 'up' | 'down' | 'left' | 'right';
@@ -188,5 +188,13 @@ export class GameStorage {
       console.warn('Failed to clear storage', e);
     }
     return this.getOrCreateProfile();
+  }
+
+  static isNewUser(profile?: StudentProfile | null): boolean {
+    if (!profile) return true;
+    if (typeof profile.isNewUser === 'boolean') {
+      return profile.isNewUser;
+    }
+    return !profile.characterGender;
   }
 }

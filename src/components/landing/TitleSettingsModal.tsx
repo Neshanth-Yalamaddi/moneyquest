@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { GameLanguage, StudentProfile } from '../../types';
+import { GameLanguage, StudentProfile, CharacterGender } from '../../types';
 import { audioManager } from '../ui/audioManager';
+import boyAvatarSrc from '../../assets/characters/boy_avatar.png';
+import girlAvatarSrc from '../../assets/characters/girl_avatar.png';
 import {
   Volume2,
   VolumeX,
@@ -12,6 +14,7 @@ import {
   Wallet,
   X,
   Sparkles,
+  User,
 } from 'lucide-react';
 
 interface TitleSettingsModalProps {
@@ -24,6 +27,7 @@ interface TitleSettingsModalProps {
   onResetProgress: () => void;
   onResetWallet: () => void;
   onLogout?: () => void;
+  onUpdateCharacter?: (gender: CharacterGender) => void;
 }
 
 export const TitleSettingsModal: React.FC<TitleSettingsModalProps> = ({
@@ -36,6 +40,7 @@ export const TitleSettingsModal: React.FC<TitleSettingsModalProps> = ({
   onResetProgress,
   onResetWallet,
   onLogout,
+  onUpdateCharacter,
 }) => {
   const [audioSettings, setAudioSettings] = useState(() => audioManager.getSettings());
   const [volume, setVolume] = useState(() => Math.round(audioManager.getSettings().volume * 100));
@@ -192,6 +197,43 @@ export const TitleSettingsModal: React.FC<TitleSettingsModalProps> = ({
                   {lang.label}
                 </button>
               ))}
+            </div>
+          </div>
+
+          {/* Scholar Character Avatar Selection */}
+          <div className="bg-slate-950/60 rounded-2xl p-4 border border-slate-800/80 space-y-2">
+            <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-amber-400/90">
+              <User className="w-4 h-4" /> Scholar Avatar / अवतार
+            </div>
+            <div className="grid grid-cols-2 gap-2">
+              <button
+                onClick={() => {
+                  audioManager.playClick();
+                  onUpdateCharacter?.('boy');
+                }}
+                className={`py-2 px-3 rounded-xl text-xs font-bold border flex items-center justify-center gap-2 transition ${
+                  (profile.characterGender || 'boy') === 'boy'
+                    ? 'bg-amber-500 text-slate-950 border-amber-400 shadow-md font-black'
+                    : 'bg-slate-800/80 text-slate-300 border-slate-700 hover:bg-slate-700'
+                }`}
+              >
+                <img src={boyAvatarSrc} alt="Boy" className="w-5 h-7 object-contain" />
+                <span>Aarav (Boy)</span>
+              </button>
+              <button
+                onClick={() => {
+                  audioManager.playClick();
+                  onUpdateCharacter?.('girl');
+                }}
+                className={`py-2 px-3 rounded-xl text-xs font-bold border flex items-center justify-center gap-2 transition ${
+                  profile.characterGender === 'girl'
+                    ? 'bg-pink-500 text-white border-pink-400 shadow-md font-black'
+                    : 'bg-slate-800/80 text-slate-300 border-slate-700 hover:bg-slate-700'
+                }`}
+              >
+                <img src={girlAvatarSrc} alt="Girl" className="w-5 h-7 object-contain" />
+                <span>Ananya (Girl)</span>
+              </button>
             </div>
           </div>
 

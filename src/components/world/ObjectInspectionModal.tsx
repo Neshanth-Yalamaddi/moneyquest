@@ -84,11 +84,13 @@ export const ObjectInspectionModal: React.FC<ObjectInspectionModalProps> = ({
         {/* Portal Status or Actions */}
         {isPortal && (
           <div className="mb-4 p-3 rounded-xl border text-xs flex items-center gap-2.5 bg-slate-950/60 border-slate-800">
-            {object.id === 'portal_city1_return' ? (
+            {object.id === 'portal_city1_return' || object.id === 'portal_city2_return' || object.id === 'portal_city3_return' ? (
               <>
                 <CheckCircle className="w-4 h-4 text-emerald-400 flex-shrink-0" />
                 <span className="text-emerald-300 font-medium">
-                  Road back to City 1 (Hostel Commons) is open. Return anytime to explore or speak with seniors.
+                  {object.id === 'portal_city1_return' && 'Road back to City 1 (Hostel Commons) is open. Return anytime to explore or speak with seniors.'}
+                  {object.id === 'portal_city2_return' && 'Road back to City 2 (Academic Bazaar) is open. Return anytime to explore or speak with seniors.'}
+                  {object.id === 'portal_city3_return' && 'Pier ferry back to City 3 (Investment Valley) is open. Return anytime to explore or review.'}
                 </span>
               </>
             ) : isCitySolved ? (
@@ -144,6 +146,19 @@ export const ObjectInspectionModal: React.FC<ObjectInspectionModalProps> = ({
             </button>
           )}
 
+          {isPortal && object.id === 'portal_city3_return' && onTransition && (
+            <button
+              onClick={() => {
+                onClose();
+                onTransition('city_investment_valley');
+              }}
+              className="px-4 py-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold rounded-xl flex items-center gap-1.5 shadow-md transition"
+            >
+              <span>Return to City 3</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+          )}
+
           {isPortal && object.id === 'portal_city2_exit' && isCitySolved && onTransition && (
             <button
               onClick={() => {
@@ -174,7 +189,7 @@ export const ObjectInspectionModal: React.FC<ObjectInspectionModalProps> = ({
             <button
               onClick={() => {
                 onClose();
-                onTransition('city_canteen_corner');
+                onTransition('city_harbor_town');
               }}
               className="px-4 py-2 bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-white text-xs font-bold rounded-xl flex items-center gap-1.5 shadow-md transition"
             >

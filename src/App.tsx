@@ -22,6 +22,9 @@ import { StudentLoginPage } from './components/auth/StudentLoginPage';
 import { NgoLoginPage } from './components/ngo/NgoLoginPage';
 import { NgoDashboardPage } from './components/ngo/NgoDashboardPage';
 import { NgoStudentDetailPage } from './components/ngo/NgoStudentDetailPage';
+import { GameCompletionModal } from './components/gameplay/GameCompletionModal';
+import { NgoDashboardModal } from './components/analytics/NgoDashboardModal';
+import { CharacterSelectScreen } from './components/character/CharacterSelectScreen';
 
 const MainAppContent: React.FC = () => {
   const { path, navigate, replace } = useRouter();
@@ -48,6 +51,8 @@ const MainAppContent: React.FC = () => {
   const [activeScenario, setActiveScenario] = useState<PuzzleScenario | null>(null);
   const [isTitleSettingsOpen, setIsTitleSettingsOpen] = useState(false);
   const [isBankruptcyModalDismissed, setIsBankruptcyModalDismissed] = useState(false);
+  const [isNgoDashboardOpen, setIsNgoDashboardOpen] = useState(false);
+  const [isGameCompletionOpen, setIsGameCompletionOpen] = useState(false);
 
   // Sync auth updates
   useEffect(() => {
@@ -127,7 +132,7 @@ const MainAppContent: React.FC = () => {
       const fresh = GameStorage.resetWallet(profile);
       handleUpdateProfile(fresh);
     }
-    setIsPrologueActive(true);
+    navigate(GameStorage.isNewUser(profile) ? '/game/character-select' : '/game/prologue');
   };
 
   const handleContinueJourney = () => {
@@ -186,6 +191,21 @@ const MainAppContent: React.FC = () => {
       GameStorage.isProgressSaved() ||
       Boolean(profile.completedScenarioIds && profile.completedScenarioIds.length > 0);
 
+      if (path === '/game/character-select') {
+        return (
+          <CharacterSelectScreen
+            language={language}
+            initialGender={profile.characterGender || 'boy'}
+            onSelectCharacter={(gender) => {
+              handleUpdateProfile({ ...profile, characterGender: gender, isNewUser: false });
+              setIsPrologueActive(true);
+              navigate('/game');
+            }}
+            onBack={() => navigate('/game')}
+          />
+        );
+      }
+
     return (
       <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans selection:bg-amber-500 selection:text-slate-950">
         {/* Global Navigation Bar - shown in world exploration */}
@@ -200,6 +220,7 @@ const MainAppContent: React.FC = () => {
             onResetWallet={handleResetWallet}
             isProgressSaved={true}
             onLogout={handleLogout}
+              onOpenGameCompletion={() => setIsGameCompletionOpen(true)}
           />
         )}
 
@@ -301,6 +322,27 @@ const MainAppContent: React.FC = () => {
             onResetProgress={handleResetProgress}
             onResetWallet={handleResetWallet}
             onLogout={handleLogout}
+          />
+        )}
+
+        {isGameCompletionOpen && (
+          <GameCompletionModal
+            profile={profile}
+            language={language}
+            isOpen={isGameCompletionOpen}
+            onClose={() => setIsGameCompletionOpen(false)}
+            onOpenNgoDashboard={() => {
+              setIsGameCompletionOpen(false);
+              setIsNgoDashboardOpen(true);
+            }}
+            onRestartJourney={handleResetProgress}
+          />
+        )}
+
+        {isNgoDashboardOpen && (
+          <NgoDashboardModal
+            profile={profile}
+            onClose={() => setIsNgoDashboardOpen(false)}
           />
         )}
       </div>
