@@ -380,6 +380,7 @@ const userProvidedCoords = [
   { x: 252, y: 495, name: 'South Road Curb East (252, 495)' },
   { x: 219, y: 196, name: 'School North Courtyard Wall (219, 196)' },
   { x: 654, y: 430, name: 'South Banyan Planter / Curb (654, 430)' },
+  { x: 707, y: 276, name: 'East Highway Roadside Barrier (707, 276)' },
   { x: 980, y: 425, name: 'East Bank Alley Dead-End Wall (980, 425)' },
 ];
 
