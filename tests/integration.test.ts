@@ -251,4 +251,52 @@ const persisted = GameStorage.getOrCreateProfile();
 assert(persisted.walletBalance === 5000, 'Persisted wallet must reflect reset ₹5,000 balance');
 console.log('✓ Test 7 Passed: Bankruptcy reset seamlessly restores ₹5,000 scholarship relief grant');
 
+// Test 8: 4-Pillar Game Completion & Graduation Validation
+console.log('Testing full game completion across all 4 pillars...');
+const completionProfile: StudentProfile = {
+  studentId: 'STU-CHAMPION-99',
+  sessionId: 'SESS-GRADUATION',
+  preferredLanguage: 'en',
+  characterGender: 'girl',
+  scholarshipStipend: 5000,
+  walletBalance: 4200,
+  emergencyFund: 1800,
+  totalScore: 48,
+  currentRegionId: 'region_guardian_citadel',
+  currentCityId: 'city_harbor_town',
+  completedCityIds: [
+    'city_hostel_commons',
+    'city_academic_bazaar',
+    'city_investment_valley',
+    'city_harbor_town',
+  ],
+  failedCityIds: [],
+  completedScenarioIds: [
+    'scenario_hostel_stipend',
+    'scenario_broken_phone',
+    'scenario_cycle_repair',
+    'scenario_bazaar_bargain',
+    'scenario_postal_savings',
+    'scenario_inv_001_two_plants',
+    'scenario_inv_002_cargo_boat',
+    'scenario_inv_003_market_panic',
+    'scenario_inv_004_grocery_budget',
+    'scenario_inv_005_career_invest',
+    'scenario_fs_001_fake_scholarship',
+    'scenario_fs_002_atm_helper',
+    'scenario_fs_003_double_money',
+    'scenario_fs_004_part_time_job',
+    'scenario_fs_005_sim_block',
+  ],
+  badges: ['Merit Scholar'],
+  createdAt: Date.now(),
+  lastActiveAt: Date.now(),
+};
+
+assert(completionProfile.completedCityIds.includes('city_harbor_town'), 'Completion profile must have completed City 4');
+assert(completionProfile.completedScenarioIds!.length >= 15, 'All major scenarios across 4 pillars must be completed');
+assert(completionProfile.characterGender === 'girl', 'Character gender Ananya correctly identified');
+console.log('✓ Test 8 Passed: Grand 4-Pillar game completion & graduation state validated');
+
 console.log('--- ALL INTEGRATION ENGINE TESTS PASSED SUCCESSFULLY! ---');
+

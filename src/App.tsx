@@ -18,6 +18,7 @@ import { WorldMapCanvas } from './components/world/WorldMapCanvas';
 import { NpcDialogueModal } from './components/world/NpcDialogueModal';
 import { PuzzleModal } from './components/gameplay/PuzzleModal';
 import { BankruptcyModal } from './components/gameplay/BankruptcyModal';
+import { GameCompletionModal } from './components/gameplay/GameCompletionModal';
 import { NgoDashboardModal } from './components/analytics/NgoDashboardModal';
 import { CharacterSelectScreen } from './components/character/CharacterSelectScreen';
 
@@ -43,6 +44,7 @@ export const App: React.FC = () => {
   const [activeScenario, setActiveScenario] = useState<PuzzleScenario | null>(null);
   const [isNgoDashboardOpen, setIsNgoDashboardOpen] = useState<boolean>(false);
   const [isTitleSettingsOpen, setIsTitleSettingsOpen] = useState<boolean>(false);
+  const [isGameCompletionOpen, setIsGameCompletionOpen] = useState<boolean>(false);
 
   // Sync profile changes to local storage
   const handleUpdateProfile = (updated: StudentProfile) => {
@@ -142,6 +144,7 @@ export const App: React.FC = () => {
           onReturnToHome={() => setScreen('landing')}
           onSaveProgress={handleToggleSaveProgress}
           onResetWallet={handleResetWallet}
+          onOpenGameCompletion={() => setIsGameCompletionOpen(true)}
           isProgressSaved={isProgressSaved}
         />
       )}
@@ -181,6 +184,7 @@ export const App: React.FC = () => {
               console.log('Entered city:', cityId);
             }}
             onResetWallet={handleResetWallet}
+            onOpenGameCompletion={() => setIsGameCompletionOpen(true)}
           />
         )}
       </main>
@@ -230,6 +234,21 @@ export const App: React.FC = () => {
       {/* Authorized NGO Reporting Dashboard */}
       {isNgoDashboardOpen && (
         <NgoDashboardModal profile={profile} onClose={() => setIsNgoDashboardOpen(false)} />
+      )}
+
+      {/* Grand Game Completion & Graduation Celebration Modal */}
+      {isGameCompletionOpen && (
+        <GameCompletionModal
+          profile={profile}
+          language={language}
+          isOpen={isGameCompletionOpen}
+          onClose={() => setIsGameCompletionOpen(false)}
+          onOpenNgoDashboard={() => {
+            setIsGameCompletionOpen(false);
+            setIsNgoDashboardOpen(true);
+          }}
+          onRestartJourney={handleResetProgress}
+        />
       )}
 
       {/* Title Screen Settings Modal */}

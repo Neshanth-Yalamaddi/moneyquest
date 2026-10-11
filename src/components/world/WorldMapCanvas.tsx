@@ -90,6 +90,7 @@ import {
   ZoomOut,
   Maximize2,
   Minimize2,
+  Trophy,
 } from 'lucide-react';
 
 interface WorldMapCanvasProps {
@@ -98,6 +99,7 @@ interface WorldMapCanvasProps {
   onInteractWithNpc: (npc: NPC) => void;
   onEnterCity: (cityId: string) => void;
   onResetWallet?: () => void;
+  onOpenGameCompletion?: () => void;
 }
 
 export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
@@ -106,6 +108,7 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
   onInteractWithNpc,
   onEnterCity,
   onResetWallet,
+  onOpenGameCompletion,
 }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
@@ -292,6 +295,30 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
 
   // Navigational arrow & portal unlock ONLY when ALL quests in the active city are completed
   const areAllQuestsCompleted = totalQuestCount > 0 && completedQuestCount === totalQuestCount;
+
+  // Auto-trigger Grand Game Completion graduation celebration modal when City 4 completes
+  const [hasCelebratedCompletion, setHasCelebratedCompletion] = useState<boolean>(() => {
+    try {
+      return sessionStorage.getItem('moneyquest_celebration_shown') === 'true';
+    } catch {
+      return false;
+    }
+  });
+
+  useEffect(() => {
+    if (isCity4 && areAllQuestsCompleted && !hasCelebratedCompletion) {
+      setHasCelebratedCompletion(true);
+      try {
+        sessionStorage.setItem('moneyquest_celebration_shown', 'true');
+      } catch {}
+      if (onOpenGameCompletion) {
+        const timer = setTimeout(() => {
+          onOpenGameCompletion();
+        }, 500);
+        return () => clearTimeout(timer);
+      }
+    }
+  }, [isCity4, areAllQuestsCompleted, hasCelebratedCompletion, onOpenGameCompletion]);
 
   // Load Map Assets with Cache Invalidation & Fallback Protection for City 1, City 2, City 3 and City 4
   useEffect(() => {
@@ -1517,6 +1544,16 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
                 <span>Return to City 3</span>
                 <Navigation className="w-3 h-3" />
               </button>
+              {areAllQuestsCompleted && onOpenGameCompletion && (
+                <button
+                  onClick={onOpenGameCompletion}
+                  className="px-2.5 py-1 bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 hover:from-amber-400 hover:to-amber-300 text-slate-950 text-xs font-black rounded-lg flex items-center gap-1 shadow-md animate-pulse transition"
+                  title="View Grand Graduation Certificate & Honors"
+                >
+                  <Trophy className="w-3.5 h-3.5 text-slate-950" />
+                  <span>Graduation Ceremony 🏆</span>
+                </button>
+              )}
             </div>
           )}
 
