@@ -23,6 +23,7 @@ interface TitleSettingsModalProps {
   onToggleSaveProgress: () => void;
   onResetProgress: () => void;
   onResetWallet: () => void;
+  onLogout?: () => void;
 }
 
 export const TitleSettingsModal: React.FC<TitleSettingsModalProps> = ({
@@ -34,6 +35,7 @@ export const TitleSettingsModal: React.FC<TitleSettingsModalProps> = ({
   onToggleSaveProgress,
   onResetProgress,
   onResetWallet,
+  onLogout,
 }) => {
   const [audioSettings, setAudioSettings] = useState(() => audioManager.getSettings());
   const [volume, setVolume] = useState(() => Math.round(audioManager.getSettings().volume * 100));
@@ -235,6 +237,19 @@ export const TitleSettingsModal: React.FC<TitleSettingsModalProps> = ({
                 <RotateCcw className="w-3.5 h-3.5" /> Reset Game Data
               </button>
             </div>
+
+            {onLogout && (
+              <button
+                onClick={() => {
+                  audioManager.playClick();
+                  onClose();
+                  onLogout();
+                }}
+                className="w-full mt-2 py-2 px-3 rounded-xl bg-slate-800 hover:bg-rose-950 text-slate-300 hover:text-rose-300 border border-slate-700 text-xs font-bold transition flex items-center justify-center gap-1.5"
+              >
+                Log Out of Quest
+              </button>
+            )}
           </div>
         </div>
 

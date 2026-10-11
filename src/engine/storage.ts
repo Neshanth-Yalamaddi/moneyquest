@@ -17,6 +17,9 @@ export class GameStorage {
   static isProgressSaved(): boolean {
     try {
       if (typeof window !== 'undefined' && window.localStorage) {
+        if (window.localStorage.getItem('moneyquest_auth_token')) {
+          return true;
+        }
         return window.localStorage.getItem(STORAGE_KEY_PROGRESS_SAVED) === 'true';
       }
     } catch (e) {

@@ -32,6 +32,7 @@ interface PauseMenuModalProps {
   onOpenQuests?: () => void;
   onOpenAchievements?: () => void;
   onOpenDashboard?: () => void;
+  onLogout?: () => void;
 }
 
 export const PauseMenuModal: React.FC<PauseMenuModalProps> = ({
@@ -45,6 +46,7 @@ export const PauseMenuModal: React.FC<PauseMenuModalProps> = ({
   onOpenQuests,
   onOpenAchievements,
   onOpenDashboard,
+  onLogout,
 }) => {
   const t = TRANSLATIONS[language].pause;
   const [activeTab, setActiveTab] = useState<'settings' | 'controls'>('settings');
@@ -368,17 +370,16 @@ export const PauseMenuModal: React.FC<PauseMenuModalProps> = ({
             </button>
           )}
 
-          {onOpenDashboard && (
+          {onLogout && (
             <button
               onClick={() => {
                 audioManager.playClick();
                 onClose();
-                onOpenDashboard();
+                onLogout();
               }}
-              className="p-2 rounded-xl bg-indigo-900/60 hover:bg-indigo-900 text-indigo-200 text-xs font-semibold flex items-center justify-center gap-1.5 transition border border-indigo-500/30"
+              className="p-2 rounded-xl bg-slate-800 hover:bg-rose-950 text-slate-300 hover:text-rose-300 text-xs font-semibold flex items-center justify-center gap-1.5 transition border border-slate-700"
             >
-              <BarChart3 className="w-3.5 h-3.5" />
-              <span>NGO Reports</span>
+              <span>Log Out</span>
             </button>
           )}
 

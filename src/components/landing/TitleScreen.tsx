@@ -6,29 +6,33 @@ import {
   VolumeX,
   Maximize,
   Minimize,
-  BarChart3,
-  ArrowUpRight,
   Sparkles,
   Info,
+  User,
+  LogOut,
 } from 'lucide-react';
 import titleScreenImg from '../../assets/ui/title_screen.jpg';
 
 interface TitleScreenProps {
   language: GameLanguage;
   hasSavedGame: boolean;
+  studentId?: string;
   onStartAdventure: () => void;
   onContinueJourney: () => void;
-  onOpenDashboard: () => void;
+  onOpenDashboard?: () => void;
   onOpenSettings: () => void;
+  onLogout?: () => void;
 }
 
 export const TitleScreen: React.FC<TitleScreenProps> = ({
   language,
   hasSavedGame,
+  studentId,
   onStartAdventure,
   onContinueJourney,
   onOpenDashboard,
   onOpenSettings,
+  onLogout,
 }) => {
   const [isMuted, setIsMuted] = useState(() => audioManager.getSettings().isMuted);
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -129,29 +133,27 @@ export const TitleScreen: React.FC<TitleScreenProps> = ({
           </button>
         </div>
 
-        {/* Top-Right Discreet NGO / Educator Portal Button */}
-        <div className="absolute top-3 right-3 sm:top-5 sm:right-5 z-20">
-          <button
-            onClick={() => {
-              audioManager.playClick();
-              onOpenDashboard();
-            }}
-            className="group flex items-center gap-2 sm:gap-2.5 px-3 py-1.5 sm:px-4 sm:py-2.5 bg-slate-900/85 hover:bg-slate-900 text-indigo-300 hover:text-white rounded-xl sm:rounded-2xl border border-indigo-500/50 hover:border-indigo-400 shadow-xl backdrop-blur-md transition-all duration-200 hover:scale-105 active:scale-95"
-            title="Open NGO Educator & Stewardship Portal"
-          >
-            <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-indigo-500/20 border border-indigo-400/40 flex items-center justify-center text-indigo-300 group-hover:text-amber-300 transition-colors">
-              <BarChart3 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+        {/* Top-Right Authenticated Student Badge & Logout */}
+        <div className="absolute top-3 right-3 sm:top-5 sm:right-5 z-20 flex items-center gap-2">
+          {studentId && (
+            <div className="flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 bg-slate-900/85 text-amber-300 rounded-xl sm:rounded-2xl border border-amber-500/40 shadow-xl backdrop-blur-md text-xs font-mono font-bold">
+              <User className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-400" />
+              <span>{studentId}</span>
             </div>
-            <div className="text-left">
-              <div className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-indigo-300/80 group-hover:text-indigo-200">
-                NGO & Educator
-              </div>
-              <div className="text-[11px] sm:text-xs font-black text-white flex items-center gap-1">
-                Analytics Portal
-                <ArrowUpRight className="w-3 h-3 text-indigo-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-              </div>
-            </div>
-          </button>
+          )}
+          {onLogout && (
+            <button
+              onClick={() => {
+                audioManager.playClick();
+                onLogout();
+              }}
+              className="p-2 sm:p-2.5 rounded-xl sm:rounded-2xl bg-slate-900/85 hover:bg-rose-950 text-slate-300 hover:text-rose-300 border border-slate-700/80 hover:border-rose-500/40 shadow-xl backdrop-blur-md transition-all duration-150 active:scale-95"
+              title="Log Out of Quest"
+              aria-label="Log Out"
+            >
+              <LogOut className="w-4 h-4 sm:w-5 sm:h-5" />
+            </button>
+          )}
         </div>
 
         {/* ========================================================================= */}

@@ -26,13 +26,14 @@ export interface NavbarProps {
   profile: StudentProfile;
   language: GameLanguage;
   onLanguageChange: (lang: GameLanguage) => void;
-  onOpenDashboard: () => void;
+  onOpenDashboard?: () => void;
   onResetProgress: () => void;
   onReturnToHome: () => void;
   onUpdateProfile?: (profile: StudentProfile) => void;
   onSaveProgress?: () => void;
   onResetWallet?: () => void;
   isProgressSaved?: boolean;
+  onLogout?: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -46,6 +47,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   onSaveProgress,
   onResetWallet,
   isProgressSaved = false,
+  onLogout,
 }) => {
   const t = TRANSLATIONS[language].nav;
 
@@ -320,7 +322,7 @@ export const Navbar: React.FC<NavbarProps> = ({
         onResetProgress={onResetProgress}
         onOpenQuests={() => setIsQuestsOpen(true)}
         onOpenAchievements={() => setIsAchievementsOpen(true)}
-        onOpenDashboard={onOpenDashboard}
+        onLogout={onLogout}
       />
 
       <RegionQuestPanel
