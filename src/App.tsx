@@ -15,12 +15,25 @@ import { PrologueModal } from './components/landing/PrologueModal';
 import { WorldMapCanvas } from './components/world/WorldMapCanvas';
 import { NpcDialogueModal } from './components/world/NpcDialogueModal';
 import { PuzzleModal } from './components/gameplay/PuzzleModal';
+import { BankruptcyModal } from './components/gameplay/BankruptcyModal';
 import { NgoDashboardModal } from './components/analytics/NgoDashboardModal';
 
 export const App: React.FC = () => {
   const [profile, setProfile] = useState<StudentProfile>(() => GameStorage.getOrCreateProfile());
   const [language, setLanguage] = useState<GameLanguage>('en');
-  const [screen, setScreen] = useState<GameScreen>('landing');
+  // Screen state initialized from persistent storage so reload continues directly in-game
+  const [screen, setScreen] = useState<GameScreen>(() => {
+    const saved = GameStorage.getSavedScreen();
+    if (saved === 'world' || saved === 'prologue') {
+      return saved;
+    }
+    return saved || 'landing';
+  });
+
+  // Automatically persist screen changes across page reloads
+  useEffect(() => {
+    GameStorage.saveScreen(screen);
+  }, [screen]);
 
   // Modal states
   const [activeNpc, setActiveNpc] = useState<NPC | null>(null);
@@ -48,11 +61,45 @@ export const App: React.FC = () => {
     }
   };
 
+  const [isProgressSaved, setIsProgressSaved] = useState<boolean>(() => GameStorage.isProgressSaved());
+
+  const [isBankruptcyModalDismissed, setIsBankruptcyModalDismissed] = useState<boolean>(false);
+
+  // Automatically allow bankruptcy modal when wallet reaches 0 again
+  useEffect(() => {
+    if (profile.walletBalance > 0) {
+      setIsBankruptcyModalDismissed(false);
+    }
+  }, [profile.walletBalance]);
+
+  const handleToggleSaveProgress = () => {
+    const next = !isProgressSaved;
+    setIsProgressSaved(next);
+    GameStorage.setProgressSaved(next);
+    if (next) {
+      GameStorage.saveProfile(profile);
+    }
+  };
+
+  const handleResetWallet = () => {
+    const fresh = GameStorage.resetBankruptcy(profile);
+    setProfile(fresh);
+    setIsBankruptcyModalDismissed(false);
+  };
+
   const handleStartAdventure = () => {
+    if (!GameStorage.isProgressSaved()) {
+      const fresh = GameStorage.resetWallet(profile);
+      setProfile(fresh);
+    }
     setScreen('prologue');
   };
 
   const handleEnterWorld = () => {
+    if (!GameStorage.isProgressSaved()) {
+      const fresh = GameStorage.resetWallet(profile);
+      setProfile(fresh);
+    }
     setScreen('world');
   };
 
@@ -77,6 +124,9 @@ export const App: React.FC = () => {
         onOpenDashboard={() => setIsNgoDashboardOpen(true)}
         onResetProgress={handleResetProgress}
         onReturnToHome={() => setScreen('landing')}
+        onSaveProgress={handleToggleSaveProgress}
+        onResetWallet={handleResetWallet}
+        isProgressSaved={isProgressSaved}
       />
 
       {/* Main View Port */}
@@ -97,6 +147,7 @@ export const App: React.FC = () => {
             onEnterCity={(cityId) => {
               console.log('Entered city:', cityId);
             }}
+            onResetWallet={handleResetWallet}
           />
         )}
       </main>
@@ -104,6 +155,17 @@ export const App: React.FC = () => {
       {/* Narrative Prologue Modal */}
       {screen === 'prologue' && (
         <PrologueModal language={language} onProceed={handleEnterWorld} />
+      )}
+
+      {/* Student Bankruptcy Rescue Modal */}
+      {profile.walletBalance <= 0 && !activeScenario && !isBankruptcyModalDismissed && (
+        <BankruptcyModal
+          profile={profile}
+          language={language}
+          onResetBankruptcy={handleResetWallet}
+          onFullReset={handleResetProgress}
+          onClose={() => setIsBankruptcyModalDismissed(true)}
+        />
       )}
 
       {/* NPC Dialogue Modal */}

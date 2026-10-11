@@ -11386,4 +11386,637 @@ export const PUZZLES: Record<string, PuzzleScenario> = {
     }
   ]
 },
+
+  // Scenario: City 2 - Cycle Repair Technician (Scenario A)
+  scenario_cycle_repair: {
+    id: 'scenario_cycle_repair',
+    cityId: 'city_academic_bazaar',
+    pillar: 'save',
+    title: {
+      en: 'The Broken Cycle Before Exams',
+      hi: 'परीक्षा से पहले टूटी साइकिल',
+      te: 'పరీక్షలకు ముందు సైకిల్ రిపేర్',
+    },
+    subtitle: {
+      en: 'Solve morning commute breakdown without predatory debt traps',
+      hi: 'कर्ज के जाल में फंसे बिना सुबह की यात्रा की समस्या सुलझाएं',
+      te: 'అప్పుల ఊబిలో పడకుండా ప్రయాణ సమస్యను పరిష్కరించండి',
+    },
+    situationContext: {
+      en: 'Your bicycle chain snapped and front tyre punctured on your way to morning university exams in the Academic Bazaar. Walking takes 45 minutes and you will miss the test! Cycle Mechanic Murthy can do an express repair. An instant lending flyer nearby promises "Instant ₹500 loan with 50% weekly interest".',
+      hi: 'एकेडमिक बाजार में सुबह की परीक्षा के रास्ते में आपकी साइकिल की चेन टूट गई और टायर पंचर हो गया। पैदल जाने में 45 मिनट लगेंगे और परीक्षा छूट जाएगी! मिस्त्री मूर्ति तुरंत ठीक कर सकते हैं। पास में 50% साप्ताहिक ब्याज पर ₹500 के इंस्टेंट लोन का पर्चा चिपका है।',
+      te: 'అకాడమిక్ బజార్‌లో పరీక్షలకు వెళ్తుండగా సైకిల్ చైన్ ఊడిపోయి టైర్ పంచర్ అయింది. నడిస్తే 45 నిమిషాలు పడుతుంది, పరీక్ష మిస్ అవుతారు! మెకానిక్ మూర్తి వెంటనే బాగు చేస్తానన్నాడు. పక్కనే 50% వడ్డీకి ₹500 అప్పు ఇస్తామని పోస్టర్ ఉంది.',
+    },
+    stipendContext: 'Emergency Cost: ₹150 Express Repair | Loan Trap: 50% Weekly Interest',
+    educationalHint: {
+      en: 'Small emergency repairs should be paid from your dedicated transport or emergency cushion. Never borrow from street lending sharks for petty amounts.',
+      hi: 'छोटी आपातकालीन मरम्मत का भुगतान अपनी परिवहन बचत से करें। छोटी रकम के लिए कभी भी भारी ब्याज पर कर्ज न लें।',
+      te: 'చిన్న చిన్న రిపేర్లకు రవాణా లేదా అత్యవసర నిధిని వాడండి. స్వల్ప మొత్తం కోసం అధిక వడ్డీకి అప్పు చేయవద్దు.',
+    },
+    choices: [
+      {
+        id: 'choice_cycle_best',
+        tier: 'best',
+        text: {
+          en: 'Pay ₹150 for puncture patch and chain tightening from your pre-allocated transport envelope.',
+          hi: 'अपने यात्रा खर्च के लिफाफे से ₹150 देकर पंचर और चेन ठीक करवाएं।',
+          te: 'మీ రవాణా బడ్జెట్ నుండి ₹150 చెల్లించి పంచర్, చైన్ బాగు చేయించండి.',
+        },
+        outcomeDescription: {
+          en: 'Cycle repaired in 10 minutes! You reach the university exam hall on time and your budget remains completely sound.',
+          hi: '10 मिनट में साइकिल ठीक हो गई! आप समय पर परीक्षा हॉल पहुंचे और आपका बजट भी सुरक्षित रहा।',
+          te: '10 నిమిషాల్లో సైకిల్ సిద్ధమైంది! సమయానికి పరీక్ష హాలుకు చేరుకున్నారు, బడ్జెట్ కూడా భద్రంగా ఉంది.',
+        },
+        financialImpact: { walletDelta: -150, emergencyDelta: 0, scoreDelta: 100, stressDelta: -15 },
+        pedagogicalFeedback: {
+          en: 'Having a designated transport budget cushions you against daily commute surprises without stress.',
+          hi: 'यात्रा के लिए अलग बजट रखने से दैनिक जीवन की आकस्मिक समस्याओं से निपटना आसान होता है।',
+          te: 'రవాణా కోసం ప్రత్యేక బడ్జెట్ ఉంటే అనుకోని ఖర్చులను సులభంగా ఎదుర్కోవచ్చు.',
+        },
+        educationalVideoTitle: 'Budgeting for Daily Student Commute',
+      },
+      {
+        id: 'choice_cycle_good',
+        tier: 'good',
+        text: {
+          en: 'Pay ₹150 for the repair by agreeing to cut discretionary canteen snacks for the rest of the week.',
+          hi: 'इस हफ्ते कैंटीन के स्नैक्स में कटौती करके ₹150 की मरम्मत का भुगतान करें।',
+          te: 'ఈ వారం క్యాంటీన్ ఖర్చులు తగ్గించుకుని ₹150 రిపేర్ బిల్లు చెల్లించండి.',
+        },
+        outcomeDescription: {
+          en: 'You arrived on time and kept debt away, though you have to be disciplined with canteen food this week.',
+          hi: 'आप समय पर पहुंचे और कर्ज से बचे, हालांकि इस हफ्ते कैंटीन में थोड़ा संयम बरतना होगा।',
+          te: 'సమయానికి కాలేజీకి చేరారు, అప్పు లేకుండా సమస్య పరిష్కారమైంది.',
+        },
+        financialImpact: { walletDelta: -150, emergencyDelta: 0, scoreDelta: 75, stressDelta: 0 },
+        pedagogicalFeedback: {
+          en: 'Reallocating from flexible Wants is an acceptable second-best way to manage sudden mini-emergencies.',
+          hi: 'अनावश्यक खर्चों से पैसे बचाकर आकस्मिक जरूरत पूरी करना एक व्यावहारिक तरीका है।',
+          te: 'సరదాల ఖర్చులను తగ్గించి అత్యవసర ఖర్చులకు వాడటం మంచి ప్రత్యామ్నాయం.',
+        },
+      },
+      {
+        id: 'choice_cycle_bad',
+        tier: 'bad',
+        text: {
+          en: 'Buy an expensive imported racing chain and alloy pedals for ₹900, draining your textbook budget.',
+          hi: '₹900 में महंगी रेसिंग चेन और पैडल लगवाएं, जिससे किताबों के पैसे खत्म हो जाएं।',
+          te: 'పుస్తకాల డబ్బులు ఖర్చు చేసి ₹900 పెట్టి ఖరీదైన రేసింగ్ చైన్, విడిభాగాలు వేయించండి.',
+        },
+        outcomeDescription: {
+          en: 'Your cycle looks fancy, but you cannot afford your required semester guides at the book market!',
+          hi: 'साइकिल तो चमक गई, लेकिन बाजार में जरूरी गाइड और किताबें खरीदने के पैसे नहीं बचे!',
+          te: 'సైకిల్ బాగుంది కానీ సెమిస్టర్ పుస్తకాలు కొనుక్కోవడానికి డబ్బులు మిగల్లేదు!',
+        },
+        financialImpact: { walletDelta: -900, emergencyDelta: 0, scoreDelta: -30, stressDelta: 30 },
+        pedagogicalFeedback: {
+          en: 'Turning a necessary repair into a luxury upgrade leads to lifestyle inflation and study deprivation.',
+          hi: 'साधारण मरम्मत को विलासिता में बदलने से बजट बिगड़ता है और पढ़ाई प्रभावित होती है।',
+          te: 'చిన్న రిపేర్‌ను లగ్జరీగా మార్చడం వల్ల అసలైన చదువు ఖర్చులకు ఇబ్బంది కలుగుతుంది.',
+        },
+      },
+      {
+        id: 'choice_cycle_very_bad',
+        tier: 'very_bad',
+        text: {
+          en: 'Take the ₹500 street lending flyer offer at 50% weekly compounding interest.',
+          hi: '50% साप्ताहिक चक्रवृद्धि ब्याज पर पर्चे वाले से ₹500 का त्वरित कर्ज लें।',
+          te: 'వారానికి 50% చక్రవడ్డీతో పోస్టర్ చూసి ₹500 అప్పు తీసుకోండి.',
+        },
+        outcomeDescription: {
+          en: 'PREDATORY EXTORTION! In 2 weeks, the lender demands ₹1,125 and confiscates your cycle until paid!',
+          hi: 'वसूली का आतंक! दो हफ्ते में ₹1,125 की मांग हुई और भुगतान न करने पर साइकिल जब्त कर ली गई!',
+          te: 'భారీ దోపిడీ! రెండు వారాల్లో ₹1,125 డిమాండ్ చేస్తూ సైకిల్ లాక్కున్నారు!',
+        },
+        financialImpact: { walletDelta: -1000, emergencyDelta: 0, scoreDelta: -80, stressDelta: 60 },
+        pedagogicalFeedback: {
+          en: 'Street loan sharks charge astronomical annualized rates (>2,600% APR). Never borrow informally without regulation.',
+          hi: 'अनाधिकृत साहूकार जानलेवा ब्याज वसूलते हैं। कभी भी बिना नियमन वाले अवैध कर्ज न लें।',
+          te: 'అనధికార వడ్డీ వ్యాపారులు అన్యాయమైన వడ్డీలు వసూలు చేస్తారు. వాటికి దూరంగా ఉండాలి.',
+        },
+        educationalVideoTitle: 'The Truth About Unregulated Loan Sharks',
+      },
+    ],
+    steps: [
+      {
+        id: 'scenario_cycle_repair_step_1',
+        title: {
+      en: 'The Broken Cycle Before Exams',
+      hi: 'परीक्षा से पहले टूटी साइकिल',
+      te: 'పరీక్షలకు ముందు సైకిల్ రిపేర్',
+    },
+        situationContext: {
+      en: 'Your bicycle chain snapped and front tyre punctured on your way to morning university exams in the Academic Bazaar. Walking takes 45 minutes and you will miss the test! Cycle Mechanic Murthy can do an express repair. An instant lending flyer nearby promises "Instant ₹500 loan with 50% weekly interest".',
+      hi: 'एकेडमिक बाजार में सुबह की परीक्षा के रास्ते में आपकी साइकिल की चेन टूट गई और टायर पंचर हो गया। पैदल जाने में 45 मिनट लगेंगे और परीक्षा छूट जाएगी! मिस्त्री मूर्ति तुरंत ठीक कर सकते हैं। पास में 50% साप्ताहिक ब्याज पर ₹500 के इंस्टेंट लोन का पर्चा चिपका है।',
+      te: 'అకాడమిక్ బజార్‌లో పరీక్షలకు వెళ్తుండగా సైకిల్ చైన్ ఊడిపోయి టైర్ పంచర్ అయింది. నడిస్తే 45 నిమిషాలు పడుతుంది, పరీక్ష మిస్ అవుతారు! మెకానిక్ మూర్తి వెంటనే బాగు చేస్తానన్నాడు. పక్కనే 50% వడ్డీకి ₹500 అప్పు ఇస్తామని పోస్టర్ ఉంది.',
+    },
+        choices: [
+      {
+        id: 'choice_cycle_best',
+        tier: 'best',
+        text: {
+          en: 'Pay ₹150 for puncture patch and chain tightening from your pre-allocated transport envelope.',
+          hi: 'अपने यात्रा खर्च के लिफाफे से ₹150 देकर पंचर और चेन ठीक करवाएं।',
+          te: 'మీ రవాణా బడ్జెట్ నుండి ₹150 చెల్లించి పంచర్, చైన్ బాగు చేయించండి.',
+        },
+        outcomeDescription: {
+          en: 'Cycle repaired in 10 minutes! You reach the university exam hall on time and your budget remains completely sound.',
+          hi: '10 मिनट में साइकिल ठीक हो गई! आप समय पर परीक्षा हॉल पहुंचे और आपका बजट भी सुरक्षित रहा।',
+          te: '10 నిమిషాల్లో సైకిల్ సిద్ధమైంది! సమయానికి పరీక్ష హాలుకు చేరుకున్నారు, బడ్జెట్ కూడా భద్రంగా ఉంది.',
+        },
+        financialImpact: { walletDelta: -150, emergencyDelta: 0, scoreDelta: 100, stressDelta: -15 },
+        pedagogicalFeedback: {
+          en: 'Having a designated transport budget cushions you against daily commute surprises without stress.',
+          hi: 'यात्रा के लिए अलग बजट रखने से दैनिक जीवन की आकस्मिक समस्याओं से निपटना आसान होता है।',
+          te: 'రవాణా కోసం ప్రత్యేక బడ్జెట్ ఉంటే అనుకోని ఖర్చులను సులభంగా ఎదుర్కోవచ్చు.',
+        },
+        educationalVideoTitle: 'Budgeting for Daily Student Commute',
+      },
+      {
+        id: 'choice_cycle_good',
+        tier: 'good',
+        text: {
+          en: 'Pay ₹150 for the repair by agreeing to cut discretionary canteen snacks for the rest of the week.',
+          hi: 'इस हफ्ते कैंटीन के स्नैक्स में कटौती करके ₹150 की मरम्मत का भुगतान करें।',
+          te: 'ఈ వారం క్యాంటీన్ ఖర్చులు తగ్గించుకుని ₹150 రిపేర్ బిల్లు చెల్లించండి.',
+        },
+        outcomeDescription: {
+          en: 'You arrived on time and kept debt away, though you have to be disciplined with canteen food this week.',
+          hi: 'आप समय पर पहुंचे और कर्ज से बचे, हालांकि इस हफ्ते कैंटीन में थोड़ा संयम बरतना होगा।',
+          te: 'సమయానికి కాలేజీకి చేరారు, అప్పు లేకుండా సమస్య పరిష్కారమైంది.',
+        },
+        financialImpact: { walletDelta: -150, emergencyDelta: 0, scoreDelta: 75, stressDelta: 0 },
+        pedagogicalFeedback: {
+          en: 'Reallocating from flexible Wants is an acceptable second-best way to manage sudden mini-emergencies.',
+          hi: 'अनावश्यक खर्चों से पैसे बचाकर आकस्मिक जरूरत पूरी करना एक व्यावहारिक तरीका है।',
+          te: 'సరదాల ఖర్చులను తగ్గించి అత్యవసర ఖర్చులకు వాడటం మంచి ప్రత్యామ్నాయం.',
+        },
+      },
+      {
+        id: 'choice_cycle_bad',
+        tier: 'bad',
+        text: {
+          en: 'Buy an expensive imported racing chain and alloy pedals for ₹900, draining your textbook budget.',
+          hi: '₹900 में महंगी रेसिंग चेन और पैडल लगवाएं, जिससे किताबों के पैसे खत्म हो जाएं।',
+          te: 'పుస్తకాల డబ్బులు ఖర్చు చేసి ₹900 పెట్టి ఖరీదైన రేసింగ్ చైన్, విడిభాగాలు వేయించండి.',
+        },
+        outcomeDescription: {
+          en: 'Your cycle looks fancy, but you cannot afford your required semester guides at the book market!',
+          hi: 'साइकिल तो चमक गई, लेकिन बाजार में जरूरी गाइड और किताबें खरीदने के पैसे नहीं बचे!',
+          te: 'సైకిల్ బాగుంది కానీ సెమిస్టర్ పుస్తకాలు కొనుక్కోవడానికి డబ్బులు మిగల్లేదు!',
+        },
+        financialImpact: { walletDelta: -900, emergencyDelta: 0, scoreDelta: -30, stressDelta: 30 },
+        pedagogicalFeedback: {
+          en: 'Turning a necessary repair into a luxury upgrade leads to lifestyle inflation and study deprivation.',
+          hi: 'साधारण मरम्मत को विलासिता में बदलने से बजट बिगड़ता है और पढ़ाई प्रभावित होती है।',
+          te: 'చిన్న రిపేర్‌ను లగ్జరీగా మార్చడం వల్ల అసలైన చదువు ఖర్చులకు ఇబ్బంది కలుగుతుంది.',
+        },
+      },
+      {
+        id: 'choice_cycle_very_bad',
+        tier: 'very_bad',
+        text: {
+          en: 'Take the ₹500 street lending flyer offer at 50% weekly compounding interest.',
+          hi: '50% साप्ताहिक चक्रवृद्धि ब्याज पर पर्चे वाले से ₹500 का त्वरित कर्ज लें।',
+          te: 'వారానికి 50% చక్రవడ్డీతో పోస్టర్ చూసి ₹500 అప్పు తీసుకోండి.',
+        },
+        outcomeDescription: {
+          en: 'PREDATORY EXTORTION! In 2 weeks, the lender demands ₹1,125 and confiscates your cycle until paid!',
+          hi: 'वसूली का आतंक! दो हफ्ते में ₹1,125 की मांग हुई और भुगतान न करने पर साइकिल जब्त कर ली गई!',
+          te: 'భారీ దోపిడీ! రెండు వారాల్లో ₹1,125 డిమాండ్ చేస్తూ సైకిల్ లాక్కున్నారు!',
+        },
+        financialImpact: { walletDelta: -1000, emergencyDelta: 0, scoreDelta: -80, stressDelta: 60 },
+        pedagogicalFeedback: {
+          en: 'Street loan sharks charge astronomical annualized rates (>2,600% APR). Never borrow informally without regulation.',
+          hi: 'अनाधिकृत साहूकार जानलेवा ब्याज वसूलते हैं। कभी भी बिना नियमन वाले अवैध कर्ज न लें।',
+          te: 'అనధికార వడ్డీ వ్యాపారులు అన్యాయమైన వడ్డీలు వసూలు చేస్తారు. వాటికి దూరంగా ఉండాలి.',
+        },
+        educationalVideoTitle: 'The Truth About Unregulated Loan Sharks',
+      },
+    ],
+      }
+    ],
+  },
+
+  // Scenario: City 2 - Koti Bazaar Merchant Sourcing (Scenario B)
+  scenario_bazaar_bargain: {
+    id: 'scenario_bazaar_bargain',
+    cityId: 'city_academic_bazaar',
+    pillar: 'budget',
+    title: {
+      en: 'Koti Market Second-Hand Sourcing',
+      hi: 'कोटी बाजार में किताबों की समझदार खरीदारी',
+      te: 'కోటి మార్కెట్‌లో పుస్తకాల బేరం',
+    },
+    subtitle: {
+      en: 'Negotiate study kits and lab manuals for ₹450 vs ₹1,500 retail',
+      hi: 'दुकान के ₹1,500 की तुलना में ₹450 में अध्ययन सामग्री खरीदें',
+      te: 'కొత్తవి ₹1,500 బదులు ₹450కే పాత పుస్తకాల బండిల్ కొనండి',
+    },
+    situationContext: {
+      en: 'You need semester guides and laboratory journals. Retail shops charge ₹1,500. Bazaar Merchant Chander has pre-owned bundles in great condition for ₹500, or a joint bundle with fellow students for ₹450 each.',
+      hi: 'आपको सेमेस्टर गाइड और लैब मैनुअल चाहिए। नई दुकानों पर कीमत ₹1,500 है। व्यापारी चंदर के पास अच्छी हालत में ₹500 का पुराना बंडल है, या दोस्तों के साथ मिलकर ₹450 प्रति बंडल मिल सकता है।',
+      te: 'మీకు సెమిస్టర్ గైడ్లు, ల్యాబ్ రికార్డులు అవసరం. కొత్తవి ₹1,500. వ్యాపారి చందర్ వద్ద మంచి సెకండ్ హ్యాండ్ సెట్ ₹500, లేదా మిత్రులతో కలిసి కొంటే ఒక్కొక్కరికి ₹450 మాత్రమే.',
+    },
+    stipendContext: 'Semester Study Budget: ₹1,500 Retail vs ₹450 Group Thrift',
+    educationalHint: {
+      en: 'Group purchasing power and buying used study material saves massive cash for students. Every rupee saved stays in your student wallet.',
+      hi: 'दोस्तों के साथ मिलकर थोक में खरीदना और पुरानी किताबें लेना भारी बचत कराता है।',
+      te: 'స్నేహితులతో కలిసి కొనడం వల్ల మరియు పాత పుస్తకాలు వాడటం వల్ల చాలా డబ్బు ఆదా అవుతుంది.',
+    },
+    choices: [
+      {
+        id: 'choice_bazaar_best',
+        tier: 'best',
+        text: {
+          en: 'Pool purchase with a classmate to buy two bundled study kits for ₹450 each.',
+          hi: 'सहपाठी के साथ मिलकर दो बंडल ₹450 प्रति छात्र के हिसाब से खरीदें।',
+          te: 'క్లాస్‌మేట్‌తో కలిసి ఇద్దరికీ సరిపడా పుస్తకాలను ఒక్కొక్కరు ₹450కే కొనుగోలు చేయండి.',
+        },
+        outcomeDescription: {
+          en: 'Brilliant negotiation! You saved 70% of retail price and keep ₹1,050 for exam fees and daily needs.',
+          hi: 'शानदार सौदा! आपने 70% पैसे बचाए और परीक्षा शुल्क के लिए ₹1,050 सुरक्षित रखे।',
+          te: 'అద్భుతమైన బేరం! 70% డబ్బు ఆదా చేశారు, మిగిలిన ₹1,050 పరీక్ష ఫీజులకు భద్రంగా ఉంది.',
+        },
+        financialImpact: { walletDelta: -450, emergencyDelta: 0, scoreDelta: 100, stressDelta: -10 },
+        pedagogicalFeedback: {
+          en: 'Leveraging collective student purchasing power is a cornerstone of smart student financial life.',
+          hi: 'छात्रों के समूह द्वारा मिलकर खरीदारी करना पैसे बचाने का एक बेहतरीन तरीका है।',
+          te: 'విద్యార్థులు కలిసి కొనడం ద్వారా మార్కెట్‌లో మంచి రాయితీలు పొందవచ్చు.',
+        },
+        educationalVideoTitle: 'Collective Bargaining for Students',
+      },
+      {
+        id: 'choice_bazaar_good',
+        tier: 'good',
+        text: {
+          en: 'Buy the individual second-hand study kit for ₹500 directly from the stall.',
+          hi: 'दुकान से अकेले ही ₹500 में पुराना अध्ययन बंडल खरीदें।',
+          te: 'స్టాల్ నుండి నేరుగా ₹500 పెట్టి సెకండ్ హ్యాండ్ సెట్ తీసుకోండి.',
+        },
+        outcomeDescription: {
+          en: 'Good thrift! You got everything required and saved ₹1,000 compared to brand new retail.',
+          hi: 'अच्छी बचत! आवश्यक सामग्री मिल गई और नई किताबों की तुलना में ₹1,000 बचे।',
+          te: 'మంచి నిర్ణయం! కొత్త వాటితో పోలిస్తే ₹1,000 ఆదా అయింది.',
+        },
+        financialImpact: { walletDelta: -500, emergencyDelta: 0, scoreDelta: 80, stressDelta: -5 },
+        pedagogicalFeedback: {
+          en: 'Second-hand academic resources give 100% of the knowledge at a fraction of the cost.',
+          hi: 'पुरानी किताबें पूरी जानकारी देती हैं और बजट भी संतुलित रखती हैं।',
+          te: 'సెకండ్ హ్యాండ్ పుస్తకాల వల్ల తక్కువ ఖర్చుతో పూర్తి జ్ఞానం లభిస్తుంది.',
+        },
+      },
+      {
+        id: 'choice_bazaar_bad',
+        tier: 'bad',
+        text: {
+          en: 'Buy brand-new glossy copies for ₹1,500 on store credit payable next month.',
+          hi: 'अगले महीने भुगतान के वादे पर ₹1,500 में एकदम नई किताबें उधार लें।',
+          te: 'వచ్చే నెల ఇస్తానని చెప్పి దుకాణంలో ₹1,500 అప్పుకు కొత్త పుస్తకాలు తీసుకోండి.',
+        },
+        outcomeDescription: {
+          en: 'You have shiny books, but you start next month with an unpaid ₹1,500 debt before stipend even arrives!',
+          hi: 'किताबें तो नई हैं, लेकिन वजीफा आने से पहले ही ₹1,500 का कर्ज सिर पर चढ़ गया!',
+          te: 'పుస్తకాలు కొత్తవే కానీ వచ్చే నెల స్టైపెండ్ రాకముందే ₹1,500 అప్పు మిగిలింది!',
+        },
+        financialImpact: { walletDelta: -1500, emergencyDelta: 0, scoreDelta: -25, stressDelta: 25 },
+        pedagogicalFeedback: {
+          en: 'Taking store credit for items you could buy used commits your future income before you earn it.',
+          hi: 'उधार पर नई चीजें खरीदना आपकी भविष्य की आय को आने से पहले ही खत्म कर देता है।',
+          te: 'భవిష్యత్ ఆదాయాన్ని నమ్ముకుని అప్పులు చేయడం ఆర్థిక స్వేచ్ఛను హరిస్తుంది.',
+        },
+      },
+      {
+        id: 'choice_bazaar_very_bad',
+        tier: 'very_bad',
+        text: {
+          en: 'Borrow ₹1,500 from a digital lending app to buy luxury branded bags and novelty pens.',
+          hi: 'ब्रांडेड बैग और फैंसी पेन खरीदने के लिए लोन ऐप से ₹1,500 का कर्ज लें।',
+          te: 'ఫ్యాన్సీ బ్యాగులు, పెన్నుల కోసం లోన్ యాప్ ద్వారా ₹1,500 అప్పు తీసుకోండి.',
+        },
+        outcomeDescription: {
+          en: 'FINANCIAL VANITY TRAP! You bought toys instead of study materials and owe ₹2,200 next month!',
+          hi: 'दिखावे का नुकसान! पढ़ाई की सामग्री के बजाय फालतू चीजें खरीदीं और सिर पर ₹2,200 का कर्ज चढ़ गया!',
+          te: 'తీవ్ర నష్టం! చదువు వదిలి సరదాల కోసం అప్పు చేసి వచ్చే నెలకు ₹2,200 బాకీ పడ్డారు!',
+        },
+        financialImpact: { walletDelta: -1500, emergencyDelta: 0, scoreDelta: -75, stressDelta: 50 },
+        pedagogicalFeedback: {
+          en: 'Borrowing money for vanity goods ruins student financial independence before graduation.',
+          hi: 'दिखावे के लिए कर्ज लेना छात्र जीवन में वित्तीय बर्बादी का मुख्य कारण है।',
+          te: 'దర్పం కోసం చేసే అప్పులు విద్యార్థి భవిష్యత్తును నాశనం చేస్తాయి.',
+        },
+        educationalVideoTitle: 'Avoiding Social Status Traps',
+      },
+    ],
+    steps: [
+      {
+        id: 'scenario_bazaar_bargain_step_1',
+        title: {
+      en: 'Koti Market Second-Hand Sourcing',
+      hi: 'कोटी बाजार में किताबों की समझदार खरीदारी',
+      te: 'కోటి మార్కెట్‌లో పుస్తకాల బేరం',
+    },
+        situationContext: {
+      en: 'You need semester guides and laboratory journals. Retail shops charge ₹1,500. Bazaar Merchant Chander has pre-owned bundles in great condition for ₹500, or a joint bundle with fellow students for ₹450 each.',
+      hi: 'आपको सेमेस्टर गाइड और लैब मैनुअल चाहिए। नई दुकानों पर कीमत ₹1,500 है। व्यापारी चंदर के पास अच्छी हालत में ₹500 का पुराना बंडल है, या दोस्तों के साथ मिलकर ₹450 प्रति बंडल मिल सकता है।',
+      te: 'మీకు సెమిస్టర్ గైడ్లు, ల్యాబ్ రికార్డులు అవసరం. కొత్తవి ₹1,500. వ్యాపారి చందర్ వద్ద మంచి సెకండ్ హ్యాండ్ సెట్ ₹500, లేదా మిత్రులతో కలిసి కొంటే ఒక్కొక్కరికి ₹450 మాత్రమే.',
+    },
+        choices: [
+      {
+        id: 'choice_bazaar_best',
+        tier: 'best',
+        text: {
+          en: 'Pool purchase with a classmate to buy two bundled study kits for ₹450 each.',
+          hi: 'सहपाठी के साथ मिलकर दो बंडल ₹450 प्रति छात्र के हिसाब से खरीदें।',
+          te: 'క్లాస్‌మేట్‌తో కలిసి ఇద్దరికీ సరిపడా పుస్తకాలను ఒక్కొక్కరు ₹450కే కొనుగోలు చేయండి.',
+        },
+        outcomeDescription: {
+          en: 'Brilliant negotiation! You saved 70% of retail price and keep ₹1,050 for exam fees and daily needs.',
+          hi: 'शानदार सौदा! आपने 70% पैसे बचाए और परीक्षा शुल्क के लिए ₹1,050 सुरक्षित रखे।',
+          te: 'అద్భుతమైన బేరం! 70% డబ్బు ఆదా చేశారు, మిగిలిన ₹1,050 పరీక్ష ఫీజులకు భద్రంగా ఉంది.',
+        },
+        financialImpact: { walletDelta: -450, emergencyDelta: 0, scoreDelta: 100, stressDelta: -10 },
+        pedagogicalFeedback: {
+          en: 'Leveraging collective student purchasing power is a cornerstone of smart student financial life.',
+          hi: 'छात्रों के समूह द्वारा मिलकर खरीदारी करना पैसे बचाने का एक बेहतरीन तरीका है।',
+          te: 'విద్యార్థులు కలిసి కొనడం ద్వారా మార్కెట్‌లో మంచి రాయితీలు పొందవచ్చు.',
+        },
+        educationalVideoTitle: 'Collective Bargaining for Students',
+      },
+      {
+        id: 'choice_bazaar_good',
+        tier: 'good',
+        text: {
+          en: 'Buy the individual second-hand study kit for ₹500 directly from the stall.',
+          hi: 'दुकान से अकेले ही ₹500 में पुराना अध्ययन बंडल खरीदें।',
+          te: 'స్టాల్ నుండి నేరుగా ₹500 పెట్టి సెకండ్ హ్యాండ్ సెట్ తీసుకోండి.',
+        },
+        outcomeDescription: {
+          en: 'Good thrift! You got everything required and saved ₹1,000 compared to brand new retail.',
+          hi: 'अच्छी बचत! आवश्यक सामग्री मिल गई और नई किताबों की तुलना में ₹1,000 बचे।',
+          te: 'మంచి నిర్ణయం! కొత్త వాటితో పోలిస్తే ₹1,000 ఆదా అయింది.',
+        },
+        financialImpact: { walletDelta: -500, emergencyDelta: 0, scoreDelta: 80, stressDelta: -5 },
+        pedagogicalFeedback: {
+          en: 'Second-hand academic resources give 100% of the knowledge at a fraction of the cost.',
+          hi: 'पुरानी किताबें पूरी जानकारी देती हैं और बजट भी संतुलित रखती हैं।',
+          te: 'సెకండ్ హ్యాండ్ పుస్తకాల వల్ల తక్కువ ఖర్చుతో పూర్తి జ్ఞానం లభిస్తుంది.',
+        },
+      },
+      {
+        id: 'choice_bazaar_bad',
+        tier: 'bad',
+        text: {
+          en: 'Buy brand-new glossy copies for ₹1,500 on store credit payable next month.',
+          hi: 'अगले महीने भुगतान के वादे पर ₹1,500 में एकदम नई किताबें उधार लें।',
+          te: 'వచ్చే నెల ఇస్తానని చెప్పి దుకాణంలో ₹1,500 అప్పుకు కొత్త పుస్తకాలు తీసుకోండి.',
+        },
+        outcomeDescription: {
+          en: 'You have shiny books, but you start next month with an unpaid ₹1,500 debt before stipend even arrives!',
+          hi: 'किताबें तो नई हैं, लेकिन वजीफा आने से पहले ही ₹1,500 का कर्ज सिर पर चढ़ गया!',
+          te: 'పుస్తకాలు కొత్తవే కానీ వచ్చే నెల స్టైపెండ్ రాకముందే ₹1,500 అప్పు మిగిలింది!',
+        },
+        financialImpact: { walletDelta: -1500, emergencyDelta: 0, scoreDelta: -25, stressDelta: 25 },
+        pedagogicalFeedback: {
+          en: 'Taking store credit for items you could buy used commits your future income before you earn it.',
+          hi: 'उधार पर नई चीजें खरीदना आपकी भविष्य की आय को आने से पहले ही खत्म कर देता है।',
+          te: 'భవిష్యత్ ఆదాయాన్ని నమ్ముకుని అప్పులు చేయడం ఆర్థిక స్వేచ్ఛను హరిస్తుంది.',
+        },
+      },
+      {
+        id: 'choice_bazaar_very_bad',
+        tier: 'very_bad',
+        text: {
+          en: 'Borrow ₹1,500 from a digital lending app to buy luxury branded bags and novelty pens.',
+          hi: 'ब्रांडेड बैग और फैंसी पेन खरीदने के लिए लोन ऐप से ₹1,500 का कर्ज लें।',
+          te: 'ఫ్యాన్సీ బ్యాగులు, పెన్నుల కోసం లోన్ యాప్ ద్వారా ₹1,500 అప్పు తీసుకోండి.',
+        },
+        outcomeDescription: {
+          en: 'FINANCIAL VANITY TRAP! You bought toys instead of study materials and owe ₹2,200 next month!',
+          hi: 'दिखावे का नुकसान! पढ़ाई की सामग्री के बजाय फालतू चीजें खरीदीं और सिर पर ₹2,200 का कर्ज चढ़ गया!',
+          te: 'తీవ్ర నష్టం! చదువు వదిలి సరదాల కోసం అప్పు చేసి వచ్చే నెలకు ₹2,200 బాకీ పడ్డారు!',
+        },
+        financialImpact: { walletDelta: -1500, emergencyDelta: 0, scoreDelta: -75, stressDelta: 50 },
+        pedagogicalFeedback: {
+          en: 'Borrowing money for vanity goods ruins student financial independence before graduation.',
+          hi: 'दिखावे के लिए कर्ज लेना छात्र जीवन में वित्तीय बर्बादी का मुख्य कारण है।',
+          te: 'దర్పం కోసం చేసే అప్పులు విద్యార్థి భవిష్యత్తును నాశనం చేస్తాయి.',
+        },
+        educationalVideoTitle: 'Avoiding Social Status Traps',
+      },
+    ],
+      }
+    ],
+  },
+
+  // Scenario: City 2 - Post Office Teller (Scenario C)
+  scenario_postal_savings: {
+    id: 'scenario_postal_savings',
+    cityId: 'city_academic_bazaar',
+    pillar: 'invest',
+    title: {
+      en: 'The Post Office Safety Vault',
+      hi: 'डाकघर बचत और संप्रभु सुरक्षा',
+      te: 'పోస్ట్ ఆఫీస్ పొదుపు మరియు భద్రత',
+    },
+    subtitle: {
+      en: 'Safeguard your ₹2,000 scholarship merit award with sovereign guarantee',
+      hi: 'सरकारी गारंटी के साथ अपने ₹2,000 छात्रवृत्ति पुरस्कार को सुरक्षित रखें',
+      te: 'ప్రభుత్వ గ్యారెంటీతో మీ ₹2,000 స్కాలర్‌షిప్ నిధిని రక్షించండి',
+    },
+    situationContext: {
+      en: 'You received a ₹2,000 merit award for semester academic excellence! Post Office Teller Priya explains safe India Post savings schemes backed 100% by the Government of India. Outside, an unregistered private agent whispers promises of "Double your money in 30 days guaranteed".',
+      hi: 'आपको शैक्षणिक उत्कृष्टता के लिए ₹2,000 का मेरिट पुरस्कार मिला! डाकघर की प्रिया भारत सरकार द्वारा समर्थित 100% सुरक्षित योजनाओं की जानकारी देती हैं। बाहर एक संदिग्ध एजेंट 30 दिनों में पैसा दोगुना करने का लालच देता है।',
+      te: 'మీకు ప్రతిభా పురస్కారంగా ₹2,000 నగదు బహుమతి వచ్చింది! పోస్ట్ ఆఫీస్ ఉద్యోగిని ప్రియ ప్రభుత్వ రక్షణ ఉన్న పొదుపు పథకాలను వివరిస్తోంది. బయట ఒక వ్యక్తి "నెల రోజుల్లో డబ్బు డబుల్" అని నమ్మిస్తున్నాడు.',
+    },
+    stipendContext: 'Merit Award: ₹2,000 Cash | Sovereign Post Office vs Ponzi Trap',
+    educationalHint: {
+      en: 'If an investment promises unrealistic "guaranteed double returns" in short periods, it is ALWAYS a fraudulent Ponzi scam. Sovereign post office deposits provide real, risk-free compounding.',
+      hi: 'यदि कोई योजना कम समय में पैसा दोगुना करने का वादा करे, तो वह हमेशा धोखाधड़ी होती है। डाकघर की सरकारी बचत 100% सुरक्षित होती है।',
+      te: 'తక్కువ సమయంలో డబ్బు రెట్టింపు చేస్తామనేవి ఎల్లప్పుడూ మోసపూరిత స్కీములే. ప్రభుత్వ పోస్ట్ ఆఫీస్ డిపాజిట్లు మాత్రమే పూర్తి సురక్షితం.',
+    },
+    choices: [
+      {
+        id: 'choice_postal_best',
+        tier: 'best',
+        text: {
+          en: 'Deposit ₹2,000 into a 1-year Post Office Time Deposit (TD) earning 7% sovereign government guaranteed interest.',
+          hi: 'भारत सरकार द्वारा गारंटीकृत 7% ब्याज वाली 1-वर्षीय डाकघर टाइम डिपॉजिट (TD) में ₹2,000 जमा करें।',
+          te: 'కేంద్ర ప్రభుత్వ గ్యారెంటీ ఉన్న 7% వార్షిక వడ్డీతో కూడిన 1-సంవత్సరం పోస్ట్ ఆఫీస్ టైమ్ డిపాజిట్ (TD) లో ₹2,000 జమ చేయండి.',
+        },
+        outcomeDescription: {
+          en: 'Flawless investment! 100% sovereign safety, zero market volatility, and funds will mature with interest in time for next year\'s tuition!',
+          hi: 'शानदार निवेश! 100% सरकारी सुरक्षा, शून्य जोखिम, और अगले साल की फीस के लिए ब्याज सहित सुरक्षित पूंजी!',
+          te: 'అత్యుత్తమ నిర్ణయం! పూర్తి ప్రభుత్వ భద్రత, ఎలాంటి నష్టం లేదు, వచ్చే ఏడాది ఫీజుల సమయానికి వడ్డీతో సహా డబ్బు అందుతుంది!',
+        },
+        financialImpact: { walletDelta: -2000, emergencyDelta: 2000, scoreDelta: 100, stressDelta: -20 },
+        pedagogicalFeedback: {
+          en: 'Sovereign backing means your capital is protected by the government. Risk-free compounding builds student wealth securely.',
+          hi: 'सरकारी समर्थन का अर्थ है पूर्ण पूंजी सुरक्षा। जोखिम मुक्त ब्याज छात्र जीवन में धन संचय का सबसे सुरक्षित आधार है।',
+          te: 'ప్రభుత్వ పథకాలలో అసలుకు ఎటువంటి ఢోకా ఉండదు. నిశ్చింతగా మీ నిధులు పెరుగుతాయి.',
+        },
+        educationalVideoTitle: 'Sovereign Savings: Post Office vs Private Schemes',
+      },
+      {
+        id: 'choice_postal_good',
+        tier: 'good',
+        text: {
+          en: 'Deposit ₹2,000 into an India Post Student Savings Account with instant passbook liquidity.',
+          hi: 'पासबुक और त्वरित निकासी सुविधा वाले डाकघर छात्र बचत खाते में ₹2,000 जमा करें।',
+          te: 'ఎప్పుడైనా తీసుకునే వీలున్న పోస్ట్ ఆఫీస్ సేవింగ్స్ ఖాతాలో ₹2,000 డిపాజిట్ చేయండి.',
+        },
+        outcomeDescription: {
+          en: 'Safe and liquid! Your capital is protected from theft and impulse spending while earning modest interest.',
+          hi: 'सुरक्षित और सुलभ! चोरी और फिजूलखर्ची से सुरक्षा मिली और मामूली ब्याज भी अर्जित हुआ।',
+          te: 'భద్రమైన పొదుపు! డబ్బు సురక్షితంగా ఉంది, అవసరమైనప్పుడు వాడుకోవచ్చు.',
+        },
+        financialImpact: { walletDelta: -2000, emergencyDelta: 2000, scoreDelta: 80, stressDelta: -10 },
+        pedagogicalFeedback: {
+          en: 'Student savings accounts provide liquidity and security without hidden private bank balance penalties.',
+          hi: 'छात्र बचत खाते बिना किसी गुप्त शुल्क के सुरक्षा और तरलता प्रदान करते हैं।',
+          te: 'విద్యార్థి ఖాతాలు దాచిన చార్జీలు లేకుండా పూర్తి భద్రతను ఇస్తాయి.',
+        },
+      },
+      {
+        id: 'choice_postal_bad',
+        tier: 'bad',
+        text: {
+          en: 'Keep the ₹2,000 cash hidden inside your hostel mattress with zero interest and high risk of loss.',
+          hi: 'छात्रावास के गद्दे के नीचे ₹2,000 नकद छुपाकर रखें (शून्य ब्याज और चोरी का खतरा)।',
+          te: 'హాస్టల్ గదిలో పరుపు కింద ₹2,000 దాచిపెట్టండి (వడ్డీ ఉండదు, పోయే ప్రమాదం ఉంది).',
+        },
+        outcomeDescription: {
+          en: 'Cash earns zero interest, purchasing power erodes with inflation, and cash leaks away on daily snacks.',
+          hi: 'नकद पर कोई ब्याज नहीं मिलता, महंगाई से मूल्य घटता है और छोटे-मोटे खर्चों में पैसे गायब हो जाते हैं।',
+          te: 'నగదు రూపంలో ఉంచితే వడ్డీ రాదు, చిన్న చిన్న ఖర్చులకు త్వరగా కరిగిపోతుంది.',
+        },
+        financialImpact: { walletDelta: 0, emergencyDelta: 0, scoreDelta: 20, stressDelta: 15 },
+        pedagogicalFeedback: {
+          en: 'Idle cash suffers from inflation drag and theft risk. Always park surplus funds in formal institutions.',
+          hi: 'बिना निवेश की नकदी महंगाई की मार झेलती है। हमेशा पैसों को औपचारिक वित्तीय संस्थाओं में रखें।',
+          te: 'డబ్బును బ్యాంకుల్లో లేదా పోస్టాఫీసుల్లో ఉంచకపోతే దాని విలువ తగ్గుతుంది.',
+        },
+      },
+      {
+        id: 'choice_postal_very_bad',
+        tier: 'very_bad',
+        text: {
+          en: 'Hand over ₹2,000 to the unauthorized street agent promising to double it in 30 days.',
+          hi: '30 दिनों में पैसा दोगुना करने का दावा करने वाले अनाधिकृत एजेंट को ₹2,000 सौंप दें।',
+          te: 'నెలలో డబుల్ చేస్తానన్న గుర్తుతెలియని వ్యక్తికి మీ ₹2,000 అప్పగించండి.',
+        },
+        outcomeDescription: {
+          en: 'PONZI SCAM! The rogue agent shut down his mobile number and vanished with your entire ₹2,000 merit award!',
+          hi: 'पोंजी घोटाला! एजेंट फोन बंद करके फरार हो गया और आपका पूरा ₹2,000 का पुरस्कार डूब गया!',
+          te: 'తీవ్ర మోసం! ఆ వ్యక్తి ఫోన్ స్విచ్ఛాఫ్ చేసి పరారయ్యాడు, మీ ₹2,000 బహుమతి పూర్తిగా పోయింది!',
+        },
+        financialImpact: { walletDelta: -2000, emergencyDelta: 0, scoreDelta: -100, stressDelta: 75 },
+        pedagogicalFeedback: {
+          en: 'High Returns + High Speed = HIGH SCAM. Regulated institutions never guarantee impossible multipliers.',
+          hi: 'अवास्तविक रिटर्न हमेशा धोखाधड़ी का संकेत होते हैं। कभी भी अनधिकृत योजनाओं में पैसे न लगाएं।',
+          te: 'అసాధ్యమైన లాభాలు చూపేవి ఎల్లప్పుడూ మోసాలే. నియంత్రిత ప్రభుత్వ సంస్థల్లో మాత్రమే మదుపు చేయాలి.',
+        },
+        educationalVideoTitle: 'Recognizing Ponzi Schemes and Get-Rich-Quick Scams',
+      },
+    ],
+    steps: [
+      {
+        id: 'scenario_postal_savings_step_1',
+        title: {
+      en: 'The Post Office Safety Vault',
+      hi: 'डाकघर बचत और संप्रभु सुरक्षा',
+      te: 'పోస్ట్ ఆఫీస్ పొదుపు మరియు భద్రత',
+    },
+        situationContext: {
+      en: 'You received a ₹2,000 merit award for semester academic excellence! Post Office Teller Priya explains safe India Post savings schemes backed 100% by the Government of India. Outside, an unregistered private agent whispers promises of "Double your money in 30 days guaranteed".',
+      hi: 'आपको शैक्षणिक उत्कृष्टता के लिए ₹2,000 का मेरिट पुरस्कार मिला! डाकघर की प्रिया भारत सरकार द्वारा समर्थित 100% सुरक्षित योजनाओं की जानकारी देती हैं। बाहर एक संदिग्ध एजेंट 30 दिनों में पैसा दोगुना करने का लालच देता है।',
+      te: 'మీకు ప్రతిభా పురస్కారంగా ₹2,000 నగదు బహుమతి వచ్చింది! పోస్ట్ ఆఫీస్ ఉద్యోగిని ప్రియ ప్రభుత్వ రక్షణ ఉన్న పొదుపు పథకాలను వివరిస్తోంది. బయట ఒక వ్యక్తి "నెల రోజుల్లో డబ్బు డబుల్" అని నమ్మిస్తున్నాడు.',
+    },
+        choices: [
+      {
+        id: 'choice_postal_best',
+        tier: 'best',
+        text: {
+          en: 'Deposit ₹2,000 into a 1-year Post Office Time Deposit (TD) earning 7% sovereign government guaranteed interest.',
+          hi: 'भारत सरकार द्वारा गारंटीकृत 7% ब्याज वाली 1-वर्षीय डाकघर टाइम डिपॉजिट (TD) में ₹2,000 जमा करें।',
+          te: 'కేంద్ర ప్రభుత్వ గ్యారెంటీ ఉన్న 7% వార్షిక వడ్డీతో కూడిన 1-సంవత్సరం పోస్ట్ ఆఫీస్ టైమ్ డిపాజిట్ (TD) లో ₹2,000 జమ చేయండి.',
+        },
+        outcomeDescription: {
+          en: 'Flawless investment! 100% sovereign safety, zero market volatility, and funds will mature with interest in time for next year\'s tuition!',
+          hi: 'शानदार निवेश! 100% सरकारी सुरक्षा, शून्य जोखिम, और अगले साल की फीस के लिए ब्याज सहित सुरक्षित पूंजी!',
+          te: 'అత్యుత్తమ నిర్ణయం! పూర్తి ప్రభుత్వ భద్రత, ఎలాంటి నష్టం లేదు, వచ్చే ఏడాది ఫీజుల సమయానికి వడ్డీతో సహా డబ్బు అందుతుంది!',
+        },
+        financialImpact: { walletDelta: -2000, emergencyDelta: 2000, scoreDelta: 100, stressDelta: -20 },
+        pedagogicalFeedback: {
+          en: 'Sovereign backing means your capital is protected by the government. Risk-free compounding builds student wealth securely.',
+          hi: 'सरकारी समर्थन का अर्थ है पूर्ण पूंजी सुरक्षा। जोखिम मुक्त ब्याज छात्र जीवन में धन संचय का सबसे सुरक्षित आधार है।',
+          te: 'ప్రభుత్వ పథకాలలో అసలుకు ఎటువంటి ఢోకా ఉండదు. నిశ్చింతగా మీ నిధులు పెరుగుతాయి.',
+        },
+        educationalVideoTitle: 'Sovereign Savings: Post Office vs Private Schemes',
+      },
+      {
+        id: 'choice_postal_good',
+        tier: 'good',
+        text: {
+          en: 'Deposit ₹2,000 into an India Post Student Savings Account with instant passbook liquidity.',
+          hi: 'पासबुक और त्वरित निकासी सुविधा वाले डाकघर छात्र बचत खाते में ₹2,000 जमा करें।',
+          te: 'ఎప్పుడైనా తీసుకునే వీలున్న పోస్ట్ ఆఫీస్ సేవింగ్స్ ఖాతాలో ₹2,000 డిపాజిట్ చేయండి.',
+        },
+        outcomeDescription: {
+          en: 'Safe and liquid! Your capital is protected from theft and impulse spending while earning modest interest.',
+          hi: 'सुरक्षित और सुलभ! चोरी और फिजूलखर्ची से सुरक्षा मिली और मामूली ब्याज भी अर्जित हुआ।',
+          te: 'భద్రమైన పొదుపు! డబ్బు సురక్షితంగా ఉంది, అవసరమైనప్పుడు వాడుకోవచ్చు.',
+        },
+        financialImpact: { walletDelta: -2000, emergencyDelta: 2000, scoreDelta: 80, stressDelta: -10 },
+        pedagogicalFeedback: {
+          en: 'Student savings accounts provide liquidity and security without hidden private bank balance penalties.',
+          hi: 'छात्र बचत खाते बिना किसी गुप्त शुल्क के सुरक्षा और तरलता प्रदान करते हैं।',
+          te: 'విద్యార్థి ఖాతాలు దాచిన చార్జీలు లేకుండా పూర్తి భద్రతను ఇస్తాయి.',
+        },
+      },
+      {
+        id: 'choice_postal_bad',
+        tier: 'bad',
+        text: {
+          en: 'Keep the ₹2,000 cash hidden inside your hostel mattress with zero interest and high risk of loss.',
+          hi: 'छात्रावास के गद्दे के नीचे ₹2,000 नकद छुपाकर रखें (शून्य ब्याज और चोरी का खतरा)।',
+          te: 'హాస్టల్ గదిలో పరుపు కింద ₹2,000 దాచిపెట్టండి (వడ్డీ ఉండదు, పోయే ప్రమాదం ఉంది).',
+        },
+        outcomeDescription: {
+          en: 'Cash earns zero interest, purchasing power erodes with inflation, and cash leaks away on daily snacks.',
+          hi: 'नकद पर कोई ब्याज नहीं मिलता, महंगाई से मूल्य घटता है और छोटे-मोटे खर्चों में पैसे गायब हो जाते हैं।',
+          te: 'నగదు రూపంలో ఉంచితే వడ్డీ రాదు, చిన్న చిన్న ఖర్చులకు త్వరగా కరిగిపోతుంది.',
+        },
+        financialImpact: { walletDelta: 0, emergencyDelta: 0, scoreDelta: 20, stressDelta: 15 },
+        pedagogicalFeedback: {
+          en: 'Idle cash suffers from inflation drag and theft risk. Always park surplus funds in formal institutions.',
+          hi: 'बिना निवेश की नकदी महंगाई की मार झेलती है। हमेशा पैसों को औपचारिक वित्तीय संस्थाओं में रखें।',
+          te: 'డబ్బును బ్యాంకుల్లో లేదా పోస్టాఫీసుల్లో ఉంచకపోతే దాని విలువ తగ్గుతుంది.',
+        },
+      },
+      {
+        id: 'choice_postal_very_bad',
+        tier: 'very_bad',
+        text: {
+          en: 'Hand over ₹2,000 to the unauthorized street agent promising to double it in 30 days.',
+          hi: '30 दिनों में पैसा दोगुना करने का दावा करने वाले अनाधिकृत एजेंट को ₹2,000 सौंप दें।',
+          te: 'నెలలో డబుల్ చేస్తానన్న గుర్తుతెలియని వ్యక్తికి మీ ₹2,000 అప్పగించండి.',
+        },
+        outcomeDescription: {
+          en: 'PONZI SCAM! The rogue agent shut down his mobile number and vanished with your entire ₹2,000 merit award!',
+          hi: 'पोंजी घोटाला! एजेंट फोन बंद करके फरार हो गया और आपका पूरा ₹2,000 का पुरस्कार डूब गया!',
+          te: 'తీవ్ర మోసం! ఆ వ్యక్తి ఫోన్ స్విచ్ఛాఫ్ చేసి పరారయ్యాడు, మీ ₹2,000 బహుమతి పూర్తిగా పోయింది!',
+        },
+        financialImpact: { walletDelta: -2000, emergencyDelta: 0, scoreDelta: -100, stressDelta: 75 },
+        pedagogicalFeedback: {
+          en: 'High Returns + High Speed = HIGH SCAM. Regulated institutions never guarantee impossible multipliers.',
+          hi: 'अवास्तविक रिटर्न हमेशा धोखाधड़ी का संकेत होते हैं। कभी भी अनधिकृत योजनाओं में पैसे न लगाएं।',
+          te: 'అసాధ్యమైన లాభాలు చూపేవి ఎల్లప్పుడూ మోసాలే. నియంత్రిత ప్రభుత్వ సంస్థల్లో మాత్రమే మదుపు చేయాలి.',
+        },
+        educationalVideoTitle: 'Recognizing Ponzi Schemes and Get-Rich-Quick Scams',
+      },
+    ],
+      }
+    ],
+  },
 };

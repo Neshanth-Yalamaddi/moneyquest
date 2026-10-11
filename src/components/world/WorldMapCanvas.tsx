@@ -10,14 +10,24 @@ import {
   getCity1NpcCollisionBoxes,
 } from '../../data/maps/city1Data';
 import {
+  CITY2_CONFIG,
+  CITY2_COLLISION_BOXES,
+  CITY2_COLLISION_GRID,
+  CITY2_NPCS,
+  CITY2_INTERACTIVES,
+  getCity2NpcCollisionBoxes,
+} from '../../data/maps/city2Data';
+import {
   DEFAULT_PLAYER_FOOTPRINT,
   slideMove,
   calculateCamera,
   WorldAudio,
 } from '../../engine/worldEngine';
 import { GameEngine } from '../../engine/gameEngine';
+import { GameStorage } from '../../engine/storage';
 import { ObjectInspectionModal } from './ObjectInspectionModal';
 import city1MapImageSrc from '../../assets/maps/city1_map.jpg';
+import city2MapImageSrc from '../../assets/maps/city2_map.jpg';
 import playerSpriteSheetSrc from '../../assets/characters/player_spritesheet.png';
 import teacherSpriteSheetSrc from '../../assets/characters/npcs/teacher_spritesheet.png';
 import watchmanSpriteSheetSrc from '../../assets/characters/npcs/watchman_spritesheet.png';
@@ -27,6 +37,9 @@ import teaVendorSpriteSheetSrc from '../../assets/characters/npcs/tea_vendor_spr
 import anandSpriteSheetSrc from '../../assets/characters/npcs/anand_spritesheet.png';
 import bookshopKeeperSpriteSheetSrc from '../../assets/characters/npcs/bookshop_keeper_spritesheet.png';
 import studentFriendSpriteSheetSrc from '../../assets/characters/npcs/student_friend_spritesheet.png';
+import cycleMechanicSpriteSheetSrc from '../../assets/characters/npcs/cycle_mechanic_spritesheet.png';
+import postTellerSpriteSheetSrc from '../../assets/characters/npcs/post_teller_spritesheet.png';
+import postalDeskSrc from '../../assets/props/postal_desk.png';
 import {
   CharacterDirection,
   PLAYER_SPRITE_CONFIG,
@@ -56,6 +69,7 @@ interface WorldMapCanvasProps {
   language: GameLanguage;
   onInteractWithNpc: (npc: NPC) => void;
   onEnterCity: (cityId: string) => void;
+  onResetWallet?: () => void;
 }
 
 export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
@@ -63,23 +77,95 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
   language,
   onInteractWithNpc,
   onEnterCity,
+  onResetWallet,
 }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
-  // Player state
-  const [player, setPlayer] = useState({
-    x: CITY1_CONFIG.spawnPoint.x,
-    y: CITY1_CONFIG.spawnPoint.y,
-    direction: CITY1_CONFIG.spawnPoint.direction as 'up' | 'down' | 'left' | 'right',
-    speed: 3.2,
-    isMoving: false,
-    frame: 0,
+  // Restore saved city and player position if available
+  const savedWorldRef = useRef(GameStorage.getSavedWorldState());
+  const initialWorld = savedWorldRef.current;
+
+  // Active City Navigation State
+  const [currentCityId, setCurrentCityId] = useState<'city_hostel_commons' | 'city_academic_bazaar'>(() => {
+    if (initialWorld?.cityId === 'city_academic_bazaar' || initialWorld?.cityId === 'city_hostel_commons') {
+      return initialWorld.cityId;
+    }
+    return (profile.currentCityId as any) === 'city_academic_bazaar' ? 'city_academic_bazaar' : 'city_hostel_commons';
   });
 
-  // Map image state & fallback
+  const isCity1 = currentCityId === 'city_hostel_commons';
+  const activeConfig = isCity1 ? CITY1_CONFIG : CITY2_CONFIG;
+  const activeCollisionBoxes = isCity1 ? CITY1_COLLISION_BOXES : CITY2_COLLISION_BOXES;
+  const activeCollisionGrid = isCity1 ? CITY1_COLLISION_GRID : CITY2_COLLISION_GRID;
+  const activeNpcs = isCity1 ? CITY1_NPCS : CITY2_NPCS;
+  const activeInteractives = isCity1 ? CITY1_INTERACTIVES : CITY2_INTERACTIVES;
+  const activeNpcBoxes = isCity1 ? getCity1NpcCollisionBoxes(CITY1_NPCS) : getCity2NpcCollisionBoxes(CITY2_NPCS);
+
+  // Player state restored from saved position
+  const [player, setPlayer] = useState(() => {
+    if (initialWorld && typeof initialWorld.x === 'number' && typeof initialWorld.y === 'number') {
+      const targetConfig = initialWorld.cityId === 'city_academic_bazaar' ? CITY2_CONFIG : CITY1_CONFIG;
+      if (
+        initialWorld.x > 10 &&
+        initialWorld.x < targetConfig.width - 10 &&
+        initialWorld.y > 10 &&
+        initialWorld.y < targetConfig.height - 10
+      ) {
+        return {
+          x: Math.round(initialWorld.x),
+          y: Math.round(initialWorld.y),
+          direction: initialWorld.direction || targetConfig.spawnPoint.direction,
+          speed: 3.2,
+          isMoving: false,
+          frame: 0,
+        };
+      }
+    }
+    return {
+      x: CITY1_CONFIG.spawnPoint.x,
+      y: CITY1_CONFIG.spawnPoint.y,
+      direction: CITY1_CONFIG.spawnPoint.direction as 'up' | 'down' | 'left' | 'right',
+      speed: 3.2,
+      isMoving: false,
+      frame: 0,
+    };
+  });
+
+  // Persist world position when stationary and ensure world screen is recorded
+  useEffect(() => {
+    if (!player.isMoving) {
+      GameStorage.saveWorldState({
+        cityId: currentCityId,
+        x: Math.round(player.x),
+        y: Math.round(player.y),
+        direction: player.direction,
+      });
+      GameStorage.saveScreen('world');
+    }
+  }, [player.isMoving, player.x, player.y, player.direction, currentCityId]);
+
+  // Persist current location on browser reload or navigation
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      GameStorage.saveWorldState({
+        cityId: currentCityId,
+        x: Math.round(player.x),
+        y: Math.round(player.y),
+        direction: player.direction,
+      });
+      GameStorage.saveScreen('world');
+    };
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, [currentCityId, player.x, player.y, player.direction]);
+
+  // Map image state & preloaded references for City 1 & City 2
   const [mapImageLoaded, setMapImageLoaded] = useState<boolean>(false);
   const [mapImageError, setMapImageError] = useState<boolean>(false);
-  const mapImageRef = useRef<HTMLImageElement | null>(null);
+  const city1MapRef = useRef<HTMLImageElement | null>(null);
+  const city2MapRef = useRef<HTMLImageElement | null>(null);
 
   // Player & NPC Pixel Art Sprite Sheet State
   const [playerSpriteLoaded, setPlayerSpriteLoaded] = useState<boolean>(false);
@@ -88,6 +174,7 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
   const animTimerAccumulator = useRef<number>(0);
   const lastLoopTimestamp = useRef<number>(0);
   const npcSpriteImagesRef = useRef<Map<string, HTMLImageElement>>(new Map());
+  const postalDeskRef = useRef<HTMLImageElement | null>(null);
 
   // Proximity states
   const [nearbyNpc, setNearbyNpc] = useState<NPC | null>(null);
@@ -117,38 +204,47 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
     [profile]
   );
 
-  // All quest-giving NPCs in City 1 (Hostel Warden Rao Sir & Electronics Tech Suresh Anna)
-  const city1QuestNpcs = CITY1_NPCS.filter((n) => Boolean(n.scenarioId));
-  const completedQuestCount = city1QuestNpcs.filter((n) => isNpcSolved(n)).length;
-  const totalQuestCount = city1QuestNpcs.length;
+  // All quest-giving NPCs in the current city (City 1 or City 2)
+  const currentCityQuestNpcs = activeNpcs.filter((n) => Boolean(n.scenarioId));
+  const completedQuestCount = currentCityQuestNpcs.filter((n) => isNpcSolved(n)).length;
+  const totalQuestCount = currentCityQuestNpcs.length;
 
-  // Navigational arrow & portal unlock ONLY when ALL quests in the city are completed
+  // Navigational arrow & portal unlock ONLY when ALL quests in the active city are completed
   const areAllQuestsCompleted = totalQuestCount > 0 && completedQuestCount === totalQuestCount;
 
-  // Load Map Asset with Cache Invalidation & Fallback Protection
+  // Load Map Assets with Cache Invalidation & Fallback Protection for City 1 and City 2
   useEffect(() => {
-    const img = new Image();
-    img.src = `${city1MapImageSrc}?v=${Date.now()}`;
-
-    img.onload = () => {
-      mapImageRef.current = img;
+    const img1 = new Image();
+    img1.src = `${city1MapImageSrc}?v=${Date.now()}`;
+    img1.onload = () => {
+      city1MapRef.current = img1;
       setMapImageLoaded(true);
       setMapImageError(false);
     };
-
-    img.onerror = () => {
-      console.warn('City 1 map asset could not be loaded directly. Activating high-res procedural fallback.');
+    img1.onerror = () => {
+      console.warn('City 1 map asset could not be loaded directly.');
       setMapImageError(true);
       setMapImageLoaded(true);
     };
 
+    const img2 = new Image();
+    img2.src = `${city2MapImageSrc}?v=${Date.now()}`;
+    img2.onload = () => {
+      city2MapRef.current = img2;
+    };
+    img2.onerror = () => {
+      console.warn('City 2 map asset could not be loaded directly.');
+    };
+
     return () => {
-      img.onload = null;
-      img.onerror = null;
+      img1.onload = null;
+      img1.onerror = null;
+      img2.onload = null;
+      img2.onerror = null;
     };
   }, []);
 
-  // Register NPC pixel art spritesheets into the animation registry
+  // Register NPC pixel art spritesheets into the animation registry (City 1 & City 2)
   useEffect(() => {
     registerNpcSprite('npc_hostel_warden', { imageSrc: hostelWardenSpriteSheetSrc, config: NPC_DEFAULT_SPRITE_CONFIG });
     registerNpcSprite('npc_repair_tech', { imageSrc: repairTechSpriteSheetSrc, config: NPC_DEFAULT_SPRITE_CONFIG });
@@ -158,6 +254,12 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
     registerNpcSprite('npc_anand_senior', { imageSrc: anandSpriteSheetSrc, config: NPC_DEFAULT_SPRITE_CONFIG });
     registerNpcSprite('npc_bookshop_owner', { imageSrc: bookshopKeeperSpriteSheetSrc, config: NPC_DEFAULT_SPRITE_CONFIG });
     registerNpcSprite('npc_student_friend', { imageSrc: studentFriendSpriteSheetSrc, config: NPC_DEFAULT_SPRITE_CONFIG });
+    // City 2 NPCs (Cycle Mechanic, Bazaar Merchant, Post Office Teller, Professor Sharma, Kabir)
+    registerNpcSprite('npc_cycle_mechanic', { imageSrc: cycleMechanicSpriteSheetSrc, config: NPC_DEFAULT_SPRITE_CONFIG });
+    registerNpcSprite('npc_bazaar_merchant', { imageSrc: bookshopKeeperSpriteSheetSrc, config: NPC_DEFAULT_SPRITE_CONFIG });
+    registerNpcSprite('npc_post_office_teller', { imageSrc: postTellerSpriteSheetSrc, config: NPC_DEFAULT_SPRITE_CONFIG });
+    registerNpcSprite('npc_professor_sharma', { imageSrc: teacherSpriteSheetSrc, config: NPC_DEFAULT_SPRITE_CONFIG });
+    registerNpcSprite('npc_student_kabir_city2', { imageSrc: studentFriendSpriteSheetSrc, config: NPC_DEFAULT_SPRITE_CONFIG });
   }, []);
 
   // Load Player & NPC Pixel Art Spritesheets with Dynamic Cache Invalidation
@@ -175,6 +277,13 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
       setPlayerSpriteLoaded(false);
     };
 
+    // Preload Postal Desk Prop
+    const deskImg = new Image();
+    deskImg.src = `${postalDeskSrc}?v=${Date.now()}`;
+    deskImg.onload = () => {
+      postalDeskRef.current = deskImg;
+    };
+
     // Preload NPC spritesheets
     const npcSources: Record<string, string> = {
       npc_hostel_warden: hostelWardenSpriteSheetSrc,
@@ -185,6 +294,11 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
       npc_anand_senior: anandSpriteSheetSrc,
       npc_bookshop_owner: bookshopKeeperSpriteSheetSrc,
       npc_student_friend: studentFriendSpriteSheetSrc,
+      npc_cycle_mechanic: cycleMechanicSpriteSheetSrc,
+      npc_bazaar_merchant: bookshopKeeperSpriteSheetSrc,
+      npc_post_office_teller: postTellerSpriteSheetSrc,
+      npc_professor_sharma: teacherSpriteSheetSrc,
+      npc_student_kabir_city2: studentFriendSpriteSheetSrc,
     };
 
     Object.entries(npcSources).forEach(([id, src]) => {
@@ -348,8 +462,8 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
       // 2. Perform 2.5D Foot-Aligned Collision & Wall Sliding (incorporating NPC physical hitboxes)
       if (isMoving) {
         const dynamicCollisionBoxes = [
-          ...CITY1_COLLISION_BOXES,
-          ...getCity1NpcCollisionBoxes(CITY1_NPCS),
+          ...activeCollisionBoxes,
+          ...activeNpcBoxes,
         ];
 
         const moveResult = slideMove(
@@ -359,9 +473,9 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
           rawDy,
           DEFAULT_PLAYER_FOOTPRINT,
           dynamicCollisionBoxes,
-          CITY1_CONFIG.width,
-          CITY1_CONFIG.height,
-          CITY1_COLLISION_GRID
+          activeConfig.width,
+          activeConfig.height,
+          activeCollisionGrid
         );
 
         if (moveResult.moved) {
@@ -397,7 +511,7 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
 
       // 3. Proximity Checks (NPCs & Objects)
       let foundNpc: NPC | null = null;
-      for (const npc of CITY1_NPCS) {
+      for (const npc of activeNpcs) {
         if (Math.hypot(player.x - npc.x, player.y - npc.y) <= 45) {
           foundNpc = npc;
           break;
@@ -407,7 +521,7 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
 
       let foundObj: CityObject | null = null;
       if (!foundNpc) {
-        for (const obj of CITY1_INTERACTIVES) {
+        for (const obj of activeInteractives) {
           if (Math.hypot(player.x - obj.x, player.y - obj.y) <= obj.radius) {
             foundObj = obj;
             break;
@@ -417,8 +531,8 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
       setNearbyObject(foundObj);
 
       // 4. Viewport & Camera Setup
-      const mapW = CITY1_CONFIG.width;
-      const mapH = CITY1_CONFIG.height;
+      const mapW = activeConfig.width;
+      const mapH = activeConfig.height;
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.save();
@@ -432,34 +546,43 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
         ctx.scale(zoomFactor, zoomFactor);
         ctx.translate(-camX, -camY);
       } else {
-        // Overview mode: scale 1024x572 to fit canvas cleanly
+        // Overview mode: scale map to fit canvas cleanly
         const scaleX = canvas.width / mapW;
         const scaleY = canvas.height / mapH;
         ctx.scale(scaleX, scaleY);
       }
 
       // 5. Render Map Background Artwork (or High-Fidelity Procedural Fallback)
-      if (mapImageRef.current && mapImageLoaded && !mapImageError) {
-        ctx.drawImage(mapImageRef.current, 0, 0, mapW, mapH);
+      const currentMapImg = isCity1 ? city1MapRef.current : city2MapRef.current;
+      if (currentMapImg && currentMapImg.complete && currentMapImg.naturalWidth > 0) {
+        ctx.drawImage(currentMapImg, 0, 0, mapW, mapH);
       } else {
         // High-Fidelity Fallback Renderer
         renderProceduralMapFallback(ctx, mapW, mapH);
       }
 
-      // 6. Environmental Atmospheric Animation (Water Ripples on Canal)
+      // 6. Environmental Atmospheric Animation (Water Ripples on Canal / Fountains)
       ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
-      for (let i = 0; i < 4; i++) {
-        const rippleY = 330 + ((animTimer * 12 + i * 50) % 200);
-        ctx.fillRect(25 + Math.sin(animTimer + i) * 8, rippleY, 35, 1.5);
+      if (isCity1) {
+        for (let i = 0; i < 4; i++) {
+          const rippleY = 330 + ((animTimer * 12 + i * 50) % 200);
+          ctx.fillRect(25 + Math.sin(animTimer + i) * 8, rippleY, 35, 1.5);
+        }
+      } else {
+        // City 2 Central Fountain water bubbles
+        for (let i = 0; i < 3; i++) {
+          const bubbleY = 125 + Math.sin(animTimer * 4 + i) * 6;
+          ctx.fillRect(495 + Math.cos(animTimer * 3 + i) * 10, bubbleY, 3, 3);
+        }
       }
 
       // 7. Render Development Collision Debug Overlay (Visualizes blocked & walkable spatial grid)
       if (showHitboxes) {
         // A. Visualise 8x8 Spatial Collision Grid (blocked tiles in translucent red)
-        const ts = CITY1_COLLISION_GRID.tileSize;
-        const cols = CITY1_COLLISION_GRID.cols;
-        const rows = CITY1_COLLISION_GRID.rows;
-        const cells = CITY1_COLLISION_GRID.cells;
+        const ts = activeCollisionGrid.tileSize;
+        const cols = activeCollisionGrid.cols;
+        const rows = activeCollisionGrid.rows;
+        const cells = activeCollisionGrid.cells;
 
         ctx.fillStyle = 'rgba(239, 68, 68, 0.25)';
         for (let r = 0; r < rows; r++) {
@@ -473,16 +596,15 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
         // B. Obstacle Physical Boundary Outlines
         ctx.strokeStyle = '#ef4444';
         ctx.lineWidth = 1;
-        CITY1_COLLISION_BOXES.forEach((b) => {
+        activeCollisionBoxes.forEach((b) => {
           ctx.strokeRect(b.x, b.y, b.w, b.h);
         });
 
         // C. NPC Foot Hitboxes (Translucent amber)
-        const npcBoxes = getCity1NpcCollisionBoxes(CITY1_NPCS);
         ctx.fillStyle = 'rgba(245, 158, 11, 0.45)';
         ctx.strokeStyle = '#f59e0b';
         ctx.lineWidth = 1.5;
-        npcBoxes.forEach((b) => {
+        activeNpcBoxes.forEach((b) => {
           ctx.fillRect(b.x, b.y, b.w, b.h);
           ctx.strokeRect(b.x, b.y, b.w, b.h);
         });
@@ -508,7 +630,7 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
       }
 
       // 8. Render Interactive Objects & Collectibles
-      CITY1_INTERACTIVES.forEach((obj) => {
+      activeInteractives.forEach((obj) => {
         const isNearby = nearbyObject?.id === obj.id;
         const pulse = Math.sin(animTimer * 3) * 3;
 
@@ -554,12 +676,26 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
       }> = [];
 
       // Add NPCs to sorting list
-      CITY1_NPCS.forEach((npc) => {
+      activeNpcs.forEach((npc) => {
         renderEntities.push({
           y: npc.y,
           render: () => renderNpc(ctx, npc, nearbyNpc?.id === npc.id, isNpcSolved(npc), animTimer, animFrameCounter.current),
         });
       });
+
+      // City 2: Postal Service Desk Prop
+      if (!isCity1 && postalDeskRef.current && postalDeskRef.current.complete) {
+        renderEntities.push({
+          y: 396,
+          render: () => {
+            const deskImg = postalDeskRef.current;
+            if (!deskImg || !deskImg.complete) return;
+            const dw = 18;
+            const dh = 34;
+            ctx.drawImage(deskImg, 572, 395 - dh + 4, dw, dh);
+          },
+        });
+      }
 
       // Add Player to sorting list
       renderEntities.push({
@@ -571,9 +707,9 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
       renderEntities.sort((a, b) => a.y - b.y);
       renderEntities.forEach((e) => e.render());
 
-      // 10. Navigational Guidance to City 2 ONLY when ALL City 1 quests are completed
+      // 10. Navigational Guidance Arrow ONLY when ALL quests in current city are completed
       if (areAllQuestsCompleted) {
-        renderCity2Guidance(ctx, player, animTimer);
+        renderDestinationGuidance(ctx, player, animTimer, isCity1);
       }
 
       ctx.restore();
@@ -586,7 +722,7 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
     return () => {
       cancelAnimationFrame(animationFrameId);
     };
-  }, [player, nearbyNpc, nearbyObject, mapImageLoaded, mapImageError, showHitboxes, cameraZoom, zoomLevel, areAllQuestsCompleted, isNpcSolved, playerSpriteLoaded]);
+  }, [player, nearbyNpc, nearbyObject, mapImageLoaded, mapImageError, showHitboxes, cameraZoom, zoomLevel, areAllQuestsCompleted, isNpcSolved, playerSpriteLoaded, isCity1, activeConfig, activeCollisionBoxes, activeCollisionGrid, activeNpcs, activeInteractives, activeNpcBoxes]);
 
   // Procedural Fallback Map Generator (Ensures Zero Blank Screen if asset fails)
   const renderProceduralMapFallback = (ctx: CanvasRenderingContext2D, mapW: number, mapH: number) => {
@@ -654,18 +790,8 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
         npcSpriteImagesRef.current.set(npc.id, npcImg);
       }
       if (npcImg.complete && npcImg.naturalWidth > 0) {
-        // Dynamic NPC facing direction: turn to look directly at player when in vicinity (within 70px)
-        let facingDir: CharacterDirection = 'down';
-        const distToPlayer = Math.hypot(player.x - npc.x, player.y - npc.y);
-        if (distToPlayer <= 70) {
-          const dx = player.x - npc.x;
-          const dy = player.y - npc.y;
-          if (Math.abs(dx) > Math.abs(dy)) {
-            facingDir = dx > 0 ? 'right' : 'left';
-          } else {
-            facingDir = dy > 0 ? 'down' : 'up';
-          }
-        }
+        // Fixed NPC facing direction: keep in single fixed stance (straight 'down' by default, no flipping to side)
+        const facingDir: CharacterDirection = npc.direction || 'down';
 
         renderCharacterSprite(
           ctx,
@@ -674,7 +800,7 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
           npc.y,
           facingDir,
           false,
-          frameIndex,
+          0,
           registeredNpc.config,
           false // Sprites already have authentic pixel art shadow at base
         );
@@ -807,14 +933,20 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
     ctx.fill();
   };
 
-  // Navigational Guidance to City 2 (Active once all City 1 quests are solved)
-  const renderCity2Guidance = (
+  // Navigational Guidance to Next City (Active once ALL quests in active city are solved)
+  const renderDestinationGuidance = (
     ctx: CanvasRenderingContext2D,
     p: { x: number; y: number },
-    animTimer: number
+    animTimer: number,
+    inCity1: boolean
   ) => {
-    const targetX = 685;
-    const targetY = 30;
+    // If in City 1, target is North Highway to City 2 at (685, 30)
+    // If in City 2, target is East Highway exit to City 3 at (950, 490)
+    const targetX = inCity1 ? 685 : 950;
+    const targetY = inCity1 ? 30 : 490;
+    const destPillLabel = inCity1 ? 'City 2 ➔' : 'City 3 ➔';
+    const destSignLabel = inCity1 ? '★ TO CITY 2 ★' : '★ TO CITY 3 ★';
+
     const dx = targetX - p.x;
     const dy = targetY - p.y;
     const dist = Math.hypot(dx, dy);
@@ -868,11 +1000,11 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
       ctx.font = 'bold 8px Inter, sans-serif';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      ctx.fillText('City 2 ➔', pillX, pillY);
+      ctx.fillText(destPillLabel, pillX, pillY);
       ctx.restore();
     }
 
-    // 2. Highway Portal Destination Beacon & Directional Chevrons at (685, 30)
+    // 2. Highway Portal Destination Beacon & Directional Chevrons
     ctx.save();
     const portalPulse = Math.sin(animTimer * 4) * 4;
     ctx.strokeStyle = '#10b981';
@@ -881,13 +1013,17 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
     ctx.arc(targetX, targetY, 22 + portalPulse, 0, Math.PI * 2);
     ctx.stroke();
 
-    // Animated upward chevrons pointing into North Highway
+    // Animated chevrons pointing towards Highway exit
     const chevronShift = (animTimer * 28) % 16;
     ctx.fillStyle = '#34d399';
     ctx.font = 'bold 15px monospace';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText('▲', targetX, targetY + 6 - chevronShift);
+    if (inCity1) {
+      ctx.fillText('▲', targetX, targetY + 6 - chevronShift);
+    } else {
+      ctx.fillText('▶', targetX - 6 + chevronShift, targetY);
+    }
 
     // Highway Signboard
     const signW = 96;
@@ -904,7 +1040,7 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
     ctx.font = 'bold 8.5px Inter, sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText('★ TO CITY 2 ★', targetX, targetY - 18);
+    ctx.fillText(destSignLabel, targetX, targetY - 18);
     ctx.restore();
   };
 
@@ -914,8 +1050,8 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
     if (!canvas) return;
 
     const rect = canvas.getBoundingClientRect();
-    const mapW = CITY1_CONFIG.width;
-    const mapH = CITY1_CONFIG.height;
+    const mapW = activeConfig.width;
+    const mapH = activeConfig.height;
     const canvasAspect = mapW / mapH;
     const rectAspect = rect.width / rect.height;
 
@@ -971,10 +1107,10 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
       dx,
       dy,
       DEFAULT_PLAYER_FOOTPRINT,
-      CITY1_COLLISION_BOXES,
-      CITY1_CONFIG.width,
-      CITY1_CONFIG.height,
-      CITY1_COLLISION_GRID
+      [...activeCollisionBoxes, ...activeNpcBoxes],
+      activeConfig.width,
+      activeConfig.height,
+      activeCollisionGrid
     );
 
     if (res.moved) {
@@ -989,18 +1125,61 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
     }
   };
 
-  // Transition handler for City 2 Portal
+  // Transition handler for City 1 <-> City 2 Portals
   const handleCityTransition = (targetCityId: string) => {
-    if (!areAllQuestsCompleted) {
-      setTransitionNotification(
-        `Complete all City 1 quests (${completedQuestCount}/${totalQuestCount} solved) before advancing to City 2!`
-      );
+    if (targetCityId === 'city_academic_bazaar') {
+      if (!areAllQuestsCompleted) {
+        setTransitionNotification(
+          `Complete all City 1 quests (${completedQuestCount}/${totalQuestCount} solved) before advancing to City 2!`
+        );
+        setTimeout(() => setTransitionNotification(null), 4000);
+        return;
+      }
+      WorldAudio.playDiscovery();
+      setCurrentCityId('city_academic_bazaar');
+      setPlayer({
+        x: CITY2_CONFIG.spawnPoint.x,
+        y: CITY2_CONFIG.spawnPoint.y,
+        direction: CITY2_CONFIG.spawnPoint.direction as 'right',
+        speed: 3.2,
+        isMoving: false,
+        frame: 0,
+      });
+      GameStorage.saveWorldState({
+        cityId: 'city_academic_bazaar',
+        x: CITY2_CONFIG.spawnPoint.x,
+        y: CITY2_CONFIG.spawnPoint.y,
+        direction: 'right',
+      });
+      GameStorage.saveScreen('world');
+      setTransitionNotification(`Arrived at City 2: Academic Bazaar! Explore Koti Market & University.`);
+      onEnterCity('city_academic_bazaar');
+      setTimeout(() => setTransitionNotification(null), 4500);
+    } else if (targetCityId === 'city_hostel_commons') {
+      WorldAudio.playDiscovery();
+      setCurrentCityId('city_hostel_commons');
+      setPlayer({
+        x: 685,
+        y: 80,
+        direction: 'down',
+        speed: 3.2,
+        isMoving: false,
+        frame: 0,
+      });
+      GameStorage.saveWorldState({
+        cityId: 'city_hostel_commons',
+        x: 685,
+        y: 80,
+        direction: 'down',
+      });
+      GameStorage.saveScreen('world');
+      setTransitionNotification(`Returned to City 1: Hostel Commons.`);
+      onEnterCity('city_hostel_commons');
       setTimeout(() => setTransitionNotification(null), 4000);
-      return;
+    } else if (targetCityId === 'city_canteen_corner') {
+      setTransitionNotification(`City 3: Canteen Corner will unlock in the next chapter!`);
+      setTimeout(() => setTransitionNotification(null), 4000);
     }
-    setTransitionNotification(`Advancing to ${targetCityId}... (Region 1 expansion scheduled for subsequent phase)`);
-    onEnterCity(targetCityId);
-    setTimeout(() => setTransitionNotification(null), 4500);
   };
 
   return (
@@ -1012,7 +1191,7 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
           : 'w-full flex-1 flex flex-col px-2 sm:px-4 py-1.5 h-[calc(100vh-70px)] max-h-[calc(100vh-70px)]'
       }`}
     >
-      {/* City 1 Navigation & Status Banner */}
+      {/* City Navigation & Status Banner */}
       <div className="flex flex-wrap items-center justify-between gap-3 bg-slate-900/90 backdrop-blur border border-slate-800 rounded-xl px-3 py-2 mb-2 shadow-lg shrink-0">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400">
@@ -1020,17 +1199,53 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-sm font-bold text-white">City 1: Hostel Commons</span>
+              <span className="text-sm font-bold text-white">
+                {isCity1 ? 'City 1: Hostel Commons' : 'City 2: Academic Bazaar'}
+              </span>
               <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-amber-500/20 text-amber-300 border border-amber-500/30">
-                Pillar 1: Plan & Budget
+                {isCity1 ? 'Pillar 1: Plan & Budget' : 'Pillar 1: Smart Sourcing & Market Budgeting'}
               </span>
             </div>
-            <div className="text-xs text-slate-400">The Scholar's District — Full City Map</div>
+            <div className="text-xs text-slate-400">
+              {isCity1 ? "The Scholar's District — Full City Map" : "Koti Book Market & University District"}
+            </div>
           </div>
         </div>
 
         {/* Objective & Toolbar Controls */}
         <div className="flex flex-wrap items-center gap-2">
+          {/* Quick City Transition Button */}
+          {isCity1 ? (
+            areAllQuestsCompleted && (
+              <button
+                onClick={() => handleCityTransition('city_academic_bazaar')}
+                className="px-2.5 py-1 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold rounded-lg flex items-center gap-1 shadow-sm transition"
+              >
+                <span>Travel to City 2</span>
+                <Navigation className="w-3 h-3" />
+              </button>
+            )
+          ) : (
+            <div className="flex items-center gap-1.5">
+              <button
+                onClick={() => handleCityTransition('city_hostel_commons')}
+                className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-bold rounded-lg flex items-center gap-1 shadow-sm transition"
+              >
+                <span>Return to City 1</span>
+                <Navigation className="w-3 h-3" />
+              </button>
+              {areAllQuestsCompleted && (
+                <button
+                  onClick={() => handleCityTransition('city_canteen_corner')}
+                  className="px-2.5 py-1 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold rounded-lg flex items-center gap-1 shadow-sm transition"
+                >
+                  <span>Travel to City 3</span>
+                  <Navigation className="w-3 h-3" />
+                </button>
+              )}
+            </div>
+          )}
+
           {/* Quest Status Pill */}
           <div
             className={`px-3 py-1 rounded-lg text-xs font-semibold flex items-center gap-2 border ${
@@ -1042,13 +1257,18 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
             {areAllQuestsCompleted ? (
               <>
                 <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                <span>All Quests Complete! Follow Arrow to City 2 ➔</span>
+                <span>
+                  {isCity1
+                    ? 'All Quests Complete! Follow Arrow to City 2 ➔'
+                    : 'All Bazaar Quests Complete! Follow Arrow to City 3 ➔'}
+                </span>
               </>
             ) : (
               <>
                 <MapPin className="w-3.5 h-3.5 text-amber-400 animate-pulse" />
                 <span>
-                  Quests: {completedQuestCount}/{totalQuestCount} Complete
+                  {isCity1 ? 'Hostel Quests: ' : 'Bazaar Quests: '}
+                  {completedQuestCount}/{totalQuestCount} Complete
                   {completedQuestCount === 0
                     ? ' — Find Quest NPCs (!)'
                     : ` — ${totalQuestCount - completedQuestCount} remaining (!)`}
@@ -1056,6 +1276,20 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
               </>
             )}
           </div>
+
+          {/* Bankruptcy Alert & Reset Button */}
+          {profile.walletBalance <= 0 && onResetWallet && (
+            <div className="flex items-center gap-2 bg-rose-950/90 border border-rose-500 rounded-lg px-2.5 py-1 text-xs text-rose-200 animate-pulse shadow-md">
+              <AlertTriangle className="w-3.5 h-3.5 text-rose-400 flex-shrink-0 animate-bounce" />
+              <span className="font-bold text-rose-300">Bankrupt (₹0)!</span>
+              <button
+                onClick={onResetWallet}
+                className="px-2 py-0.5 bg-rose-600 hover:bg-rose-500 text-white rounded font-bold shadow-sm transition active:scale-95"
+              >
+                Reset to ₹5,000
+              </button>
+            </div>
+          )}
 
           {/* Full Map / Follow Player Toggle */}
           <button

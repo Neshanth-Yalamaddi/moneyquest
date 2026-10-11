@@ -10,6 +10,7 @@ import {
 } from '../../types';
 import { GameEngine } from '../../engine/gameEngine';
 import { EventLogger } from '../../engine/eventLogger';
+import { GameStorage } from '../../engine/storage';
 import { AiService } from '../../services/aiService';
 import { AiFeedbackCard } from '../ai/AiFeedbackCard';
 import confetti from 'canvas-confetti';
@@ -43,6 +44,8 @@ export const PuzzleModal: React.FC<PuzzleModalProps> = ({
   const [showIdeaCard, setShowIdeaCard] = useState<boolean>(!!scenario.ideaCard);
   const [currentStepIndex, setCurrentStepIndex] = useState<number>(0);
   const [chosenChoices, setChosenChoices] = useState<PuzzleChoice[]>([]);
+  // Pre-decision snapshot to undo financial damage on retry / recovery
+  const [profileBeforeDecision, setProfileBeforeDecision] = useState<StudentProfile>(() => ({ ...profile }));
   const [selectedChoiceId, setSelectedChoiceId] = useState<string | null>(null);
   
   const [intermediateProfile, setIntermediateProfile] = useState<StudentProfile>(profile);
@@ -159,15 +162,25 @@ export const PuzzleModal: React.FC<PuzzleModalProps> = ({
     }
   };
 
+  // Retry (Recovery Mode / Revert Financial Penalty)
   const handleRetry = () => {
+    // Revert profile to the state before the failed decision was committed
+    onUpdateProfile(profileBeforeDecision);
     setShowIdeaCard(false);
     setCurrentStepIndex(0);
     setChosenChoices([]);
     setSelectedChoiceId(null);
-    setIntermediateProfile(profile);
+    setIntermediateProfile(profileBeforeDecision);
     setEvaluation(null);
     setAiExplanation(null);
     setActiveHint(null);
+  };
+
+  // Immediate Bankruptcy Reset inside Puzzle
+  const handleResetBankruptcyInPuzzle = () => {
+    const refreshed = GameStorage.resetBankruptcy(profile);
+    setProfileBeforeDecision({ ...refreshed });
+    onUpdateProfile(refreshed);
   };
 
   const mountNode = typeof document !== 'undefined' ? (document.fullscreenElement || document.body) : null;
@@ -224,6 +237,25 @@ export const PuzzleModal: React.FC<PuzzleModalProps> = ({
 
         <h2 className="text-2xl font-extrabold text-white mb-1">{title}</h2>
         <div className="text-sm font-medium text-amber-400 mb-4">{subtitle}</div>
+
+        {/* In-Puzzle Bankruptcy Warning & Relief Action */}
+        {profile.walletBalance <= 0 && (
+          <div className="bg-rose-950/70 border border-rose-500/60 rounded-2xl p-4 mb-5 text-rose-200 text-xs flex items-center justify-between gap-3 shadow-lg">
+            <div className="flex items-center gap-2.5">
+              <ShieldAlert className="w-5 h-5 text-rose-400 flex-shrink-0 animate-bounce" />
+              <div>
+                <span className="font-extrabold text-rose-300 uppercase tracking-wider">Bankruptcy Reached: </span>
+                <span>Your wallet balance is ₹0. Claim emergency relief to continue.</span>
+              </div>
+            </div>
+            <button
+              onClick={handleResetBankruptcyInPuzzle}
+              className="px-3.5 py-1.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-extrabold rounded-xl shadow-md transition whitespace-nowrap active:scale-95"
+            >
+              Reset to ₹5,000
+            </button>
+          </div>
+        )}
 
         {!evaluation && (
           <div className="bg-slate-950/80 border border-slate-800 rounded-2xl p-4 text-slate-200 text-sm leading-relaxed mb-6">

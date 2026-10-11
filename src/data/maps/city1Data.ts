@@ -276,8 +276,8 @@ export const CITY1_NPCS: NPC[] = [
     name: 'Anand',
     role: 'Senior Roommate',
     avatar: '🧑‍🎓',
-    x: 840,
-    y: 240,
+    x: 535,
+    y: 200,
     cityId: 'city_hostel_commons',
     scenarioId: 'scenario_hostel_stipend',
     dialogueIntro: {

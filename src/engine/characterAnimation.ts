@@ -131,6 +131,27 @@ export const NPC_SPRITE_REGISTRY: Record<string, NpcSpriteEntry> = {
     imageSrc: '/assets/characters/npcs/student_friend_spritesheet.png',
     config: NPC_DEFAULT_SPRITE_CONFIG,
   },
+  // City 2 NPCs
+  npc_cycle_mechanic: {
+    imageSrc: '/assets/characters/npcs/cycle_mechanic_spritesheet.png',
+    config: NPC_DEFAULT_SPRITE_CONFIG,
+  },
+  npc_bazaar_merchant: {
+    imageSrc: '/assets/characters/npcs/bookshop_keeper_spritesheet.png',
+    config: NPC_DEFAULT_SPRITE_CONFIG,
+  },
+  npc_post_office_teller: {
+    imageSrc: '/assets/characters/npcs/post_teller_spritesheet.png',
+    config: NPC_DEFAULT_SPRITE_CONFIG,
+  },
+  npc_professor_sharma: {
+    imageSrc: '/assets/characters/npcs/teacher_spritesheet.png',
+    config: NPC_DEFAULT_SPRITE_CONFIG,
+  },
+  npc_student_kabir_city2: {
+    imageSrc: '/assets/characters/npcs/student_friend_spritesheet.png',
+    config: NPC_DEFAULT_SPRITE_CONFIG,
+  },
 };
 
 /**

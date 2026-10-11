@@ -20,6 +20,7 @@ import {
   Menu,
   X,
   User,
+  Save,
 } from 'lucide-react';
 
 export interface NavbarProps {
@@ -30,6 +31,9 @@ export interface NavbarProps {
   onResetProgress: () => void;
   onReturnToHome: () => void;
   onUpdateProfile?: (profile: StudentProfile) => void;
+  onSaveProgress?: () => void;
+  onResetWallet?: () => void;
+  isProgressSaved?: boolean;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -40,6 +44,9 @@ export const Navbar: React.FC<NavbarProps> = ({
   onResetProgress,
   onReturnToHome,
   onUpdateProfile,
+  onSaveProgress,
+  onResetWallet,
+  isProgressSaved = false,
 }) => {
   const t = TRANSLATIONS[language].nav;
 
@@ -104,12 +111,33 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           {/* Center: Live Financial HUD */}
           <div className="hidden md:flex items-center gap-3 bg-slate-950/90 px-3.5 py-1.5 rounded-xl border border-slate-800 text-xs shadow-inner">
-            <div className="flex items-center gap-1.5" title="Available Wallet Balance">
-              <Wallet className="w-4 h-4 text-emerald-400" />
+            <div
+              className={`flex items-center gap-1.5 px-2 py-0.5 rounded-lg border transition ${
+                profile.walletBalance <= 0
+                  ? 'bg-rose-950/80 border-rose-500 text-rose-300 ring-2 ring-rose-500/50 animate-pulse'
+                  : 'text-slate-200 border-transparent'
+              }`}
+              title="Available Wallet Balance"
+            >
+              <Wallet className={`w-4 h-4 ${profile.walletBalance <= 0 ? 'text-rose-400' : 'text-emerald-400'}`} />
               <span className="text-slate-400 text-[11px]">{t.wallet}:</span>
-              <span className="font-extrabold text-emerald-400">
+              <span className={`font-extrabold ${profile.walletBalance <= 0 ? 'text-rose-400' : 'text-emerald-400'}`}>
                 ₹{profile.walletBalance.toLocaleString('en-IN')}
               </span>
+              {profile.walletBalance <= 0 && (
+                <span className="text-[10px] font-black uppercase text-rose-400 bg-rose-900/60 px-1.5 py-0.5 rounded border border-rose-500 ml-1">
+                  BANKRUPT
+                </span>
+              )}
+              {onResetWallet && profile.walletBalance <= 0 && (
+                <button
+                  onClick={onResetWallet}
+                  title="Emergency Bankruptcy Reset to ₹5,000"
+                  className="ml-1 text-[10px] px-2 py-0.5 rounded font-bold transition shadow-sm bg-rose-600 hover:bg-rose-500 text-white border border-rose-400 animate-bounce"
+                >
+                  Reset
+                </button>
+              )}
             </div>
 
             <div className="h-3.5 w-px bg-slate-800" />
@@ -183,6 +211,26 @@ export const Navbar: React.FC<NavbarProps> = ({
               <BarChart3 className="w-3.5 h-3.5" />
               <span>{t.ngoDashboard}</span>
             </button>
+
+            {/* Save Progress Toggle */}
+            {onSaveProgress && (
+              <button
+                onClick={onSaveProgress}
+                title={
+                  isProgressSaved
+                    ? 'Progress is SAVED across reloads (Click to switch to Testing mode)'
+                    : 'Testing mode: Wallet & choices reset on reload (Click to save progress)'
+                }
+                className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold border transition shadow-sm ${
+                  isProgressSaved
+                    ? 'bg-emerald-600/80 hover:bg-emerald-600 text-emerald-100 border-emerald-500/30'
+                    : 'bg-slate-800 hover:bg-slate-700 text-slate-300 border-slate-700'
+                }`}
+              >
+                <Save className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">{isProgressSaved ? 'Saved' : 'Test Mode'}</span>
+              </button>
+            )}
 
             {/* Language Switcher */}
             <div className="flex items-center bg-slate-950 rounded-lg p-0.5 border border-slate-800 text-xs">

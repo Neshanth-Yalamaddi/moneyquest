@@ -84,18 +84,25 @@ export const ObjectInspectionModal: React.FC<ObjectInspectionModalProps> = ({
         {/* Portal Status or Actions */}
         {isPortal && (
           <div className="mb-4 p-3 rounded-xl border text-xs flex items-center gap-2.5 bg-slate-950/60 border-slate-800">
-            {isCitySolved ? (
+            {object.id === 'portal_city1_return' ? (
               <>
                 <CheckCircle className="w-4 h-4 text-emerald-400 flex-shrink-0" />
                 <span className="text-emerald-300 font-medium">
-                  Hostel dues cleared! Highway passage to City 2 is unlocked.
+                  Road back to City 1 (Hostel Commons) is open. Return anytime to explore or speak with seniors.
+                </span>
+              </>
+            ) : isCitySolved ? (
+              <>
+                <CheckCircle className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+                <span className="text-emerald-300 font-medium">
+                  All city quests completed! Highway passage is fully unlocked.
                 </span>
               </>
             ) : (
               <>
                 <AlertCircle className="w-4 h-4 text-amber-400 flex-shrink-0" />
                 <span className="text-amber-300 font-medium">
-                  Warden Rao Sir advises clearing your hostel dues first before visiting the Academic Bazaar.
+                  Complete all active city quests first before advancing through this highway portal.
                 </span>
               </>
             )}
@@ -111,7 +118,20 @@ export const ObjectInspectionModal: React.FC<ObjectInspectionModalProps> = ({
             Close
           </button>
 
-          {isPortal && isCitySolved && onTransition && (
+          {isPortal && object.id === 'portal_city1_return' && onTransition && (
+            <button
+              onClick={() => {
+                onClose();
+                onTransition('city_hostel_commons');
+              }}
+              className="px-4 py-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold rounded-xl flex items-center gap-1.5 shadow-md transition"
+            >
+              <span>Return to City 1</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+          )}
+
+          {isPortal && object.id === 'portal_city2_exit' && isCitySolved && onTransition && (
             <button
               onClick={() => {
                 onClose();
@@ -120,6 +140,19 @@ export const ObjectInspectionModal: React.FC<ObjectInspectionModalProps> = ({
               className="px-4 py-2 bg-gradient-to-r from-indigo-500 to-indigo-600 hover:from-indigo-400 hover:to-indigo-500 text-white text-xs font-bold rounded-xl flex items-center gap-1.5 shadow-md transition"
             >
               <span>Travel to City 2</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+          )}
+
+          {isPortal && object.id === 'portal_city3_exit' && onTransition && (
+            <button
+              onClick={() => {
+                onClose();
+                onTransition('city_canteen_corner');
+              }}
+              className="px-4 py-2 bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-white text-xs font-bold rounded-xl flex items-center gap-1.5 shadow-md transition"
+            >
+              <span>Travel to City 3</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
           )}
