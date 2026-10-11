@@ -131,6 +131,19 @@ export const ObjectInspectionModal: React.FC<ObjectInspectionModalProps> = ({
             </button>
           )}
 
+          {isPortal && object.id === 'portal_city2_return' && onTransition && (
+            <button
+              onClick={() => {
+                onClose();
+                onTransition('city_academic_bazaar');
+              }}
+              className="px-4 py-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold rounded-xl flex items-center gap-1.5 shadow-md transition"
+            >
+              <span>Return to City 2</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+          )}
+
           {isPortal && object.id === 'portal_city2_exit' && isCitySolved && onTransition && (
             <button
               onClick={() => {
@@ -144,7 +157,20 @@ export const ObjectInspectionModal: React.FC<ObjectInspectionModalProps> = ({
             </button>
           )}
 
-          {isPortal && object.id === 'portal_city3_exit' && onTransition && (
+          {isPortal && object.id === 'portal_city3_exit' && isCitySolved && onTransition && (
+            <button
+              onClick={() => {
+                onClose();
+                onTransition('city_investment_valley');
+              }}
+              className="px-4 py-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold rounded-xl flex items-center gap-1.5 shadow-md transition"
+            >
+              <span>Travel to City 3</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+          )}
+
+          {isPortal && object.id === 'portal_city4_exit' && isCitySolved && onTransition && (
             <button
               onClick={() => {
                 onClose();
@@ -152,7 +178,7 @@ export const ObjectInspectionModal: React.FC<ObjectInspectionModalProps> = ({
               }}
               className="px-4 py-2 bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-white text-xs font-bold rounded-xl flex items-center gap-1.5 shadow-md transition"
             >
-              <span>Travel to City 3</span>
+              <span>Travel to City 4</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
           )}

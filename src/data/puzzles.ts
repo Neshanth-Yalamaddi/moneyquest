@@ -12019,4 +12019,2021 @@ export const PUZZLES: Record<string, PuzzleScenario> = {
       }
     ],
   },
+
+  // =====================================================================
+  // CITY 3: Investment Valley — Pillar 3: Understand Investing
+  // =====================================================================
+
+  scenario_inv_001_two_plants: {
+    id: 'scenario_inv_001_two_plants',
+    cityId: 'city_investment_valley',
+    pillar: 'invest',
+    title: {
+      en: 'The Two Plants Game',
+      hi: 'दो पौधों का खेल',
+      te: 'రెండు మొక్కల ఆట',
+    },
+    subtitle: {
+      en: 'Plant your 10 magical tokens wisely across 3 growing seasons',
+      hi: '10 जादुई टोकन को 3 मौसमों में बुद्धिमानी से लगाएं',
+      te: '3 పెరుగుతున్న సీజన్లలో 10 మాయా టోకెన్లను తెలివిగా పెట్టు',
+    },
+    situationContext: {
+      en: 'Mali Kaka, the campus gardener, gives you 10 magical tokens in a game. You can plant them in Plant A (Steady Plant, safe fixed growth) or Plant B (Wild Flower, variable growth). This is a 3-year school project simulation.',
+      hi: 'माली काका, कैंपस माली, तुम्हें एक खेल में 10 जादुई टोकन देते हैं। पौधा A (स्थिर पौधा, सुरक्षित) या पौधा B (जंगली फूल, परिवर्तनशील) में लगा सकते हो। यह 3 साल का स्कूल प्रोजेक्ट सिमुलेशन है।',
+      te: 'మాలి కాకా, క్యాంపస్ తోటమాలి, నీకు ఒక ఆటలో 10 మాయా టోకెన్లు ఇస్తాడు. వాటిని ప్లాంట్ A (స్టెడీ ప్లాంట్, సురక్షిత) లేదా ప్లాంట్ B (వైల్డ్ ఫ్లవర్, వేరియబుల్) లో నాటవచ్చు. ఇది 3 సంవత్సరాల పాఠశాల ప్రాజెక్ట్ సిమ్యులేషన్.',
+    },
+    stipendContext: 'School Science Garden | Token Pool: 10 tokens | Mali Kaka, Campus Gardener',
+    educationalHint: {
+      en: 'Balance safe and growth assets. Never invest money you will need soon. Patience through bad seasons protects your long-term harvest.',
+      hi: 'सुरक्षित और विकास संपत्ति में संतुलन रखें। कभी भी वह पैसा निवेश न करें जो जल्द चाहिए। बुरे मौसम में धैर्य दीर्घकालिक फसल की रक्षा करता है।',
+      te: 'సురక్షిత మరియు వృద్ధి ఆస్తుల మధ్య సమతుల్యత పాటించు. త్వరలో అవసరమయ్యే డబ్బును పెట్టుబడి పెట్టకు. చెడు సీజన్లలో ఓర్పు నీ దీర్ఘకాలిక పంటను రక్షిస్తుంది.',
+    },
+    choices: [
+      {
+        id: 'inv001_choice_best',
+        tier: 'best',
+        text: {
+          en: 'Put 6 tokens in Plant A (safe) and 4 tokens in Plant B (growth).',
+          hi: '6 टोकन पौधा A (सुरक्षित) में और 4 टोकन पौधा B (विकास) में लगाएं।',
+          te: '6 టోకెన్లు ప్లాంట్ A (సురక్షిత)లో, 4 టోకెన్లు ప్లాంట్ B (వృద్ధి)లో నాటండి.',
+        },
+        outcomeDescription: {
+          en: 'Your tokens grow steadily without huge scares. A perfect balanced start!',
+          hi: 'आपके टोकन बिना किसी बड़े डर के स्थिरता से बढ़ते हैं। एक उत्तम संतुलित शुरुआत!',
+          te: 'నీ టోకెన్లు పెద్ద భయాలు లేకుండా స్థిరంగా పెరుగుతాయి. అద్భుతమైన సమతుల్య ప్రారంభం!',
+        },
+        financialImpact: { walletDelta: 200, emergencyDelta: 0, scoreDelta: 100, stressDelta: -20 },
+        pedagogicalFeedback: {
+          en: 'Splitting 60% safe and 40% growth mimics real-world balanced portfolio allocation that protects while growing.',
+          hi: '60% सुरक्षित और 40% विकास में बंटवारा वास्तविक दुनिया के संतुलित पोर्टफोलियो जैसा है।',
+          te: '60% సురక్షిత మరియు 40% వృద్ధిలో విభజన నిజ జీవిత సమతుల్య పోర్ట్‌ఫోలియో కేటాయింపును అనుకరిస్తుంది.',
+        },
+        educationalVideoTitle: 'Balanced Portfolio Allocation for Beginners',
+      },
+      {
+        id: 'inv001_choice_good',
+        tier: 'good',
+        text: {
+          en: 'Put all 10 tokens in Plant A (all safe).',
+          hi: 'सभी 10 टोकन पौधा A (पूरी तरह सुरक्षित) में लगाएं।',
+          te: 'అన్ని 10 టోకెన్లు ప్లాంట్ A (పూర్తిగా సురక్షిత)లో నాటండి.',
+        },
+        outcomeDescription: {
+          en: 'You earn steady tokens, but miss out on higher growth potential over 3 years.',
+          hi: 'आप स्थिर टोकन कमाते हैं, लेकिन 3 साल में अधिक विकास की संभावना चूक जाते हैं।',
+          te: 'నువ్వు స్థిర టోకెన్లు సంపాదిస్తావు, కానీ 3 సంవత్సరాల్లో అధిక వృద్ధి అవకాశం కోల్పోతావు.',
+        },
+        financialImpact: { walletDelta: 100, emergencyDelta: 0, scoreDelta: 70, stressDelta: -10 },
+        pedagogicalFeedback: {
+          en: 'Capital safety is excellent, but zero growth allocation means you miss compounding returns over time.',
+          hi: 'पूंजी सुरक्षा उत्कृष्ट है, लेकिन शून्य विकास आवंटन का मतलब है चक्रवृद्धि रिटर्न चूकना।',
+          te: 'మూలధన భద్రత అద్భుతమైనది, కానీ వృద్ధి కేటాయింపు లేకపోవడం అంటే కాలక్రమేణా చక్రవడ్డీ రాబడి కోల్పోవడం.',
+        },
+      },
+      {
+        id: 'inv001_choice_bad',
+        tier: 'bad',
+        text: {
+          en: 'Put all 10 tokens in Plant B when you need the tokens next week.',
+          hi: 'अगले हफ्ते टोकन चाहिए जब सभी 10 टोकन पौधा B में लगाएं।',
+          te: 'వచ్చే వారం టోకెన్లు కావాలప్పుడు అన్ని 10 ప్లాంట్ B లో నాటండి.',
+        },
+        outcomeDescription: {
+          en: 'A bad turn wipes out your tokens right before you need them. Emergency funds destroyed!',
+          hi: 'एक बुरे मोड़ ने आपकी जरूरत के ठीक पहले सभी टोकन बर्बाद कर दिए। आपातकालीन धन नष्ट!',
+          te: 'ఒక చెడు మోడ్ నీకు అవసరమయ్యే ముందే టోకెన్లన్నీ తుడిచివేసింది. అత్యవసర నిధి నాశనమైంది!',
+        },
+        financialImpact: { walletDelta: -300, emergencyDelta: -100, scoreDelta: -40, stressDelta: 40 },
+        pedagogicalFeedback: {
+          en: 'Never invest money you will need soon in variable-growth assets. Short-term needs require guaranteed capital.',
+          hi: 'कभी भी वह पैसा परिवर्तनशील विकास संपत्ति में निवेश न करें जो जल्द चाहिए। अल्पकालिक जरूरतों के लिए गारंटीशुदा पूंजी चाहिए।',
+          te: 'త్వరలో అవసరమయ్యే డబ్బును వేరియబుల్ గ్రోత్ ఆస్తులలో పెట్టకు. స్వల్పకాలిక అవసరాలకు హామీ మూలధనం అవసరం.',
+        },
+      },
+      {
+        id: 'inv001_choice_very_bad',
+        tier: 'very_bad',
+        text: {
+          en: 'Borrow 20 tokens from a loan shark to plant all of them in Plant B.',
+          hi: 'एक साहूकार से 20 टोकन उधार लेकर सब पौधा B में लगाएं।',
+          te: 'వడ్డీ వ్యాపారి నుండి 20 టోకెన్లు అప్పు తీసుకుని అన్నీ ప్లాంట్ B లో నాటండి.',
+        },
+        outcomeDescription: {
+          en: 'DEBT DISASTER! You lose the bet and end up owing 20 tokens to a loan shark with no way to pay!',
+          hi: 'कर्ज आपदा! आप शर्त हार जाते हैं और बिना भुगतान की क्षमता के साहूकार पर 20 टोकन की देनदारी में पड़ जाते हैं!',
+          te: 'అప్పుల విపత్తు! నువ్వు పందెం ఓడిపోయి 20 టోకెన్లు చెల్లించే మార్గం లేకుండా వడ్డీ వ్యాపారికి బాకీ పడతావు!',
+        },
+        financialImpact: { walletDelta: -600, emergencyDelta: -200, scoreDelta: -90, stressDelta: 80 },
+        pedagogicalFeedback: {
+          en: 'Never borrow to invest in volatile assets. If the investment fails, you still owe the debt plus crushing interest.',
+          hi: 'अस्थिर संपत्ति में निवेश के लिए कभी उधार मत लो। निवेश विफल होने पर भी कर्ज और ब्याज चुकाना पड़ता है।',
+          te: 'అస్థిర ఆస్తులలో పెట్టుబడి పెట్టడానికి ఎప్పుడూ అప్పు చేయకు. పెట్టుబడి విఫలమైనా అప్పు వడ్డీతో సహా తీర్చాలి.',
+        },
+        educationalVideoTitle: 'Why Borrowing to Invest is Extremely Dangerous',
+      },
+    ],
+    steps: [
+      {
+        id: 'scenario_inv_001_step_1',
+        title: {
+          en: 'Decision 1: Sowing the 10 Tokens',
+          hi: 'निर्णय 1: 10 टोकन बोना',
+          te: 'నిర్ణయం 1: 10 టోకెన్లు నాటడం',
+        },
+        situationContext: {
+          en: 'Mali Kaka gives you 10 magical tokens in a game. You can plant them in Plant A (Steady Plant) or Plant B (Wild Flower). Choose where to put your 10 tokens for your 3-year school project.',
+          hi: 'माली काका एक खेल में आपको 10 जादुई टोकन देते हैं। इन्हें पौधा A (स्थिर पौधा) या पौधा B (जंगली फूल) में लगाया जा सकता है। 3 साल के स्कूल प्रोजेक्ट के लिए टोकन कहां लगाएंगे?',
+          te: 'మాలి కాకా ఒక ఆటలో నీకు 10 మాయా టోకెన్లు ఇస్తాడు. వాటిని ప్లాంట్ A (స్టెడీ ప్లాంట్) లేదా ప్లాంట్ B (వైల్డ్ ఫ్లవర్)లో నాటవచ్చు. నీ 3 సంవత్సరాల పాఠశాల ప్రాజెక్ట్ కోసం 10 టోకెన్లు ఎక్కడ పెట్టాలో ఎంచుకో.',
+        },
+        choices: [
+          {
+            id: 'inv001_step1_best',
+            tier: 'best',
+            text: {
+              en: 'Put 6 tokens in Plant A (safe) and 4 tokens in Plant B (growth).',
+              hi: '6 टोकन पौधा A (सुरक्षित) में और 4 टोकन पौधा B (विकास) में।',
+              te: '6 టోకెన్లు ప్లాంట్ A (సురక్షిత)లో, 4 టోకెన్లు ప్లాంట్ B (వృద్ధి)లో.',
+            },
+            outcomeDescription: {
+              en: 'Your tokens grow steadily without huge scares. A perfect balanced start!',
+              hi: 'आपके टोकन बिना बड़े डर के स्थिरता से बढ़ते हैं। उत्तम संतुलित शुरुआत!',
+              te: 'నీ టోకెన్లు పెద్ద భయాలు లేకుండా స్థిరంగా పెరుగుతాయి. అద్భుతమైన సమతుల్య ప్రారంభం!',
+            },
+            financialImpact: { walletDelta: 200, emergencyDelta: 0, scoreDelta: 100, stressDelta: -20 },
+            pedagogicalFeedback: {
+              en: 'Splitting 60% safe and 40% growth mimics real-world balanced portfolio allocation.',
+              hi: '60% सुरक्षित और 40% विकास में बंटवारा वास्तविक संतुलित पोर्टफोलियो जैसा है।',
+              te: '60% సురక్షిత, 40% వృద్ధి విభజన నిజ జీవిత సమతుల్య పోర్ట్‌ఫోలియోను అనుకరిస్తుంది.',
+            },
+            educationalVideoTitle: 'Balanced Portfolio Allocation for Beginners',
+          },
+          {
+            id: 'inv001_step1_good',
+            tier: 'good',
+            text: {
+              en: 'Put all 10 tokens in Plant A (all safe).',
+              hi: 'सभी 10 टोकन पौधा A (पूरी तरह सुरक्षित) में।',
+              te: 'అన్ని 10 టోకెన్లు ప్లాంట్ A (పూర్తిగా సురక్షిత)లో.',
+            },
+            outcomeDescription: {
+              en: 'You earn steady tokens, but miss out on higher growth over 3 years.',
+              hi: 'स्थिर टोकन कमाते हैं, लेकिन 3 साल में अधिक विकास चूक जाते हैं।',
+              te: 'స్థిర టోకెన్లు సంపాదిస్తావు, కానీ 3 సంవత్సరాల్లో అధిక వృద్ధి అవకాశం కోల్పోతావు.',
+            },
+            financialImpact: { walletDelta: 100, emergencyDelta: 0, scoreDelta: 70, stressDelta: -10 },
+            pedagogicalFeedback: {
+              en: 'Capital safety is excellent, but zero growth allocation means you miss compounding returns over time.',
+              hi: 'पूंजी सुरक्षा उत्कृष्ट, लेकिन शून्य विकास आवंटन से चक्रवृद्धि रिटर्न चूकते हैं।',
+              te: 'మూలధన భద్రత అద్భుతమైనది, కానీ వృద్ధి కేటాయింపు లేకపోవడం చక్రవడ్డీ రాబడి కోల్పోవడం.',
+            },
+          },
+          {
+            id: 'inv001_step1_bad',
+            tier: 'bad',
+            text: {
+              en: 'Put all 10 tokens in Plant B when you need the tokens next week.',
+              hi: 'अगले हफ्ते जरूरत होने पर भी सब पौधा B में।',
+              te: 'వచ్చే వారం అవసరమైనప్పుడు కూడా అన్నీ ప్లాంట్ B లో.',
+            },
+            outcomeDescription: {
+              en: 'A bad turn wipes out your tokens right before you need them!',
+              hi: 'एक बुरे मोड़ ने जरूरत से पहले टोकन बर्बाद कर दिए!',
+              te: 'ఒక చెడు మోడ్ అవసరానికి ముందే టోకెన్లన్నీ తుడిచివేసింది!',
+            },
+            financialImpact: { walletDelta: -300, emergencyDelta: -100, scoreDelta: -40, stressDelta: 40 },
+            pedagogicalFeedback: {
+              en: 'Never invest near-term needed money in variable-growth assets.',
+              hi: 'जल्द जरूरी पैसे कभी परिवर्तनशील संपत्ति में मत लगाएं।',
+              te: 'త్వరలో అవసరమయ్యే డబ్బును వేరియబుల్ ఆస్తులలో పెట్టకు.',
+            },
+          },
+          {
+            id: 'inv001_step1_very_bad',
+            tier: 'very_bad',
+            text: {
+              en: 'Borrow 20 tokens from a loan shark to plant all in Plant B.',
+              hi: 'साहूकार से 20 टोकन उधार लेकर सब पौधा B में लगाएं।',
+              te: 'వడ్డీ వ్యాపారి నుండి 20 టోకెన్లు అప్పు తీసుకుని అన్నీ ప్లాంట్ B లో నాటండి.',
+            },
+            outcomeDescription: {
+              en: 'You lose the bet and end up in deep debt trouble with no way out!',
+              hi: 'शर्त हार गए और बिना चुकाने की क्षमता के गहरे कर्ज में डूब गए!',
+              te: 'పందెం ఓడిపోయి చెల్లించే మార్గం లేకుండా తీవ్రమైన అప్పుల ఇబ్బందిలో చిక్కుకుపోతావు!',
+            },
+            financialImpact: { walletDelta: -600, emergencyDelta: -200, scoreDelta: -90, stressDelta: 80 },
+            pedagogicalFeedback: {
+              en: 'Never borrow to invest in volatile assets. Losses are still owed as debt plus interest.',
+              hi: 'अस्थिर संपत्ति में निवेश के लिए कभी उधार मत लो। नुकसान भी कर्ज और ब्याज के रूप में चुकाना पड़ता है।',
+              te: 'అస్థిర ఆస్తులలో పెట్టుబడికి ఎప్పుడూ అప్పు చేయకు.',
+            },
+            educationalVideoTitle: 'Why Borrowing to Invest is Extremely Dangerous',
+          },
+        ],
+      },
+      {
+        id: 'scenario_inv_001_step_2',
+        title: {
+          en: 'Decision 2: Weathering Year 2 Frost',
+          hi: 'निर्णय 2: साल 2 की पाले का सामना',
+          te: 'నిర్ణయం 2: సంవత్సరం 2 మంచు తట్టుకోవడం',
+        },
+        situationContext: {
+          en: 'A dry frost hits the garden. Plant B produces zero bonus fruit, while Plant A yields 2 lemons. Your classmates are panicking and ripping out their Plant B. What will you do?',
+          hi: 'बगीचे में सूखा पाला पड़ता है। पौधा B शून्य बोनस फल देता है, जबकि पौधा A 2 नींबू देता है। सहपाठी घबराकर अपना पौधा B उखाड़ रहे हैं। आप क्या करेंगे?',
+          te: 'తోటకు పొడి మంచు సోకింది. ప్లాంట్ B జీరో బోనస్ ఫలాలు ఇస్తోంది, ప్లాంట్ A 2 నిమ్మకాయలు ఇస్తోంది. సహాధ్యాయులు భయంతో వారి ప్లాంట్ B తీసేస్తున్నారు. నువ్వేం చేస్తావు?',
+        },
+        choices: [
+          {
+            id: 'inv001_step2_best',
+            tier: 'best',
+            text: {
+              en: 'Stay patient and let both plants grow; use Plant A\'s lemons to support your score.',
+              hi: 'धैर्य रखें और दोनों पौधे उगने दें; Plant A के नींबुओं से स्कोर समर्थित करें।',
+              te: 'ఓర్పుగా ఉండు, రెండు మొక్కలు పెరగనివ్వు; ప్లాంట్ A నిమ్మకాయలతో స్కోర్ నిలబెట్టు.',
+            },
+            outcomeDescription: {
+              en: 'You protect your tokens and allow Plant B time to recover. Smart long-term thinking!',
+              hi: 'आप अपने टोकन बचाते हैं और पौधा B को ठीक होने का समय देते हैं। स्मार्ट दीर्घकालिक सोच!',
+              te: 'నువ్వు నీ టోకెన్లు కాపాడుతావు, ప్లాంట్ B కి కోలుకునే సమయం ఇస్తావు. స్మార్ట్ దీర్ఘకాలిక ఆలోచన!',
+            },
+            financialImpact: { walletDelta: 50, emergencyDelta: 0, scoreDelta: 100, stressDelta: -15 },
+            pedagogicalFeedback: {
+              en: 'Staying invested through temporary downturns is how long-term investors build wealth. Panic selling locks in losses.',
+              hi: 'अस्थायी गिरावट में निवेशित रहना दीर्घकालिक निवेशकों की संपत्ति बनाने का तरीका है। घबराहट में बेचने से नुकसान पक्का हो जाता है।',
+              te: 'తాత్కాలిక పతనాల్లో పెట్టుబడిలో ఉండటమే దీర్ఘకాలిక పెట్టుబడిదారులు సంపద నిర్మించే విధానం.',
+            },
+          },
+          {
+            id: 'inv001_step2_good',
+            tier: 'good',
+            text: {
+              en: 'Move 1 token from Plant A to Plant B while seeds are cheap.',
+              hi: 'बीज सस्ते होने पर पौधा A से 1 टोकन पौधा B में स्थानांतरित करें।',
+              te: 'విత్తనాలు చౌకగా ఉన్నప్పుడు ప్లాంట్ A నుండి 1 టోకెన్ ప్లాంట్ B కి మార్చు.',
+            },
+            outcomeDescription: {
+              en: 'You buy growth potential at a discount while keeping a solid safety cushion.',
+              hi: 'छूट पर विकास क्षमता खरीदते हैं और सुरक्षा बनाए रखते हैं।',
+              te: 'తక్కువ ధరకు వృద్ధి సంభావ్యత కొంటావు, సురక్షిత నిల్వ నిలబెట్టుతావు.',
+            },
+            financialImpact: { walletDelta: 30, emergencyDelta: 0, scoreDelta: 75, stressDelta: -5 },
+            pedagogicalFeedback: {
+              en: "Buying more growth assets when prices are low (\"buying the dip\") is a sound strategy if your safety cushion is intact.",
+              hi: 'कीमतें कम होने पर अधिक विकास संपत्ति खरीदना ("डिप खरीदना") एक अच्छी रणनीति है।',
+              te: '"ఖరీదు తగ్గినప్పుడు కొనడం" మీ సురక్షిత నిల్వ సురక్షితంగా ఉంటే మంచి వ్యూహం.',
+            },
+          },
+          {
+            id: 'inv001_step2_bad',
+            tier: 'bad',
+            text: {
+              en: 'Cut down Plant B in anger, locking in your losses.',
+              hi: 'गुस्से में पौधा B काट डालें, नुकसान को पक्का करें।',
+              te: 'కోపంతో ప్లాంట్ B నరికివేయి, నష్టాలను ఖరారు చేసుకో.',
+            },
+            outcomeDescription: {
+              en: 'You lose your tokens permanently because you panicked and sold at the worst time!',
+              hi: 'घबराहट में सबसे बुरे समय पर बेचकर टोकन हमेशा के लिए खो दिए!',
+              te: 'అత్యంత చెడు సమయంలో అమ్మి నీ టోకెన్లు శాశ్వతంగా కోల్పోయావు!',
+            },
+            financialImpact: { walletDelta: -200, emergencyDelta: 0, scoreDelta: -50, stressDelta: 40 },
+            pedagogicalFeedback: {
+              en: 'Panic selling during market dips permanently destroys the potential recovery gains.',
+              hi: 'बाजार में गिरावट के दौरान घबराहट में बेचने से संभावित सुधार लाभ स्थायी रूप से नष्ट हो जाते हैं।',
+              te: 'మార్కెట్ పతనాల్లో పానిక్ సేల్ చేయడం సంభావ్య కోలుకోలు లాభాలను శాశ్వతంగా నాశనం చేస్తుంది.',
+            },
+          },
+          {
+            id: 'inv001_step2_very_bad',
+            tier: 'very_bad',
+            text: {
+              en: 'Abandon the garden entirely and quit the school project.',
+              hi: 'बगीचा पूरी तरह छोड़ दें और स्कूल प्रोजेक्ट से हट जाएं।',
+              te: 'తోటను పూర్తిగా వదిలేసి పాఠశాల ప్రాజెక్ట్ మానేయి.',
+            },
+            outcomeDescription: {
+              en: 'You score zero on your assignment and lose all your tokens. Total failure!',
+              hi: 'असाइनमेंट में शून्य अंक मिलते हैं और सभी टोकन खो जाते हैं। पूर्ण विफलता!',
+              te: 'నీ అసైన్‌మెంట్‌లో జీరో స్కోర్ మరియు అన్ని టోకెన్లు కోల్పోతావు. పూర్తి వైఫల్యం!',
+            },
+            financialImpact: { walletDelta: -400, emergencyDelta: -200, scoreDelta: -100, stressDelta: 80 },
+            pedagogicalFeedback: {
+              en: 'Never abandon a long-term investment during a temporary setback. Quitting guarantees your losses become permanent.',
+              hi: 'अस्थायी असफलता के दौरान दीर्घकालिक निवेश कभी मत छोड़ें। छोड़ने से नुकसान स्थायी हो जाता है।',
+              te: 'తాత్కాలిక ఇబ్బంది సమయంలో దీర్ఘకాలిక పెట్టుబడి వదలకు. వదలడం నష్టాలను శాశ్వతం చేస్తుంది.',
+            },
+            educationalVideoTitle: 'The Cost of Panic Selling vs Staying Invested',
+          },
+        ],
+      },
+      {
+        id: 'scenario_inv_001_step_3',
+        title: {
+          en: 'Decision 3: The Year 3 Harvest',
+          hi: 'निर्णय 3: साल 3 की फसल',
+          te: 'నిర్ణయం 3: సంవత్సరం 3 పంట',
+        },
+        situationContext: {
+          en: 'Spring rain arrives in Year 3. Plant B blooms and produces 8 sweet mangoes. You have your original 10 tokens safe in Plant A plus this bonus harvest. What do you do with the bonus fruit?',
+          hi: 'साल 3 में बसंती बारिश आती है। पौधा B खिलता है और 8 मीठे आम देता है। आपके मूल 10 टोकन पौधा A में सुरक्षित हैं और यह बोनस फसल है। बोनस फल के साथ क्या करेंगे?',
+          te: 'సంవత్సరం 3 లో వసంత వర్షం వస్తుంది. ప్లాంట్ B వికసించి 8 తీపి మామిడిపళ్ళు ఇస్తుంది. నీ అసలు 10 టోకెన్లు ప్లాంట్ A లో సురక్షితంగా ఉన్నాయి, ఈ బోనస్ పంట అదనంగా ఉంది. బోనస్ ఫలాలతో ఏం చేస్తావు?',
+        },
+        choices: [
+          {
+            id: 'inv001_step3_best',
+            tier: 'best',
+            text: {
+              en: 'Store your 10 original tokens in your safe box and enjoy the bonus fruit.',
+              hi: 'मूल 10 टोकन अपने सुरक्षित बक्से में रखें और बोनस फल का आनंद लें।',
+              te: 'నీ అసలు 10 టోకెన్లు సేఫ్ బాక్స్‌లో నిల్వ చేసి బోనస్ ఫలాలు ఆస్వాదించు.',
+            },
+            outcomeDescription: {
+              en: 'Your initial savings stay safe while you enjoy the extra reward. Perfect capital preservation!',
+              hi: 'आपकी प्रारंभिक बचत सुरक्षित रहती है और आप अतिरिक्त पुरस्कार का आनंद लेते हैं। उत्तम पूंजी संरक्षण!',
+              te: 'నీ ప్రారంభ పొదుపు సురక్షితంగా ఉంటుంది, అదనపు బహుమతి ఆస్వాదిస్తావు. అద్భుతమైన మూలధన సంరక్షణ!',
+            },
+            financialImpact: { walletDelta: 400, emergencyDelta: 100, scoreDelta: 100, stressDelta: -30 },
+            pedagogicalFeedback: {
+              en: 'Protecting your original capital while enjoying bonus returns is the gold standard of investment discipline.',
+              hi: 'मूल पूंजी की रक्षा करते हुए बोनस रिटर्न का आनंद लेना निवेश अनुशासन का स्वर्ण मानक है।',
+              te: 'అసలు మూలధనాన్ని రక్షిస్తూ బోనస్ రాబడి ఆస్వాదించడం పెట్టుబడి క్రమశిక్షణ యొక్క స్వర్ణ ప్రమాణం.',
+            },
+            educationalVideoTitle: 'Capital Preservation: The Foundation of Long-Term Wealth',
+          },
+          {
+            id: 'inv001_step3_good',
+            tier: 'good',
+            text: {
+              en: 'Replant half the fruit seeds and store the other half.',
+              hi: 'आधे फल के बीज दोबारा लगाएं और बाकी आधे रखें।',
+              te: 'సగం ఫలాల విత్తనాలు మళ్ళీ నాటు, మిగతా సగం నిల్వ చేసుకో.',
+            },
+            outcomeDescription: {
+              en: 'You balance new growth with reliable safety. A great compounding strategy!',
+              hi: 'नई वृद्धि और विश्वसनीय सुरक्षा में संतुलन। एक उत्तम चक्रवृद्धि रणनीति!',
+              te: 'నూతన వృద్ధి మరియు విశ్వసనీయ భద్రత మధ్య సమతుల్యత. అద్భుతమైన కాంపౌండింగ్ వ్యూహం!',
+            },
+            financialImpact: { walletDelta: 250, emergencyDelta: 50, scoreDelta: 75, stressDelta: -15 },
+            pedagogicalFeedback: {
+              en: 'Reinvesting part of your returns while banking the rest creates a powerful compounding flywheel.',
+              hi: 'रिटर्न का एक हिस्सा फिर से निवेश करना और बाकी जमा रखना चक्रवृद्धि का शक्तिशाली चक्र बनाता है।',
+              te: 'రాబడిలో కొంత భాగం పునర్వ్యాటం చేయడం, మిగతా భద్రపరచడం శక్తివంతమైన కాంపౌండింగ్ వలయం సృష్టిస్తుంది.',
+            },
+          },
+          {
+            id: 'inv001_step3_bad',
+            tier: 'bad',
+            text: {
+              en: 'Gamble all the bonus fruit on an unverified exotic seed.',
+              hi: 'सभी बोनस फल एक अप्रमाणित विदेशी बीज पर जुए में लगाएं।',
+              te: 'అన్ని బోనస్ ఫలాలు అసత్య ఎగ్జాటిక్ విత్తనంపై జూదం ఆడు.',
+            },
+            outcomeDescription: {
+              en: 'You risk losing your hard-earned returns on an unverified scheme. Big mistake!',
+              hi: 'अप्रमाणित योजना पर मेहनत की कमाई दांव पर लगाते हैं। बड़ी गलती!',
+              te: 'కష్టార్జిత రాబడిని అసత్య పథకంపై పందెం వేస్తావు. పెద్ద తప్పు!',
+            },
+            financialImpact: { walletDelta: -250, emergencyDelta: 0, scoreDelta: -50, stressDelta: 50 },
+            pedagogicalFeedback: {
+              en: 'Never gamble your investment returns on unverified schemes. Always research before investing any gains.',
+              hi: 'कभी भी अप्रमाणित योजनाओं पर अपनी निवेश आय जुए में मत लगाएं।',
+              te: 'ఎప్పుడూ అసత్య పథకాలపై నీ పెట్టుబడి రాబడి జూదం ఆడకు.',
+            },
+          },
+          {
+            id: 'inv001_step3_very_bad',
+            tier: 'very_bad',
+            text: {
+              en: 'Throw the harvest away because you wanted twice as much fruit.',
+              hi: 'फसल फेंक दें क्योंकि दोगुने फल चाहिए थे।',
+              te: 'రెండు రెట్లు ఫలాలు కావాలని పంటను పారేసేయి.',
+            },
+            outcomeDescription: {
+              en: 'You throw away your gains out of pure greed. All 8 mangoes wasted!',
+              hi: 'शुद्ध लालच से सभी लाभ बर्बाद कर दिए। 8 आम व्यर्थ!',
+              te: 'కేవలం దురాశతో నీ సంపాదన అంతా వృధా చేసావు. 8 మామిడిపళ్ళు నిరుపయోగం!',
+            },
+            financialImpact: { walletDelta: -400, emergencyDelta: -100, scoreDelta: -100, stressDelta: 70 },
+            pedagogicalFeedback: {
+              en: 'Greed-driven decisions destroy real gains. Celebrate good returns, do not waste them waiting for impossible perfection.',
+              hi: 'लालच-प्रेरित निर्णय वास्तविक लाभ नष्ट करते हैं। अच्छे रिटर्न का जश्न मनाएं, असंभव पूर्णता की प्रतीक्षा में बर्बाद मत करें।',
+              te: 'దురాశతో తీసుకున్న నిర్ణయాలు నిజమైన లాభాలను నాశనం చేస్తాయి. మంచి రాబడిని వేడుక చేసుకో.',
+            },
+            educationalVideoTitle: 'Recognizing Ponzi Schemes and Get-Rich-Quick Scams',
+          },
+        ],
+      },
+    ],
+  },
+
+  scenario_inv_002_cargo_boat: {
+    id: 'scenario_inv_002_cargo_boat',
+    cityId: 'city_investment_valley',
+    pillar: 'invest',
+    title: {
+      en: 'The Cargo Boat Challenge',
+      hi: 'कार्गो नाव चुनौती',
+      te: 'కార్గో పడవ సవాలు',
+    },
+    subtitle: {
+      en: "Don't put all eggs in one basket — diversify your cargo across three boats",
+      hi: 'सारे अंडे एक टोकरी में मत रखो — तीन नावों में माल बांटो',
+      te: 'అన్ని గుడ్లు ఒక బుట్టలో వేయకు — మూడు పడవలలో సరుకు పంచు',
+    },
+    situationContext: {
+      en: "You have 6 bags of study grain to send across the river. Boat Master Kabir introduces three boats: a Wooden Canoe (fastest but rickety), a Motor Launch (reliable), and a Ferry (slowest but safest). How will you distribute the cargo?",
+      hi: 'आपके पास नदी पार भेजने के लिए 6 बोरे अनाज हैं। नाविक कबीर तीन नावें दिखाता है: लकड़ी की डोंगी (सबसे तेज लेकिन जर्जर), मोटर लॉन्च (विश्वसनीय) और फेरी (सबसे धीमी लेकिन सुरक्षित)। माल कैसे बांटेंगे?',
+      te: 'నీకు నది దాటించాల్సిన 6 సంచులు ఉన్నాయి. బోట్ మాస్టర్ కబీర్ మూడు పడవలు పరిచయం చేస్తాడు: చెక్క పడవ (అత్యంత వేగవంతం కానీ పాత), మోటారు లాంచ్ (నమ్మకమైనది), ఫెర్రీ (అత్యంత నెమ్మది కానీ సురక్షితమైనది). సరుకు ఎలా పంచుతావు?',
+    },
+    stipendContext: 'River Boat Dock | Study Grain: 6 bags | Boat Master Kabir',
+    educationalHint: {
+      en: "Diversification reduces risk. Spreading cargo across multiple vessels means if one fails, others still deliver safely.",
+      hi: 'विविधीकरण जोखिम कम करता है। कई जहाजों में माल फैलाने से अगर एक विफल हो तो बाकी सुरक्षित पहुंचता है।',
+      te: 'వైవిధ్యం రిస్క్ తగ్గిస్తుంది. అనేక నౌకలలో సరుకు పంచడం అంటే ఒకటి విఫలమైనా మిగతావి సురక్షితంగా చేరుతాయి.',
+    },
+    choices: [
+      {
+        id: 'inv002_choice_best',
+        tier: 'best',
+        text: {
+          en: 'Put 2 bags in the Canoe, 2 bags in the Motor Launch, and 2 bags in the Ferry.',
+          hi: '2 बोरे डोंगी में, 2 मोटर लॉन्च में और 2 फेरी में।',
+          te: '2 సంచులు డోంగీలో, 2 మోటారు లాంచ్‌లో, 2 ఫెర్రీలో.',
+        },
+        outcomeDescription: {
+          en: 'If one boat engine stalls, 4 bags still cross safely! Perfect diversification!',
+          hi: 'अगर एक नाव का इंजन फेल हो जाए तो भी 4 बोरे सुरक्षित पहुंच जाते हैं! उत्तम विविधीकरण!',
+          te: 'ఒక పడవ ఇంజన్ ఆగిపోయినా 4 సంచులు సురక్షితంగా దాటుతాయి! అద్భుతమైన వైవిధ్యం!',
+        },
+        financialImpact: { walletDelta: 300, emergencyDelta: 0, scoreDelta: 100, stressDelta: -25 },
+        pedagogicalFeedback: {
+          en: 'Equal weight diversification across asset classes ensures no single failure destroys your entire portfolio.',
+          hi: 'परिसंपत्ति वर्गों में समान भारांकन विविधीकरण सुनिश्चित करता है कि एकल विफलता से पूरा पोर्टफोलियो नष्ट न हो।',
+          te: 'ఆస్తి తరగతులలో సమాన వెయిటేజ్ వైవిధ్యం ఒకే వైఫల్యం మీ పూర్తి పోర్ట్‌ఫోలియోను నాశనం చేయకుండా నిర్ధారిస్తుంది.',
+        },
+        educationalVideoTitle: 'Diversification: The Only Free Lunch in Investing',
+      },
+      {
+        id: 'inv002_choice_good',
+        tier: 'good',
+        text: {
+          en: 'Put 3 bags in the Motor Launch and 3 bags in the Ferry.',
+          hi: '3 बोरे मोटर लॉन्च में और 3 फेरी में।',
+          te: '3 సంచులు మోటారు లాంచ్‌లో, 3 ఫెర్రీలో.',
+        },
+        outcomeDescription: {
+          en: 'Safe and dependable split, with minimal delay. You avoid the risky Canoe.',
+          hi: 'न्यूनतम देरी के साथ सुरक्षित और विश्वसनीय बंटवारा। जोखिम भरी डोंगी से बचते हैं।',
+          te: 'కనీస ఆలస్యంతో సురక్షిత, నమ్మకమైన విభజన. ప్రమాదకరమైన డోంగీని నివారిస్తావు.',
+        },
+        financialImpact: { walletDelta: 200, emergencyDelta: 0, scoreDelta: 75, stressDelta: -10 },
+        pedagogicalFeedback: {
+          en: 'Splitting between two reliable assets is better than concentrating all in one, even if you miss the fastest option.',
+          hi: 'दो विश्वसनीय संपत्तियों के बीच विभाजन एक में सब डालने से बेहतर है।',
+          te: 'రెండు నమ్మకమైన ఆస్తుల మధ్య విభజన ఒకదానిలో అన్నీ కేంద్రీకరించడం కంటే మెరుగైనది.',
+        },
+      },
+      {
+        id: 'inv002_choice_bad',
+        tier: 'bad',
+        text: {
+          en: 'Put 5 bags into the fastest, rickety Canoe to arrive 5 minutes earlier.',
+          hi: '5 मिनट पहले पहुंचने के लिए 5 बोरे सबसे तेज जर्जर डोंगी में।',
+          te: '5 నిమిషాలు ముందు చేరడానికి 5 సంచులు అత్యంత వేగమైన పాత డోంగీలో.',
+        },
+        outcomeDescription: {
+          en: 'Water splashes inside and spoils most of your grain. Speed was not worth the risk!',
+          hi: 'पानी अंदर छलकता है और अधिकांश अनाज खराब हो जाता है। गति जोखिम के लायक नहीं थी!',
+          te: 'నీరు లోపలికి చిమ్ముతుంది, చాలావరకు ధాన్యం పాడవుతుంది. వేగం ఆ రిస్క్ తీసుకోవడానికి తగినది కాదు!',
+        },
+        financialImpact: { walletDelta: -300, emergencyDelta: 0, scoreDelta: -45, stressDelta: 40 },
+        pedagogicalFeedback: {
+          en: 'Concentrating risk in the fastest option at the expense of safety is a classic investing mistake.',
+          hi: 'सुरक्षा की कीमत पर सबसे तेज विकल्प में जोखिम केंद्रित करना क्लासिक निवेश गलती है।',
+          te: 'భద్రత ఖర్చుతో వేగవంతమైన ఎంపికలో రిస్క్ కేంద్రీకరించడం క్లాసిక్ పెట్టుబడి తప్పు.',
+        },
+      },
+      {
+        id: 'inv002_choice_very_bad',
+        tier: 'very_bad',
+        text: {
+          en: 'Pile all 6 bags onto a leaking raft because the operator promised a cash reward.',
+          hi: 'ऑपरेटर ने नकद पुरस्कार का वादा किया इसलिए लीक होती राफ्ट पर सभी 6 बोरे डाल दिए।',
+          te: 'ఆపరేటర్ నగదు బహుమతి వాగ్దానం చేశాడని లీక్ అవుతున్న తేలు పడవపై అన్ని 6 సంచులు వేస్తావు.',
+        },
+        outcomeDescription: {
+          en: 'The raft sinks and all your cargo is lost! Promises of rewards never guarantee safety!',
+          hi: 'राफ्ट डूब जाती है और सारा माल खो जाता है! पुरस्कार के वादे कभी सुरक्षा की गारंटी नहीं देते!',
+          te: 'తేలు పడవ మునిగిపోతుంది, నీ సరుకు అంతా పోతుంది! బహుమతి వాగ్దానాలు ఎప్పుడూ భద్రతకు హామీ ఇవ్వవు!',
+        },
+        financialImpact: { walletDelta: -600, emergencyDelta: -200, scoreDelta: -90, stressDelta: 80 },
+        pedagogicalFeedback: {
+          en: 'Promises of extra cash rewards from unvetted sources should be treated as red flags. Verify before you trust.',
+          hi: 'अनजान स्रोतों से अतिरिक्त नकद पुरस्कार के वादों को खतरे के संकेत के रूप में देखें।',
+          te: 'అసత్య వనరుల నుండి అదనపు నగదు బహుమతి వాగ్దానాలను ప్రమాద సంకేతాలుగా పరిగణించు.',
+        },
+        educationalVideoTitle: 'Recognizing Ponzi Schemes and Get-Rich-Quick Scams',
+      },
+    ],
+    steps: [
+      {
+        id: 'scenario_inv_002_step_1',
+        title: {
+          en: 'Decision 1: Loading the Grain Sacks',
+          hi: 'निर्णय 1: अनाज की बोरियां लादना',
+          te: 'నిర్ణయం 1: ధాన్యపు సంచులు లోడు చేయడం',
+        },
+        situationContext: {
+          en: "You have 6 bags of study grain to send across the river. Three boats await: a Wooden Canoe, a Motor Launch, and a Ferry. Place the 6 bags into the boats.",
+          hi: 'आपके पास नदी पार भेजने के लिए 6 बोरे अनाज हैं। तीन नावें तैयार हैं: लकड़ी की डोंगी, मोटर लॉन्च और फेरी। 6 बोरे नावों में डालें।',
+          te: 'నీకు నది దాటించాల్సిన 6 ధాన్యపు సంచులు ఉన్నాయి. మూడు పడవలు సిద్ధంగా ఉన్నాయి: చెక్క పడవ, మోటారు లాంచ్, ఫెర్రీ. 6 సంచులు పడవలలో పెట్టు.',
+        },
+        choices: [
+          {
+            id: 'inv002_step1_best',
+            tier: 'best',
+            text: {
+              en: 'Put 2 bags in the Canoe, 2 bags in the Motor Launch, and 2 bags in the Ferry.',
+              hi: '2 बोरे डोंगी, 2 मोटर लॉन्च और 2 फेरी में।',
+              te: '2 సంచులు డోంగీలో, 2 మోటారు లాంచ్‌లో, 2 ఫెర్రీలో.',
+            },
+            outcomeDescription: {
+              en: 'If one boat engine stalls, 4 bags still cross safely!',
+              hi: 'एक नाव का इंजन फेल हो तो भी 4 बोरे सुरक्षित!',
+              te: 'ఒక పడవ ఆగిపోయినా 4 సంచులు సురక్షితంగా దాటుతాయి!',
+            },
+            financialImpact: { walletDelta: 200, emergencyDelta: 0, scoreDelta: 100, stressDelta: -20 },
+            pedagogicalFeedback: {
+              en: 'Equal weight diversification ensures no single failure destroys your entire portfolio.',
+              hi: 'समान भारांकन विविधीकरण एकल विफलता से पोर्टफोलियो को बचाता है।',
+              te: 'సమాన వెయిటేజ్ వైవిధ్యం ఒకే వైఫల్యం పోర్ట్‌ఫోలియోను నాశనం చేయకుండా చేస్తుంది.',
+            },
+            educationalVideoTitle: 'Diversification: The Only Free Lunch in Investing',
+          },
+          {
+            id: 'inv002_step1_good',
+            tier: 'good',
+            text: {
+              en: 'Put 3 bags in the Motor Launch and 3 bags in the Ferry.',
+              hi: '3 बोरे मोटर लॉन्च और 3 फेरी में।',
+              te: '3 సంచులు మోటారు లాంచ్‌లో, 3 ఫెర్రీలో.',
+            },
+            outcomeDescription: {
+              en: 'Safe and dependable, with minimal delay. You avoid the risky Canoe.',
+              hi: 'सुरक्षित और विश्वसनीय, न्यूनतम देरी।',
+              te: 'సురక్షిత, నమ్మకమైన విభజన, కనీస ఆలస్యం.',
+            },
+            financialImpact: { walletDelta: 150, emergencyDelta: 0, scoreDelta: 70, stressDelta: -10 },
+            pedagogicalFeedback: {
+              en: 'Splitting between two reliable assets beats concentrating all in one.',
+              hi: 'दो विश्वसनीय संपत्तियों में बंटवारा एक में सब से बेहतर।',
+              te: 'రెండు నమ్మకమైన ఆస్తుల మధ్య విభజన ఒకదానిలో అన్నీ కేంద్రీకరించడం కంటే మెరుగైనది.',
+            },
+          },
+          {
+            id: 'inv002_step1_bad',
+            tier: 'bad',
+            text: {
+              en: 'Put 5 bags into the fastest, rickety Canoe to arrive 5 minutes earlier.',
+              hi: '5 मिनट पहले पहुंचने के लिए 5 बोरे जर्जर डोंगी में।',
+              te: '5 నిమిషాలు ముందు చేరడానికి 5 సంచులు పాత డోంగీలో.',
+            },
+            outcomeDescription: {
+              en: 'Water splashes inside and spoils most of your grain!',
+              hi: 'पानी अंदर छलकता है, अधिकांश अनाज खराब!',
+              te: 'నీరు లోపలికి చిమ్ముతుంది, చాలా ధాన్యం పాడవుతుంది!',
+            },
+            financialImpact: { walletDelta: -250, emergencyDelta: 0, scoreDelta: -40, stressDelta: 35 },
+            pedagogicalFeedback: {
+              en: 'Concentrating risk in the fastest option at the expense of safety is a classic mistake.',
+              hi: 'सुरक्षा की कीमत पर सबसे तेज में जोखिम केंद्रित करना क्लासिक गलती है।',
+              te: 'భద్రత ఖర్చుతో వేగవంతమైన ఎంపికలో రిస్క్ కేంద్రీకరించడం క్లాసిక్ తప్పు.',
+            },
+          },
+          {
+            id: 'inv002_step1_very_bad',
+            tier: 'very_bad',
+            text: {
+              en: 'Pile all 6 bags onto a leaking raft because the operator promised a cash reward.',
+              hi: 'नकद पुरस्कार के लालच में लीक राफ्ट पर सभी 6 बोरे।',
+              te: 'నగదు బహుమతి వాగ్దానానికి లొంగి లీక్ పడవపై 6 సంచులు.',
+            },
+            outcomeDescription: {
+              en: 'The raft sinks and all cargo is lost!',
+              hi: 'राफ्ट डूबती है, सारा माल खो जाता है!',
+              te: 'పడవ మునిగి, సరుకు అంతా పోతుంది!',
+            },
+            financialImpact: { walletDelta: -600, emergencyDelta: -200, scoreDelta: -90, stressDelta: 80 },
+            pedagogicalFeedback: {
+              en: 'Cash-reward promises from unvetted sources are classic red flags. Verify before you trust.',
+              hi: 'अनजान स्रोत से नकद इनाम के वादे खतरे के संकेत हैं।',
+              te: 'అసత్య వనరుల నగదు బహుమతి వాగ్దానాలు ప్రమాద సంకేతాలు.',
+            },
+            educationalVideoTitle: 'Recognizing Ponzi Schemes and Get-Rich-Quick Scams',
+          },
+        ],
+      },
+      {
+        id: 'scenario_inv_002_step_2',
+        title: {
+          en: 'Decision 2: Mid-River Rapids',
+          hi: 'निर्णय 2: नदी के बीच तेज धार',
+          te: 'నిర్ణయం 2: నది మధ్య ఉద్ధృత ప్రవాహం',
+        },
+        situationContext: {
+          en: "A rapid hits the Canoe and soaks 2 bags. The other boats navigate the river safely. What will you do about the wet bags?",
+          hi: 'तेज धार डोंगी से टकराती है और 2 बोरे भीग जाते हैं। बाकी नावें सुरक्षित हैं। भीगे बोरों के बारे में क्या करेंगे?',
+          te: 'ఉద్ధృత ప్రవాహం డోంగీని తాకి 2 సంచులు తడుస్తాయి. మిగతా పడవలు సురక్షితంగా వెళ్తున్నాయి. తడిసిన సంచులతో ఏం చేస్తావు?',
+        },
+        choices: [
+          {
+            id: 'inv002_step2_best',
+            tier: 'best',
+            text: {
+              en: 'Continue calmly with the 4 safe bags on the remaining two boats.',
+              hi: 'शांति से बाकी दो नावों पर 4 सुरक्षित बोरों के साथ जारी रखें।',
+              te: 'మిగతా రెండు పడవలపై 4 సురక్షిత సంచులతో నిశ్చలంగా ముందుకు సాగు.',
+            },
+            outcomeDescription: {
+              en: 'You protect the majority of your harvest thanks to smart diversification!',
+              hi: 'स्मार्ट विविधीकरण की बदौलत अधिकांश फसल सुरक्षित है!',
+              te: 'స్మార్ట్ వైవిధ్యం వల్ల నీ పంటలో అధికభాగం సురక్షితం!',
+            },
+            financialImpact: { walletDelta: 150, emergencyDelta: 0, scoreDelta: 100, stressDelta: -15 },
+            pedagogicalFeedback: {
+              en: 'Diversification pays off exactly in moments like this — when one asset suffers, the rest survive.',
+              hi: 'ऐसे ही पलों में विविधीकरण रंग लाता है — एक संपत्ति पीड़ित होती है, बाकी जीवित रहती हैं।',
+              te: 'ఇలాంటి సందర్భాలలోనే వైవిధ్యం ఫలిస్తుంది — ఒక ఆస్తి దెబ్బతింటే, మిగతావి మనుగడ సాగిస్తాయి.',
+            },
+          },
+          {
+            id: 'inv002_step2_good',
+            tier: 'good',
+            text: {
+              en: 'Signal the Ferry to pull alongside and inspect the wet bags.',
+              hi: 'फेरी को पास आने का संकेत दें और भीगे बोरों का निरीक्षण करें।',
+              te: 'ఫెర్రీకి సంకేతం ఇచ్చి తడిసిన సంచులు తనిఖీ చేయి.',
+            },
+            outcomeDescription: {
+              en: 'You rescue some damp grain without endangering the rest.',
+              hi: 'बाकी को खतरे में डाले बिना कुछ भीगा अनाज बचाते हैं।',
+              te: 'మిగతావాటిని ప్రమాదంలో పెట్టకుండా కొంత తడిసిన ధాన్యం రక్షిస్తావు.',
+            },
+            financialImpact: { walletDelta: 100, emergencyDelta: 0, scoreDelta: 70, stressDelta: -5 },
+            pedagogicalFeedback: {
+              en: 'Proactive risk management — inspecting damage without reckless action — is smart financial governance.',
+              hi: 'लापरवाह कार्रवाई के बिना क्षति का निरीक्षण करना स्मार्ट वित्तीय प्रशासन है।',
+              te: 'అలాంటి చర్య లేకుండా నష్టం తనిఖీ చేయడం స్మార్ట్ ఆర్థిక నిర్వహణ.',
+            },
+          },
+          {
+            id: 'inv002_step2_bad',
+            tier: 'bad',
+            text: {
+              en: 'Jump into the water to save the wet bags, putting yourself at risk.',
+              hi: 'भीगे बोरे बचाने के लिए पानी में कूदें, खुद को खतरे में डालें।',
+              te: 'తడిసిన సంచులు రక్షించడానికి నీటిలోకి దూకు, నిన్ను ప్రమాదంలో పెట్టుకో.',
+            },
+            outcomeDescription: {
+              en: 'You put your own safety at risk over two bags of grain. Huge overreaction!',
+              hi: 'दो बोरे के लिए खुद की जान जोखिम में डाली। बहुत बड़ी अतिप्रतिक्रिया!',
+              te: 'రెండు సంచుల కోసం నీ సొంత భద్రత ప్రమాదంలో పెట్టావు. భారీ అతిప్రతిస్పందన!',
+            },
+            financialImpact: { walletDelta: -150, emergencyDelta: -50, scoreDelta: -40, stressDelta: 40 },
+            pedagogicalFeedback: {
+              en: 'Risking everything to save a small portion of a diversified portfolio destroys the very protection diversification provides.',
+              hi: 'विविधीकृत पोर्टफोलियो का छोटा हिस्सा बचाने के लिए सब दांव पर लगाना विविधीकरण का उद्देश्य नष्ट करता है।',
+              te: 'వైవిధ్య పోర్ట్‌ఫోలియోలో చిన్న భాగం రక్షించడానికి అన్నీ రిస్క్‌లో పెట్టడం వైవిధ్యం ఇచ్చే రక్షణను నాశనం చేస్తుంది.',
+            },
+          },
+          {
+            id: 'inv002_step2_very_bad',
+            tier: 'very_bad',
+            text: {
+              en: 'Tip over the remaining boats in anger.',
+              hi: 'गुस्से में बाकी नावें पलट दें।',
+              te: 'కోపంతో మిగతా పడవలు పలికివేసేయి.',
+            },
+            outcomeDescription: {
+              en: 'You destroy your entire cargo out of rage! Total loss of all 6 bags!',
+              hi: 'गुस्से में सारा माल बर्बाद! सभी 6 बोरों का पूर्ण नुकसान!',
+              te: 'కోపంలో సరుకు అంతా నాశనం! 6 సంచుల సంపూర్ణ నష్టం!',
+            },
+            financialImpact: { walletDelta: -500, emergencyDelta: -200, scoreDelta: -90, stressDelta: 80 },
+            pedagogicalFeedback: {
+              en: 'Emotional rage decisions in investing guarantee maximum loss. Never act on anger.',
+              hi: 'निवेश में भावनात्मक क्रोध के निर्णय अधिकतम नुकसान की गारंटी देते हैं।',
+              te: 'పెట్టుబడిలో భావోద్వేగ కోప నిర్ణయాలు గరిష్ట నష్టాన్ని నిర్ధారిస్తాయి.',
+            },
+            educationalVideoTitle: 'The Cost of Panic Selling vs Staying Invested',
+          },
+        ],
+      },
+      {
+        id: 'scenario_inv_002_step_3',
+        title: {
+          en: 'Decision 3: Selling at the Trade Market',
+          hi: 'निर्णय 3: व्यापार बाजार में बिक्री',
+          te: 'నిర్ణయం 3: వ్యాపార మార్కెట్‌లో విక్రయం',
+        },
+        situationContext: {
+          en: "You deliver 4 intact bags to market, earning ₹1,600. Now allocate your earnings wisely for next season.",
+          hi: 'आप 4 सुरक्षित बोरे बाजार में पहुंचाते हैं और ₹1,600 कमाते हैं। अब अगले सीजन के लिए कमाई का बुद्धिमानी से आवंटन करें।',
+          te: 'నువ్వు 4 సురక్షిత సంచులు మార్కెట్‌కు చేరవేసి ₹1,600 సంపాదిస్తావు. ఇప్పుడు తదుపరి సీజన్ కోసం సంపాదనను తెలివిగా కేటాయించు.',
+        },
+        choices: [
+          {
+            id: 'inv002_step3_best',
+            tier: 'best',
+            text: {
+              en: 'Use ₹800 for next season\'s seeds, ₹400 for emergency grain, and ₹400 for school supplies.',
+              hi: 'अगले सीजन के लिए ₹800 बीज, ₹400 आपातकालीन अनाज और ₹400 स्कूल सामग्री के लिए।',
+              te: 'తదుపరి సీజన్ విత్తనాలకు ₹800, అత్యవసర ధాన్యానికి ₹400, పాఠశాల సామగ్రికి ₹400.',
+            },
+            outcomeDescription: {
+              en: 'You protect your business, build an emergency cushion, and invest in education. Triple win!',
+              hi: 'व्यवसाय की रक्षा, आपातकालीन कोष और शिक्षा में निवेश। तिहरी जीत!',
+              te: 'వ్యాపారం కాపాడుతావు, అత్యవసర నిధి నిర్మిస్తావు, విద్యలో పెట్టుబడి పెడతావు. మూడు విజయాలు!',
+            },
+            financialImpact: { walletDelta: 400, emergencyDelta: 200, scoreDelta: 100, stressDelta: -25 },
+            pedagogicalFeedback: {
+              en: 'Splitting earnings into business reinvestment, emergency reserve, and personal growth is the 3-bucket model for sustainable financial success.',
+              hi: 'कमाई को व्यवसाय पुनर्निवेश, आपातकालीन भंडार और व्यक्तिगत विकास में बांटना टिकाऊ सफलता का 3-बकेट मॉडल है।',
+              te: 'సంపాదనను వ్యాపార పునర్వ్యాటం, అత్యవసర నిల్వ, వ్యక్తిగత వృద్ధిలో విభజించడం స్థిరమైన ఆర్థిక విజయం యొక్క 3-బకెట్ మోడల్.',
+            },
+            educationalVideoTitle: 'Diversification: The Only Free Lunch in Investing',
+          },
+          {
+            id: 'inv002_step3_good',
+            tier: 'good',
+            text: {
+              en: 'Put all ₹1,600 back into seeds for the next journey.',
+              hi: 'अगले सफर के लिए सभी ₹1,600 बीजों में लगाएं।',
+              te: 'తదుపరి ప్రయాణం కోసం అన్ని ₹1,600 విత్తనాలకు వాడు.',
+            },
+            outcomeDescription: {
+              en: 'You reinvest fully for growth, though you miss building an emergency reserve.',
+              hi: 'वृद्धि के लिए पूरी तरह पुनर्निवेश करते हैं, लेकिन आपातकालीन भंडार बनाना चूक जाते हैं।',
+              te: 'వృద్ధికి పూర్తిగా పునర్వ్యాటం చేస్తావు, కానీ అత్యవసర నిల్వ నిర్మించడం తప్పిపోతుంది.',
+            },
+            financialImpact: { walletDelta: 300, emergencyDelta: 0, scoreDelta: 70, stressDelta: -5 },
+            pedagogicalFeedback: {
+              en: 'Full reinvestment maximizes future capacity but leaves you vulnerable to emergencies without a safety net.',
+              hi: 'पूर्ण पुनर्निवेश भविष्य की क्षमता अधिकतम करता है, लेकिन सुरक्षा जाल के बिना आपातकाल में असुरक्षित छोड़ता है।',
+              te: 'పూర్తి పునర్వ్యాటం భవిష్యత్ సామర్థ్యాన్ని పెంచుతుంది కానీ సురక్షా వలయం లేకుండా అత్యవసర పరిస్థితులలో బాధపెడుతుంది.',
+            },
+          },
+          {
+            id: 'inv002_step3_bad',
+            tier: 'bad',
+            text: {
+              en: 'Spend all ₹1,600 on a celebration party for your friends.',
+              hi: 'दोस्तों की पार्टी पर सभी ₹1,600 खर्च करें।',
+              te: 'స్నేహితుల పార్టీకి అన్ని ₹1,600 ఖర్చుపెట్టు.',
+            },
+            outcomeDescription: {
+              en: 'Great party, terrible investment! No seeds for next season and no emergency fund!',
+              hi: 'शानदार पार्टी, भयानक निवेश! अगले सीजन के लिए कोई बीज नहीं और कोई आपातकालीन कोष नहीं!',
+              te: 'అద్భుతమైన పార్టీ, భయంకరమైన పెట్టుబడి! తదుపరి సీజన్‌కు విత్తనాలు లేవు, అత్యవసర నిధి లేదు!',
+            },
+            financialImpact: { walletDelta: -200, emergencyDelta: -100, scoreDelta: -50, stressDelta: 35 },
+            pedagogicalFeedback: {
+              en: 'Consuming all investment returns on lifestyle expenses destroys the compounding engine entirely.',
+              hi: 'जीवनशैली खर्चों पर सभी निवेश रिटर्न खर्च करना चक्रवृद्धि इंजन को पूरी तरह नष्ट करता है।',
+              te: 'జీవనశైలి ఖర్చులపై అన్ని పెట్టుబడి రాబడి వినియోగించడం కాంపౌండింగ్ ఇంజిన్‌ను పూర్తిగా నాశనం చేస్తుంది.',
+            },
+          },
+          {
+            id: 'inv002_step3_very_bad',
+            tier: 'very_bad',
+            text: {
+              en: 'Gamble all ₹1,600 on a new speculative boat race bet.',
+              hi: 'एक नई सट्टा नाव दौड़ पर सभी ₹1,600 जुए में लगाएं।',
+              te: 'కొత్త ఊహాజనిత పడవ పందెంపై అన్ని ₹1,600 జూదం ఆడు.',
+            },
+            outcomeDescription: {
+              en: 'You lose all earnings to another gamble. Starting from zero again next season!',
+              hi: 'एक और जुए में सारी कमाई खो दी। अगले सीजन में शून्य से शुरुआत!',
+              te: 'మరొక జూదంలో అన్ని సంపాదన కోల్పోతావు. తదుపరి సీజన్ మళ్ళీ జీరో నుండి!',
+            },
+            financialImpact: { walletDelta: -600, emergencyDelta: -200, scoreDelta: -90, stressDelta: 80 },
+            pedagogicalFeedback: {
+              en: 'Re-gambling hard-earned trading profits is one of the most destructive financial behaviors.',
+              hi: 'कठिन परिश्रम से कमाए व्यापार लाभ को फिर जुए में लगाना सबसे विनाशकारी वित्तीय व्यवहारों में से एक है।',
+              te: 'కష్టపడి సంపాదించిన వ్యాపార లాభాలు మళ్ళీ జూదంలో వేయడం అత్యంత విధ్వంసకమైన ఆర్థిక ప్రవర్తనలలో ఒకటి.',
+            },
+            educationalVideoTitle: 'Recognizing Ponzi Schemes and Get-Rich-Quick Scams',
+          },
+        ],
+      },
+    ],
+  },
+
+  scenario_inv_003_market_panic: {
+    id: 'scenario_inv_003_market_panic',
+    cityId: 'city_investment_valley',
+    pillar: 'invest',
+    title: {
+      en: 'The Market Panic Simulation',
+      hi: 'बाजार घबराहट सिमुलेशन',
+      te: 'మార్కెట్ పానిక్ సిమ్యులేషన్',
+    },
+    subtitle: {
+      en: 'Stay calm when the market falls — emotional investing destroys returns',
+      hi: 'बाजार गिरने पर शांत रहें — भावनात्मक निवेश रिटर्न नष्ट करता है',
+      te: 'మార్కెట్ పడిపోయినప్పుడు నిశ్చలంగా ఉండు — భావోద్వేగ పెట్టుబడి రాబడి నాశనం చేస్తుంది',
+    },
+    situationContext: {
+      en: 'Club President Meera runs an Economics Club simulation. Your investment portfolio shows a -12% loss on the screen. Classmates are panic-selling. The club\'s smartboard shows historical data: every market panic in the last 50 years recovered to new highs within 3 years.',
+      hi: 'क्लब प्रेसिडेंट मीरा इकोनॉमिक्स क्लब सिमुलेशन चलाती हैं। आपके निवेश पोर्टफोलियो में -12% का नुकसान दिख रहा है। सहपाठी घबराहट में बेच रहे हैं। क्लब के स्मार्टबोर्ड पर ऐतिहासिक डेटा दिखता है: पिछले 50 साल में हर बाजार संकट 3 साल में नई ऊंचाई पर पहुंचा।',
+      te: 'క్లబ్ ప్రెసిడెంట్ మీరా ఎకనామిక్స్ క్లబ్ సిమ్యులేషన్ నడుపుతుంది. నీ పెట్టుబడి పోర్ట్‌ఫోలియో -12% నష్టం చూపిస్తోంది. సహాధ్యాయులు భయంతో అమ్ముతున్నారు. క్లబ్ స్మార్ట్‌బోర్డ్ చారిత్రక డేటా చూపిస్తోంది: గత 50 సంవత్సరాల్లో ప్రతి మార్కెట్ సంక్షోభం 3 సంవత్సరాల్లో కొత్త అత్యున్నత స్థాయికి చేరింది.',
+    },
+    stipendContext: 'Economics Club Room | Portfolio Loss: -12% | Club President Meera',
+    educationalHint: {
+      en: 'Market downturns are temporary. Panic selling locks in losses permanently. Patient investors always recover and grow.',
+      hi: 'बाजार में गिरावट अस्थायी है। घबराहट में बेचने से नुकसान स्थायी हो जाता है। धैर्यवान निवेशक हमेशा ठीक हो जाते हैं।',
+      te: 'మార్కెట్ పతనాలు తాత్కాలికమైనవి. పానిక్ సేల్ నష్టాలను శాశ్వతం చేస్తుంది. ఓర్పుగల పెట్టుబడిదారులు ఎల్లప్పుడూ కోలుకుని పెరుగుతారు.',
+    },
+    choices: [
+      {
+        id: 'inv003_choice_best',
+        tier: 'best',
+        text: {
+          en: 'Stay calm, hold your position, and review the historical recovery data on the smartboard.',
+          hi: 'शांत रहें, अपनी स्थिति बनाए रखें और स्मार्टबोर्ड पर ऐतिहासिक पुनर्प्राप्ति डेटा देखें।',
+          te: 'నిశ్చలంగా ఉండు, నీ స్థితి నిలబెట్టుకో, స్మార్ట్‌బోర్డ్‌లో చారిత్రక పునరుద్ధరణ డేటా సమీక్షించు.',
+        },
+        outcomeDescription: {
+          en: 'You hold through the dip and your portfolio recovers to +8% in the simulation. Patience wins!',
+          hi: 'आप गिरावट में बने रहते हैं और सिमुलेशन में पोर्टफोलियो +8% पर ठीक हो जाता है। धैर्य जीतता है!',
+          te: 'నువ్వు పతనం నుండి బయటపడి సిమ్యులేషన్‌లో నీ పోర్ట్‌ఫోలియో +8%కి కోలుకుంటుంది. ఓర్పు గెలుస్తుంది!',
+        },
+        financialImpact: { walletDelta: 300, emergencyDelta: 0, scoreDelta: 100, stressDelta: -20 },
+        pedagogicalFeedback: {
+          en: 'Historical data proves: investors who stay invested through market crashes consistently outperform those who panic sell.',
+          hi: 'ऐतिहासिक डेटा साबित करता है: बाजार संकट में निवेशित रहने वाले हमेशा घबराहट में बेचने वालों से बेहतर प्रदर्शन करते हैं।',
+          te: 'చారిత్రక డేటా నిరూపిస్తుంది: మార్కెట్ సంక్షోభాల్లో పెట్టుబడిలో ఉన్న వారు పానిక్ సేల్ చేసిన వారి కంటే నిరంతరం మెరుగైన పనితీరు చూపిస్తారు.',
+        },
+        educationalVideoTitle: 'Balanced Portfolio Allocation for Beginners',
+      },
+      {
+        id: 'inv003_choice_good',
+        tier: 'good',
+        text: {
+          en: 'Buy 10% more of your portfolio at the lower price while others panic-sell.',
+          hi: 'जब दूसरे घबराहट में बेच रहे हैं तब कम कीमत पर 10% और खरीदें।',
+          te: 'ఇతరులు పానిక్ సేల్ చేస్తున్నప్పుడు తక్కువ ధరకు 10% ఎక్కువ కొనుగోలు చేయి.',
+        },
+        outcomeDescription: {
+          en: 'You buy the dip and multiply your gains when the market recovers. Strategic opportunism!',
+          hi: 'आप गिरावट खरीदते हैं और बाजार ठीक होने पर लाभ बढ़ाते हैं। रणनीतिक अवसरवाद!',
+          te: 'నువ్వు పతనం కొనుగోలు చేస్తావు, మార్కెట్ కోలుకున్నప్పుడు లాభాలు పెరుగుతాయి. వ్యూహాత్మక అవకాశవాదం!',
+        },
+        financialImpact: { walletDelta: 250, emergencyDelta: 0, scoreDelta: 80, stressDelta: -10 },
+        pedagogicalFeedback: {
+          en: "\"Buy when there's blood in the streets\" — Warren Buffett. Market panics are buying opportunities for patient investors.",
+          hi: '"रक्तपात में खरीदें" — वॉरेन बफेट। बाजार संकट धैर्यवान निवेशकों के लिए खरीद का अवसर है।',
+          te: '"रक्तपात में खरीदें" — వారెన్ బఫెట్. మార్కెట్ సంక్షోభాలు ఓర్పుగల పెట్టుబడిదారులకు కొనుగోలు అవకాశాలు.',
+        },
+      },
+      {
+        id: 'inv003_choice_bad',
+        tier: 'bad',
+        text: {
+          en: 'Panic sell 50% of your portfolio to "stop the losses".',
+          hi: '"नुकसान रोकने" के लिए घबराहट में 50% पोर्टफोलियो बेचें।',
+          te: '"నష్టాలు ఆపడానికి" పోర్ట్‌ఫోలియోలో 50% పానిక్ సేల్ చేయి.',
+        },
+        outcomeDescription: {
+          en: 'You lock in a -12% loss permanently. When the market recovers, you missed all the gains!',
+          hi: '-12% नुकसान स्थायी रूप से पक्का हो जाता है। बाजार ठीक होने पर सभी लाभ चूक जाते हैं!',
+          te: '-12% నష్టాన్ని శాశ్వతంగా ఖరారు చేసుకుంటావు. మార్కెట్ కోలుకున్నప్పుడు అన్ని లాభాలు తప్పిపోతావు!',
+        },
+        financialImpact: { walletDelta: -300, emergencyDelta: 0, scoreDelta: -50, stressDelta: 40 },
+        pedagogicalFeedback: {
+          en: 'Panic selling at market lows converts temporary paper losses into permanent real losses.',
+          hi: 'बाजार के निचले स्तर पर घबराहट में बेचने से अस्थायी कागजी नुकसान स्थायी वास्तविक नुकसान में बदल जाता है।',
+          te: 'మార్కెట్ కనిష్ఠ స్థాయిలలో పానిక్ సేల్ తాత్కాలిక కాగితపు నష్టాలను శాశ్వత వాస్తవ నష్టాలుగా మారుస్తుంది.',
+        },
+      },
+      {
+        id: 'inv003_choice_very_bad',
+        tier: 'very_bad',
+        text: {
+          en: 'Sell 100% of your portfolio and withdraw all money, swearing never to invest again.',
+          hi: '100% पोर्टफोलियो बेचें और सब पैसे निकालें, फिर कभी निवेश न करने की कसम खाएं।',
+          te: 'పూర్తి 100% పోర్ట్‌ఫోలియో అమ్మి అన్ని డబ్బులు తీసేసుకుని మళ్ళీ ఎప్పుడూ పెట్టుబడి పెట్టనని ప్రమాణం చేయి.',
+        },
+        outcomeDescription: {
+          en: 'You exit at the worst time. The market triples in 5 years while your cash loses value to inflation!',
+          hi: 'सबसे बुरे समय पर बाहर निकलते हैं। 5 साल में बाजार तिगुना होता है जबकि आपकी नकदी मुद्रास्फीति से मूल्य खोती है!',
+          te: 'అత్యంత చెడు సమయంలో బయటపడతావు. 5 సంవత్సరాల్లో మార్కెట్ మూడు రెట్లు అవుతుంది, నీ నగదు ద్రవ్యోల్బణం వల్ల విలువ కోల్పోతుంది!',
+        },
+        financialImpact: { walletDelta: -500, emergencyDelta: -100, scoreDelta: -100, stressDelta: 80 },
+        pedagogicalFeedback: {
+          en: 'Permanently exiting the market due to temporary fear is the single costliest financial mistake investors make.',
+          hi: 'अस्थायी डर के कारण बाजार से स्थायी रूप से बाहर निकलना निवेशकों द्वारा की जाने वाली सबसे महंगी वित्तीय गलती है।',
+          te: 'తాత్కాలిక భయం వల్ల శాశ్వతంగా మార్కెట్ నుండి బయటపడటం పెట్టుబడిదారులు చేసే అత్యంత ఖర్చుతో కూడిన ఆర్థిక తప్పు.',
+        },
+        educationalVideoTitle: 'The Cost of Panic Selling vs Staying Invested',
+      },
+    ],
+    steps: [
+      {
+        id: 'scenario_inv_003_step_1',
+        title: {
+          en: 'Decision 1: The Market Dips -12%',
+          hi: 'निर्णय 1: बाजार -12% गिरता है',
+          te: 'నిర్ణయం 1: మార్కెట్ -12% పడుతుంది',
+        },
+        situationContext: {
+          en: 'Your simulation portfolio shows a sudden -12% loss. Classmates are rushing to sell. What is your first reaction?',
+          hi: 'आपके सिमुलेशन पोर्टफोलियो में अचानक -12% की गिरावट आती है। सहपाठी जल्दी से बेचने दौड़ रहे हैं। आपकी पहली प्रतिक्रिया क्या है?',
+          te: 'నీ సిమ్యులేషన్ పోర్ట్‌ఫోలియో అకస్మాత్తుగా -12% నష్టం చూపిస్తోంది. సహాధ్యాయులు వేగంగా అమ్మడానికి పరిగెడుతున్నారు. నీ మొదటి స్పందన ఏమిటి?',
+        },
+        choices: [
+          {
+            id: 'inv003_step1_best',
+            tier: 'best',
+            text: {
+              en: 'Stay calm, hold your position, and review historical recovery data.',
+              hi: 'शांत रहें, स्थिति बनाए रखें और ऐतिहासिक डेटा देखें।',
+              te: 'నిశ్చలంగా ఉండు, స్థితి నిలబెట్టుకో, చారిత్రక డేటా సమీక్షించు.',
+            },
+            outcomeDescription: {
+              en: 'You hold through the dip. Your portfolio recovers to +8% in the simulation!',
+              hi: 'गिरावट में बने रहते हैं। सिमुलेशन में +8% पर ठीक हो जाता है!',
+              te: 'పతనం నుండి బయటపడతావు. సిమ్యులేషన్‌లో +8%కి కోలుకుంటుంది!',
+            },
+            financialImpact: { walletDelta: 200, emergencyDelta: 0, scoreDelta: 100, stressDelta: -15 },
+            pedagogicalFeedback: {
+              en: 'Staying invested through market crashes consistently outperforms panic selling.',
+              hi: 'बाजार संकट में निवेशित रहना घबराहट में बेचने से हमेशा बेहतर परिणाम देता है।',
+              te: 'మార్కెట్ సంక్షోభాల్లో పెట్టుబడిలో ఉండటం పానిక్ సేల్ కంటే నిరంతరం మెరుగైన పనితీరు చూపిస్తుంది.',
+            },
+          },
+          {
+            id: 'inv003_step1_good',
+            tier: 'good',
+            text: {
+              en: 'Buy 10% more at the lower price — treat the dip as a discount.',
+              hi: 'कम कीमत पर 10% और खरीदें — गिरावट को छूट मानें।',
+              te: 'తక్కువ ధరకు 10% ఎక్కువ కొనుగోలు చేయి — పతనాన్ని డిస్కౌంట్‌గా పరిగణించు.',
+            },
+            outcomeDescription: {
+              en: 'You buy the dip and multiply your gains when the market recovers.',
+              hi: 'गिरावट खरीदते हैं और ठीक होने पर लाभ बढ़ाते हैं।',
+              te: 'పతనం కొనుగోలు చేసి, మార్కెట్ కోలుకున్నప్పుడు లాభాలు పెరుగుతాయి.',
+            },
+            financialImpact: { walletDelta: 180, emergencyDelta: 0, scoreDelta: 80, stressDelta: -5 },
+            pedagogicalFeedback: {
+              en: 'Market panics are buying opportunities for disciplined investors.',
+              hi: 'बाजार संकट अनुशासित निवेशकों के लिए खरीद का अवसर है।',
+              te: 'మార్కెట్ సంక్షోభాలు అనుశాసిత పెట్టుబడిదారులకు కొనుగోలు అవకాశాలు.',
+            },
+          },
+          {
+            id: 'inv003_step1_bad',
+            tier: 'bad',
+            text: {
+              en: 'Panic sell 50% of your portfolio to "stop the losses".',
+              hi: '"नुकसान रोकने" के लिए 50% घबराहट में बेचें।',
+              te: '"నష్టాలు ఆపడానికి" 50% పానిక్ సేల్ చేయి.',
+            },
+            outcomeDescription: {
+              en: 'You lock in a -12% permanent loss and miss the full recovery gains.',
+              hi: '-12% स्थायी नुकसान पक्का हो जाता है और सुधार के लाभ चूक जाते हैं।',
+              te: '-12% శాశ్వత నష్టం ఖరారు చేసుకుంటావు, పూర్తి పునరుద్ధరణ లాభాలు తప్పిపోతావు.',
+            },
+            financialImpact: { walletDelta: -250, emergencyDelta: 0, scoreDelta: -45, stressDelta: 35 },
+            pedagogicalFeedback: {
+              en: 'Panic selling converts temporary paper losses into permanent real losses.',
+              hi: 'घबराहट में बेचना अस्थायी नुकसान को स्थायी बना देता है।',
+              te: 'పానిక్ సేల్ తాత్కాలిక నష్టాలను శాశ్వతం చేస్తుంది.',
+            },
+          },
+          {
+            id: 'inv003_step1_very_bad',
+            tier: 'very_bad',
+            text: {
+              en: 'Sell 100% and swear never to invest again.',
+              hi: '100% बेचें और कभी निवेश न करने की कसम खाएं।',
+              te: '100% అమ్మి మళ్ళీ ఎప్పుడూ పెట్టుబడి పెట్టనని ప్రమాణం చేయి.',
+            },
+            outcomeDescription: {
+              en: 'You exit at the worst time. The market triples while your cash loses to inflation!',
+              hi: 'सबसे बुरे समय पर बाहर! बाजार तिगुना होता है, नकदी मुद्रास्फीति से मूल्य खोती है!',
+              te: 'అత్యంత చెడు సమయంలో బయటపడతావు. మార్కెట్ మూడు రెట్లు అవుతుంది, నగదు ద్రవ్యోల్బణం వల్ల విలువ కోల్పోతుంది!',
+            },
+            financialImpact: { walletDelta: -500, emergencyDelta: -100, scoreDelta: -100, stressDelta: 80 },
+            pedagogicalFeedback: {
+              en: 'Permanently exiting the market due to temporary fear is the costliest financial mistake.',
+              hi: 'अस्थायी डर से बाजार से हमेशा के लिए बाहर निकलना सबसे महंगी गलती है।',
+              te: 'తాత్కాలిక భయం వల్ల శాశ్వతంగా మార్కెట్ నుండి బయటపడటం అత్యంత ఖర్చుతో కూడిన తప్పు.',
+            },
+            educationalVideoTitle: 'The Cost of Panic Selling vs Staying Invested',
+          },
+        ],
+      },
+      {
+        id: 'scenario_inv_003_step_2',
+        title: {
+          en: 'Decision 2: The Recovery Signal',
+          hi: 'निर्णय 2: पुनर्प्राप्ति संकेत',
+          te: 'నిర్ణయం 2: పునరుద్ధరణ సంకేతం',
+        },
+        situationContext: {
+          en: 'President Meera shows the class a news alert: the market has started recovering — up 5% from its low. Your remaining portfolio is up too. How do you respond?',
+          hi: 'प्रेसिडेंट मीरा क्लास को एक समाचार अलर्ट दिखाती हैं: बाजार ठीक होने लगा है — निचले स्तर से 5% ऊपर। बचा हुआ पोर्टफोलियो भी बढ़ा है। आप कैसे प्रतिक्रिया देते हैं?',
+          te: 'ప్రెసిడెంట్ మీరా క్లాసుకు వార్తా హెచ్చరిక చూపిస్తుంది: మార్కెట్ కోలుకోవడం ప్రారంభమైంది — కనిష్ఠ స్థాయి నుండి 5% పైకి. నీ మిగతా పోర్ట్‌ఫోలియో కూడా పెరిగింది. ఎలా స్పందిస్తావు?',
+        },
+        choices: [
+          {
+            id: 'inv003_step2_best',
+            tier: 'best',
+            text: {
+              en: 'Stay invested and let the recovery fully play out over time.',
+              hi: 'निवेशित रहें और समय के साथ पूरी पुनर्प्राप्ति होने दें।',
+              te: 'పెట్టుబడిలో ఉండు, కాలక్రమేణా పూర్తి పునరుద్ధరణ జరగనివ్వు.',
+            },
+            outcomeDescription: {
+              en: 'Full recovery reached! Your portfolio is now +8% above the original. Patience triumphs!',
+              hi: 'पूर्ण पुनर्प्राप्ति! आपका पोर्टफोलियो मूल से +8% ऊपर है। धैर्य की जीत!',
+              te: 'పూర్తి పునరుద్ధరణ! నీ పోర్ట్‌ఫోలియో అసలు కంటే +8% పైన ఉంది. ఓర్పు విజయం!',
+            },
+            financialImpact: { walletDelta: 300, emergencyDelta: 0, scoreDelta: 100, stressDelta: -20 },
+            pedagogicalFeedback: {
+              en: 'Time in the market beats timing the market. The biggest gains come from staying invested through full recovery cycles.',
+              hi: 'बाजार में समय बिताना बाजार का समय बताने से बेहतर है। सबसे बड़े लाभ पूरे पुनर्प्राप्ति चक्र में निवेशित रहने से आते हैं।',
+              te: 'మార్కెట్‌లో సమయం గడపడం మార్కెట్ సమయం కుదించడం కంటే మెరుగైనది.',
+            },
+          },
+          {
+            id: 'inv003_step2_good',
+            tier: 'good',
+            text: {
+              en: 'Sell 20% of gains to lock in some profit while holding the rest.',
+              hi: 'कुछ लाभ सुरक्षित करने के लिए 20% लाभ बेचें और बाकी रखें।',
+              te: 'కొంత లాభం ఖరారు చేయడానికి 20% లాభాలు అమ్మి మిగతా నిలబెట్టు.',
+            },
+            outcomeDescription: {
+              en: 'You take some profit while continuing to benefit from further recovery.',
+              hi: 'कुछ लाभ लेते हैं और आगे की पुनर्प्राप्ति से लाभ उठाना जारी रखते हैं।',
+              te: 'కొంత లాభం తీసుకుంటావు, తదుపరి పునరుద్ధరణ నుండి ప్రయోజనం పొందుతూనే ఉంటావు.',
+            },
+            financialImpact: { walletDelta: 200, emergencyDelta: 50, scoreDelta: 75, stressDelta: -10 },
+            pedagogicalFeedback: {
+              en: 'Partial profit-taking during recovery is a reasonable strategy to manage risk while staying partially invested.',
+              hi: 'पुनर्प्राप्ति के दौरान आंशिक लाभ लेना जोखिम प्रबंधन की एक उचित रणनीति है।',
+              te: 'పునరుద్ధరణ సమయంలో పాక్షిక లాభం తీసుకోవడం రిస్క్ నిర్వహణకు సహేతుకమైన వ్యూహం.',
+            },
+          },
+          {
+            id: 'inv003_step2_bad',
+            tier: 'bad',
+            text: {
+              en: 'Sell everything now at 5% recovery to "take profits before another crash".',
+              hi: '"दूसरे संकट से पहले लाभ लेने के लिए" 5% सुधार पर सब बेचें।',
+              te: '"మరొక సంక్షోభానికి ముందు లాభాలు తీసుకోవడానికి" 5% పునరుద్ధరణలో అన్నీ అమ్మేయి.',
+            },
+            outcomeDescription: {
+              en: 'You exit early. The market continues rising another 15%! You missed the biggest gains.',
+              hi: 'जल्दी बाहर निकलते हैं। बाजार 15% और बढ़ता है! सबसे बड़े लाभ चूक गए।',
+              te: 'ముందే బయటపడతావు. మార్కెట్ మరో 15% పెరుగుతుంది! అతిపెద్ద లాభాలు తప్పిపోతావు.',
+            },
+            financialImpact: { walletDelta: -100, emergencyDelta: 0, scoreDelta: -40, stressDelta: 30 },
+            pedagogicalFeedback: {
+              en: 'Premature profit-taking driven by fear of another crash is another form of panic investing.',
+              hi: 'एक और संकट के डर से समय से पहले लाभ लेना घबराहट निवेश का एक और रूप है।',
+              te: 'మరొక సంక్షోభ భయంతో సమయానికి ముందే లాభం తీసుకోవడం మరొక రూపంలో పానిక్ పెట్టుబడి.',
+            },
+          },
+          {
+            id: 'inv003_step2_very_bad',
+            tier: 'very_bad',
+            text: {
+              en: 'Take out a loan to double down on a speculative stock during recovery.',
+              hi: 'पुनर्प्राप्ति के दौरान सट्टा स्टॉक पर दोगुना लगाने के लिए कर्ज लें।',
+              te: 'పునరుద్ధరణ సమయంలో ఊహాజనిత స్టాక్‌పై రెట్టించడానికి అప్పు తీసుకో.',
+            },
+            outcomeDescription: {
+              en: 'The speculative stock crashes. You now owe a loan AND lost your portfolio gains!',
+              hi: 'सट्टा स्टॉक धराशाई! कर्ज और पोर्टफोलियो लाभ दोनों खो देते हैं!',
+              te: 'ఊహాజనిత స్టాక్ పతనం. నువ్వు అప్పు చెల్లించాలి మరియు పోర్ట్‌ఫోలియో లాభాలు కూడా కోల్పోతావు!',
+            },
+            financialImpact: { walletDelta: -500, emergencyDelta: -150, scoreDelta: -90, stressDelta: 80 },
+            pedagogicalFeedback: {
+              en: 'Leverage (borrowing to invest) amplifies losses during bad trades, creating devastating financial spirals.',
+              hi: 'लीवरेज (निवेश के लिए उधार लेना) खराब ट्रेड में नुकसान बढ़ाता है और विनाशकारी वित्तीय चक्र बनाता है।',
+              te: 'లివరేజ్ (పెట్టుబడికి అప్పు) చెడు ట్రేడ్‌లలో నష్టాలు పెంచుతుంది.',
+            },
+            educationalVideoTitle: 'Why Borrowing to Invest is Extremely Dangerous',
+          },
+        ],
+      },
+      {
+        id: 'scenario_inv_003_step_3',
+        title: {
+          en: 'Decision 3: The Club Prize Allocation',
+          hi: 'निर्णय 3: क्लब पुरस्कार आवंटन',
+          te: 'నిర్ణయం 3: క్లబ్ బహుమతి కేటాయింపు',
+        },
+        situationContext: {
+          en: "You won ₹2,000 from the Economics Club simulation prize for your disciplined investing! President Meera asks: how will you allocate this prize money?",
+          hi: 'अनुशासित निवेश के लिए इकोनॉमिक्स क्लब सिमुलेशन पुरस्कार से ₹2,000 जीते! प्रेसिडेंट मीरा पूछती हैं: यह पुरस्कार राशि कैसे आवंटित करेंगे?',
+          te: 'క్రమశిక్షణతో పెట్టుబడి పెట్టినందుకు ఎకనామిక్స్ క్లబ్ సిమ్యులేషన్ బహుమతి నుండి ₹2,000 గెలుచుకున్నావు! ప్రెసిడెంట్ మీరా అడుగుతుంది: ఈ బహుమతి డబ్బు ఎలా కేటాయిస్తావు?',
+        },
+        choices: [
+          {
+            id: 'inv003_step3_best',
+            tier: 'best',
+            text: {
+              en: 'Invest ₹1,000 in a diversified fund, save ₹600 for emergency, keep ₹400 for personal use.',
+              hi: '₹1,000 विविधीकृत फंड में, ₹600 आपातकालीन बचत, ₹400 व्यक्तिगत उपयोग।',
+              te: '₹1,000 డైవర్సిఫైడ్ ఫండ్‌లో, ₹600 అత్యవసర పొదుపు, ₹400 వ్యక్తిగత అవసరానికి.',
+            },
+            outcomeDescription: {
+              en: 'Perfect allocation: invest, save emergency fund, and reward yourself reasonably!',
+              hi: 'उत्तम आवंटन: निवेश, आपातकालीन कोष और उचित इनाम!',
+              te: 'పరిపూర్ణ కేటాయింపు: పెట్టుబడి, అత్యవసర నిధి, సహేతుకంగా పురస్కరించుకో!',
+            },
+            financialImpact: { walletDelta: 400, emergencyDelta: 300, scoreDelta: 100, stressDelta: -20 },
+            pedagogicalFeedback: {
+              en: 'The 50-30-20 rule adapted for prize money: invest for growth, protect with emergency savings, enjoy a fair reward.',
+              hi: 'पुरस्कार राशि के लिए 50-30-20 नियम: वृद्धि के लिए निवेश, आपातकालीन बचत से सुरक्षा, उचित पुरस्कार।',
+              te: 'బహుమతి డబ్బుకు 50-30-20 నియమం: వృద్ధికి పెట్టుబడి, అత్యవసర పొదుపుతో రక్షణ, సహేతుకమైన బహుమతి.',
+            },
+            educationalVideoTitle: 'Capital Preservation: The Foundation of Long-Term Wealth',
+          },
+          {
+            id: 'inv003_step3_good',
+            tier: 'good',
+            text: {
+              en: 'Put all ₹2,000 into a low-risk fixed deposit.',
+              hi: 'सभी ₹2,000 कम जोखिम वाली सावधि जमा में रखें।',
+              te: 'అన్ని ₹2,000 తక్కువ రిస్క్ ఫిక్స్‌డ్ డిపాజిట్‌లో పెట్టు.',
+            },
+            outcomeDescription: {
+              en: 'Safe capital preserved with guaranteed interest. Good but misses growth potential.',
+              hi: 'गारंटीड ब्याज के साथ सुरक्षित पूंजी। अच्छा लेकिन विकास क्षमता चूकते हैं।',
+              te: 'హామీ వడ్డీతో సురక్షిత మూలధనం. మంచిది కానీ వృద్ధి సంభావ్యత కోల్పోతావు.',
+            },
+            financialImpact: { walletDelta: 250, emergencyDelta: 100, scoreDelta: 70, stressDelta: -10 },
+            pedagogicalFeedback: {
+              en: 'Full capital safety is excellent, but combining safety with even small growth allocations improves long-term outcomes.',
+              hi: 'पूर्ण पूंजी सुरक्षा उत्कृष्ट है, लेकिन छोटे विकास आवंटन के साथ संयोजन दीर्घकालिक परिणाम सुधारता है।',
+              te: 'పూర్తి మూలధన భద్రత అద్భుతమైనది, కానీ చిన్న వృద్ధి కేటాయింపులతో కలపడం దీర్ఘకాలిక ఫలితాలు మెరుగుపరుస్తుంది.',
+            },
+          },
+          {
+            id: 'inv003_step3_bad',
+            tier: 'bad',
+            text: {
+              en: 'Spend all ₹2,000 immediately on gadgets and clothes.',
+              hi: 'सभी ₹2,000 गैजेट और कपड़ों पर खर्च करें।',
+              te: 'అన్ని ₹2,000 వెంటనే గాడ్జెట్లు, బట్టలపై ఖర్చుపెట్టు.',
+            },
+            outcomeDescription: {
+              en: 'Prize money is gone instantly with nothing saved or invested. All reward, zero growth!',
+              hi: 'पुरस्कार राशि तुरंत खर्च, कुछ बचत या निवेश नहीं। सब इनाम, शून्य वृद्धि!',
+              te: 'బహుమతి డబ్బు వెంటనే పోతుంది, ఏమీ పొదుపు లేదా పెట్టుబడి లేదు. అన్నీ బహుమతి, జీరో వృద్ధి!',
+            },
+            financialImpact: { walletDelta: -100, emergencyDelta: -50, scoreDelta: -45, stressDelta: 30 },
+            pedagogicalFeedback: {
+              en: 'Consuming windfall money entirely on instant gratification destroys compounding opportunities.',
+              hi: 'अप्रत्याशित धन पूरी तरह से तत्काल संतुष्टि पर खर्च करने से चक्रवृद्धि के अवसर नष्ट होते हैं।',
+              te: 'అనుకోని డబ్బు అంతా తక్షణ సంతృప్తిపై వినియోగించడం కాంపౌండింగ్ అవకాశాలను నాశనం చేస్తుంది.',
+            },
+          },
+          {
+            id: 'inv003_step3_very_bad',
+            tier: 'very_bad',
+            text: {
+              en: 'Invest all ₹2,000 in a friend\'s "100% guaranteed daily return" crypto scheme.',
+              hi: 'मित्र की "100% गारंटीड दैनिक रिटर्न" क्रिप्टो योजना में सभी ₹2,000 लगाएं।',
+              te: 'స్నేహితుడి "100% హామీ రోజువారీ రాబడి" క్రిప్టో పథకంలో అన్ని ₹2,000 పెట్టు.',
+            },
+            outcomeDescription: {
+              en: 'SCAM ALERT! The scheme collapses in 48 hours. All ₹2,000 are gone! No "guaranteed" investment is real.',
+              hi: 'घोटाला! योजना 48 घंटों में ध्वस्त। सभी ₹2,000 गए! कोई "गारंटीड" निवेश वास्तविक नहीं।',
+              te: 'మోసం హెచ్చరిక! పథకం 48 గంటల్లో కుప్పకూలుతుంది. అన్ని ₹2,000 పోతాయి! "హామీ" పెట్టుబడి అని ఏదీ వాస్తవమైనది కాదు.',
+            },
+            financialImpact: { walletDelta: -500, emergencyDelta: -200, scoreDelta: -100, stressDelta: 80 },
+            pedagogicalFeedback: {
+              en: '"100% guaranteed" returns are impossible in any legitimate investment. This is always a Ponzi scheme or fraud.',
+              hi: '"100% गारंटीड" रिटर्न किसी भी वैध निवेश में असंभव है। यह हमेशा पोंजी योजना या धोखाधड़ी है।',
+              te: '"100% హామీ" రాబడి ఏ చట్టబద్ధమైన పెట్టుబడిలోనూ అసాధ్యం. ఇది ఎల్లప్పుడూ పాంజీ పథకం లేదా మోసం.',
+            },
+            educationalVideoTitle: 'Recognizing Ponzi Schemes and Get-Rich-Quick Scams',
+          },
+        ],
+      },
+    ],
+  },
+
+  scenario_inv_004_grocery_budget: {
+    id: 'scenario_inv_004_grocery_budget',
+    cityId: 'city_investment_valley',
+    pillar: 'invest',
+    title: {
+      en: 'The Grocery Market Investment',
+      hi: 'किराना बाजार निवेश',
+      te: 'కిరాణా మార్కెట్ పెట్టుబడి',
+    },
+    subtitle: {
+      en: 'Help Uncle Karim decide how to invest in his grocery stock for maximum profit',
+      hi: 'करीम चाचा को अधिकतम लाभ के लिए किराना स्टॉक में निवेश का फैसला करने में मदद करें',
+      te: 'అంకుల్ కరీమ్ గరిష్ట లాభం కోసం కిరాణా స్టాక్‌లో పెట్టుబడి నిర్ణయం తీసుకోవడంలో సహాయం చేయి',
+    },
+    situationContext: {
+      en: "Uncle Karim's grocery shop needs to decide between investing ₹5,000 upfront in a seasonal wholesale deal (big discount, big risk) or buying retail daily as needed (safe, higher cost per unit). His shop has ₹8,000 in total capital.",
+      hi: 'करीम चाचा की किराना दुकान को ₹5,000 मौसमी थोक सौदे में निवेश (बड़ी छूट, बड़ा जोखिम) या रोजाना जरूरत के अनुसार खुदरा खरीद (सुरक्षित, प्रति इकाई अधिक लागत) के बीच फैसला करना है। दुकान की कुल पूंजी ₹8,000 है।',
+      te: 'అంకుల్ కరీమ్ కిరాణా దుకాణం ₹5,000 సీజనల్ థోక డీల్‌లో పెట్టుబడి పెట్టాలా (పెద్ద డిస్కౌంట్, పెద్ద రిస్క్) లేదా రోజువారీ అవసరానికి రిటైల్ కొనాలా (సురక్షిత, యూనిట్ ధర ఎక్కువ) అని నిర్ణయించుకోవాలి. దుకాణం మొత్తం మూలధనం ₹8,000.',
+    },
+    stipendContext: 'Indian Town Grocery Market | Total Capital: ₹8,000 | Uncle Karim',
+    educationalHint: {
+      en: 'Smart investing balances timing, risk, and liquidity. Never invest so much that you cannot cover daily operations.',
+      hi: 'स्मार्ट निवेश समय, जोखिम और तरलता को संतुलित करता है। इतना निवेश कभी नहीं करें कि दैनिक कार्य प्रभावित हों।',
+      te: 'స్మార్ట్ పెట్టుబడి సమయం, రిస్క్ మరియు లిక్విడిటీ మధ్య సమతుల్యత పాటిస్తుంది. రోజువారీ కార్యకలాపాలు కవర్ చేయలేనంత ఎక్కువ పెట్టుబడి పెట్టకు.',
+    },
+    choices: [
+      {
+        id: 'inv004_choice_best',
+        tier: 'best',
+        text: {
+          en: 'Invest ₹3,000 wholesale, keep ₹3,000 for daily operations, ₹2,000 emergency reserve.',
+          hi: '₹3,000 थोक में निवेश, ₹3,000 दैनिक परिचालन, ₹2,000 आपातकालीन भंडार।',
+          te: '₹3,000 థోకులో పెట్టుబడి, ₹3,000 రోజువారీ కార్యకలాపాలకు, ₹2,000 అత్యవసర నిల్వ.',
+        },
+        outcomeDescription: {
+          en: 'Partial wholesale savings plus operational flexibility plus emergency buffer. Perfect business balance!',
+          hi: 'आंशिक थोक बचत और परिचालन लचीलापन और आपातकालीन बफर। उत्तम व्यावसायिक संतुलन!',
+          te: 'పాక్షిక థోక పొదుపు + కార్యాచరణ వశ్యత + అత్యవసర బఫర్. అద్భుతమైన వ్యాపార సమతుల్యత!',
+        },
+        financialImpact: { walletDelta: 400, emergencyDelta: 200, scoreDelta: 100, stressDelta: -25 },
+        pedagogicalFeedback: {
+          en: 'Splitting business capital between investment, operations, and emergency preserves both growth potential and liquidity.',
+          hi: 'व्यावसायिक पूंजी को निवेश, परिचालन और आपातकाल में बांटना विकास क्षमता और तरलता दोनों सुरक्षित करता है।',
+          te: 'వ్యాపార మూలధనాన్ని పెట్టుబడి, కార్యకలాపాలు, అత్యవసరం మధ్య విభజించడం వృద్ధి సంభావ్యత మరియు లిక్విడిటీ రెండూ రక్షిస్తుంది.',
+        },
+        educationalVideoTitle: 'Diversification: The Only Free Lunch in Investing',
+      },
+      {
+        id: 'inv004_choice_good',
+        tier: 'good',
+        text: {
+          en: 'Invest ₹2,000 wholesale and keep ₹6,000 for daily retail purchase flexibility.',
+          hi: '₹2,000 थोक में निवेश करें और ₹6,000 दैनिक खुदरा लचीलेपन के लिए रखें।',
+          te: '₹2,000 థోకులో పెట్టుబడి పెట్టి ₹6,000 రోజువారీ రిటైల్ వశ్యతకు ఉంచు.',
+        },
+        outcomeDescription: {
+          en: 'Conservative but safe — some wholesale savings while maintaining full operational flexibility.',
+          hi: 'रूढ़िवादी लेकिन सुरक्षित — कुछ थोक बचत और पूर्ण परिचालन लचीलापन।',
+          te: 'సావధానమైనది కానీ సురక్షిత — కొంత థోక పొదుపు మరియు పూర్తి కార్యాచరణ వశ్యత.',
+        },
+        financialImpact: { walletDelta: 250, emergencyDelta: 150, scoreDelta: 70, stressDelta: -10 },
+        pedagogicalFeedback: {
+          en: 'Conservative capital deployment is wise for a small business with variable daily cash needs.',
+          hi: 'परिवर्तनशील दैनिक नकदी जरूरतों वाले छोटे व्यवसाय के लिए रूढ़िवादी पूंजी तैनाती समझदारी है।',
+          te: 'వేరియబుల్ రోజువారీ నగదు అవసరాలు కలిగిన చిన్న వ్యాపారానికి సావధాన మూలధన విస్తరణ తెలివైనది.',
+        },
+      },
+      {
+        id: 'inv004_choice_bad',
+        tier: 'bad',
+        text: {
+          en: 'Invest all ₹5,000 in the wholesale deal — maximum discount now!',
+          hi: 'थोक सौदे में सभी ₹5,000 लगाएं — अभी अधिकतम छूट!',
+          te: 'థోక డీల్‌లో అన్ని ₹5,000 పెట్టు — ఇప్పుడు గరిష్ట డిస్కౌంట్!',
+        },
+        outcomeDescription: {
+          en: 'The seasonal goods arrive late. Shop cannot cover daily bills with only ₹3,000 left!',
+          hi: 'मौसमी सामान देर से आता है। केवल ₹3,000 बचने से दुकान दैनिक बिल नहीं दे सकती!',
+          te: 'సీజనల్ వస్తువులు ఆలస్యంగా వస్తాయి. కేవలం ₹3,000 మిగిలి రోజువారీ బిల్లులు చెల్లించలేరు!',
+        },
+        financialImpact: { walletDelta: -300, emergencyDelta: -100, scoreDelta: -50, stressDelta: 45 },
+        pedagogicalFeedback: {
+          en: 'Over-investing in a single opportunity at the cost of operational liquidity is dangerous cash flow management.',
+          hi: 'परिचालन तरलता की कीमत पर एकल अवसर में अधिक निवेश खतरनाक नकदी प्रवाह प्रबंधन है।',
+          te: 'కార్యాచరణ లిక్విడిటీ ఖర్చుతో ఒకే అవకాశంలో అధిక పెట్టుబడి ప్రమాదకరమైన నగదు ప్రవాహ నిర్వహణ.',
+        },
+      },
+      {
+        id: 'inv004_choice_very_bad',
+        tier: 'very_bad',
+        text: {
+          en: 'Invest all ₹8,000 (including emergency reserve) in the wholesale deal for maximum gains.',
+          hi: 'अधिकतम लाभ के लिए थोक सौदे में सभी ₹8,000 (आपातकालीन भंडार सहित) लगाएं।',
+          te: 'గరిష్ట లాభాలకు థోక డీల్‌లో అన్ని ₹8,000 (అత్యవసర నిల్వతో సహా) పెట్టు.',
+        },
+        outcomeDescription: {
+          en: 'Shop runs out of cash! Cannot pay supplier, cannot pay staff, stock deliveries delayed. Business crisis!',
+          hi: 'दुकान की नकदी खत्म! आपूर्तिकर्ता, कर्मचारी और स्टॉक डिलीवरी में देरी। व्यावसायिक संकट!',
+          te: 'దుకాణానికి నగదు అయిపోతుంది! సప్లయర్, సిబ్బంది చెల్లించలేరు, స్టాక్ డెలివరీ ఆలస్యం. వ్యాపార సంక్షోభం!',
+        },
+        financialImpact: { walletDelta: -600, emergencyDelta: -300, scoreDelta: -100, stressDelta: 90 },
+        pedagogicalFeedback: {
+          en: 'Investing your entire capital including emergency reserves into a single opportunity destroys business resilience.',
+          hi: 'आपातकालीन भंडार सहित सभी पूंजी एकल अवसर में लगाने से व्यावसायिक लचीलापन नष्ट होता है।',
+          te: 'అత్యవసర నిల్వలతో సహా మొత్తం మూలధనాన్ని ఒకే అవకాశంలో పెట్టడం వ్యాపార సహనశీలతను నాశనం చేస్తుంది.',
+        },
+        educationalVideoTitle: 'Why Borrowing to Invest is Extremely Dangerous',
+      },
+    ],
+    steps: [
+      {
+        id: 'scenario_inv_004_step_1',
+        title: {
+          en: 'Decision 1: Wholesale vs Retail Investment',
+          hi: 'निर्णय 1: थोक बनाम खुदरा निवेश',
+          te: 'నిర్ణయం 1: థోక్ vs రిటైల్ పెట్టుబడి',
+        },
+        situationContext: {
+          en: "Uncle Karim's shop has ₹8,000 capital. A wholesale supplier offers a 30% discount if he buys ₹5,000 stock upfront. Or he can continue buying daily at retail price. How should he allocate his ₹8,000?",
+          hi: 'करीम चाचा की दुकान के पास ₹8,000 की पूंजी है। एक थोक आपूर्तिकर्ता ₹5,000 अग्रिम खरीद पर 30% छूट दे रहा है। या वह रोजाना खुदरा कीमत पर खरीद सकते हैं। ₹8,000 कैसे आवंटित करें?',
+          te: 'అంకుల్ కరీమ్ దుకాణానికి ₹8,000 మూలధనం ఉంది. ₹5,000 స్టాక్ ముందే కొంటే థోక సప్లయర్ 30% డిస్కౌంట్ ఇస్తున్నాడు. లేదా రోజువారీ రిటైల్ ధరకు కొనుగోలు చేయవచ్చు. ₹8,000 ఎలా కేటాయించాలి?',
+        },
+        choices: [
+          {
+            id: 'inv004_step1_best',
+            tier: 'best',
+            text: {
+              en: 'Invest ₹3,000 wholesale, keep ₹3,000 operations, ₹2,000 emergency.',
+              hi: '₹3,000 थोक, ₹3,000 परिचालन, ₹2,000 आपातकाल।',
+              te: '₹3,000 థోకు, ₹3,000 కార్యకలాపాలు, ₹2,000 అత్యవసరం.',
+            },
+            outcomeDescription: {
+              en: 'Wholesale savings + operational flexibility + emergency buffer. Perfect balance!',
+              hi: 'थोक बचत + परिचालन लचीलापन + आपातकालीन बफर। उत्तम संतुलन!',
+              te: 'థోక పొదుపు + కార్యాచరణ వశ్యత + అత్యవసర బఫర్. అద్భుతమైన సమతుల్యత!',
+            },
+            financialImpact: { walletDelta: 300, emergencyDelta: 200, scoreDelta: 100, stressDelta: -20 },
+            pedagogicalFeedback: {
+              en: 'Splitting capital between investment, operations, and emergency preserves both growth and liquidity.',
+              hi: 'पूंजी को निवेश, परिचालन और आपातकाल में बांटना विकास और तरलता दोनों सुरक्षित रखता है।',
+              te: 'మూలధనాన్ని పెట్టుబడి, కార్యకలాపాలు, అత్యవసరం మధ్య విభజించడం వృద్ధి మరియు లిక్విడిటీ రెండూ రక్షిస్తుంది.',
+            },
+          },
+          {
+            id: 'inv004_step1_good',
+            tier: 'good',
+            text: {
+              en: 'Invest ₹2,000 wholesale and keep ₹6,000 for daily retail flexibility.',
+              hi: '₹2,000 थोक, ₹6,000 दैनिक लचीलेपन के लिए।',
+              te: '₹2,000 థోకులో, ₹6,000 రోజువారీ వశ్యతకు.',
+            },
+            outcomeDescription: {
+              en: 'Conservative but safe — some wholesale savings with maximum operational flexibility.',
+              hi: 'रूढ़िवादी लेकिन सुरक्षित — कुछ थोक बचत और अधिकतम परिचालन लचीलापन।',
+              te: 'సావధానమైనది కానీ సురక్షిత — కొంత థోక పొదుపు, గరిష్ట కార్యాచరణ వశ్యత.',
+            },
+            financialImpact: { walletDelta: 200, emergencyDelta: 150, scoreDelta: 70, stressDelta: -5 },
+            pedagogicalFeedback: {
+              en: 'Conservative capital deployment is wise for small businesses with variable daily needs.',
+              hi: 'परिवर्तनशील दैनिक जरूरतों वाले छोटे व्यवसाय के लिए रूढ़िवादी पूंजी तैनाती सही है।',
+              te: 'వేరియబుల్ రోజువారీ అవసరాలు కలిగిన చిన్న వ్యాపారానికి సావధాన మూలధన విస్తరణ తెలివైనది.',
+            },
+          },
+          {
+            id: 'inv004_step1_bad',
+            tier: 'bad',
+            text: {
+              en: 'Invest all ₹5,000 in wholesale for maximum discount right now.',
+              hi: 'अभी अधिकतम छूट के लिए थोक में सभी ₹5,000।',
+              te: 'ఇప్పుడు గరిష్ట డిస్కౌంట్ కోసం థోకులో అన్ని ₹5,000.',
+            },
+            outcomeDescription: {
+              en: 'Stock arrives late! Shop cannot cover daily bills with only ₹3,000 left.',
+              hi: 'माल देर से आता है! ₹3,000 बचने से दैनिक बिल नहीं दे सकते।',
+              te: 'స్టాక్ ఆలస్యంగా వస్తుంది! కేవలం ₹3,000 మిగిలి రోజువారీ బిల్లులు చెల్లించలేరు.',
+            },
+            financialImpact: { walletDelta: -200, emergencyDelta: -100, scoreDelta: -45, stressDelta: 40 },
+            pedagogicalFeedback: {
+              en: 'Over-investing at the cost of operational liquidity is dangerous cash flow management.',
+              hi: 'परिचालन तरलता की कीमत पर अधिक निवेश खतरनाक नकदी प्रवाह है।',
+              te: 'కార్యాచరణ లిక్విడిటీ ఖర్చుతో అధిక పెట్టుబడి ప్రమాదకరమైన నగదు ప్రవాహ నిర్వహణ.',
+            },
+          },
+          {
+            id: 'inv004_step1_very_bad',
+            tier: 'very_bad',
+            text: {
+              en: 'Invest all ₹8,000 including emergency reserve in the wholesale deal.',
+              hi: 'आपातकालीन भंडार सहित सभी ₹8,000 थोक में।',
+              te: 'అత్యవసర నిల్వతో సహా అన్ని ₹8,000 థోకులో.',
+            },
+            outcomeDescription: {
+              en: 'Shop completely runs out of cash! Business crisis unfolds!',
+              hi: 'दुकान की नकदी बिल्कुल खत्म! व्यावसायिक संकट!',
+              te: 'దుకాణానికి నగదు పూర్తిగా అయిపోతుంది! వ్యాపార సంక్షోభం!',
+            },
+            financialImpact: { walletDelta: -500, emergencyDelta: -300, scoreDelta: -100, stressDelta: 85 },
+            pedagogicalFeedback: {
+              en: 'Investing all capital including emergency reserves into a single opportunity destroys business resilience.',
+              hi: 'आपातकालीन भंडार सहित सब एकल अवसर में लगाने से व्यावसायिक लचीलापन नष्ट होता है।',
+              te: 'అత్యవసర నిల్వలతో సహా అన్ని మూలధనాన్ని ఒకే అవకాశంలో పెట్టడం వ్యాపార సహనశీలతను నాశనం చేస్తుంది.',
+            },
+            educationalVideoTitle: 'Why Borrowing to Invest is Extremely Dangerous',
+          },
+        ],
+      },
+      {
+        id: 'scenario_inv_004_step_2',
+        title: {
+          en: 'Decision 2: The Seasonal Price Drop',
+          hi: 'निर्णय 2: मौसमी मूल्य गिरावट',
+          te: 'నిర్ణయం 2: సీజనల్ ధర తగ్గుదల',
+        },
+        situationContext: {
+          en: "A seasonal oversupply hits the market. Rice prices drop 20% from their peak. Uncle Karim sees an opportunity to buy more. But the shop only has ₹2,000 left in daily operations funds. What does he do?",
+          hi: 'बाजार में मौसमी अतिरेक से चावल की कीमतें शीर्ष से 20% गिरती हैं। करीम चाचा अधिक खरीदने का अवसर देखते हैं। लेकिन दुकान के पास दैनिक परिचालन में केवल ₹2,000 बचे हैं। वह क्या करते हैं?',
+          te: 'సీజనల్ అధిక సరఫరా వల్ల బియ్యం ధర గరిష్ఠం నుండి 20% తగ్గుతుంది. అంకుల్ కరీమ్ ఎక్కువ కొనుగోలు అవకాశం చూస్తాడు. కానీ దుకాణంలో రోజువారీ కార్యకలాపాల నిధిలో కేవలం ₹2,000 మాత్రమే ఉన్నాయి. ఏం చేయాలి?',
+        },
+        choices: [
+          {
+            id: 'inv004_step2_best',
+            tier: 'best',
+            text: {
+              en: 'Wait and let the current stock sell through before buying at the lower price.',
+              hi: 'प्रतीक्षा करें और कम कीमत पर खरीदने से पहले मौजूदा स्टॉक बेचने दें।',
+              te: 'వేచి ఉండు, తక్కువ ధరకు కొనుగోలు చేయడానికి ముందు ప్రస్తుత స్టాక్ అమ్ముకునివ్వు.',
+            },
+            outcomeDescription: {
+              en: 'Current stock sold, fresh capital available. You buy at 20% discount with full liquidity intact!',
+              hi: 'मौजूदा स्टॉक बिका, ताजा पूंजी उपलब्ध। पूर्ण तरलता के साथ 20% छूट पर खरीदारी!',
+              te: 'ప్రస్తుత స్టాక్ అమ్ముడుపోయింది, తాజా మూలధనం అందుబాటులో ఉంది. పూర్తి లిక్విడిటీతో 20% డిస్కౌంట్‌కు కొంటావు!',
+            },
+            financialImpact: { walletDelta: 250, emergencyDelta: 50, scoreDelta: 100, stressDelta: -15 },
+            pedagogicalFeedback: {
+              en: 'Patient capital management — waiting for the right liquidity moment — is superior to forced emergency buying.',
+              hi: 'धैर्यपूर्ण पूंजी प्रबंधन — सही तरलता के लिए प्रतीक्षा — जबरन आपातकालीन खरीद से बेहतर है।',
+              te: 'ఓర్పుతో మూలధన నిర్వహణ — సరైన లిక్విడిటీ క్షణం కోసం వేచి ఉండటం — బలవంతంగా అత్యవసర కొనుగోలు కంటే మెరుగైనది.',
+            },
+          },
+          {
+            id: 'inv004_step2_good',
+            tier: 'good',
+            text: {
+              en: 'Use ₹1,000 from operations to buy a small amount at the discounted price.',
+              hi: 'परिचालन से ₹1,000 का उपयोग करके छूट कीमत पर थोड़ी मात्रा खरीदें।',
+              te: 'కార్యకలాపాల నుండి ₹1,000 ఉపయోగించి తక్కువ ధరకు చిన్న మొత్తం కొనుగోలు చేయి.',
+            },
+            outcomeDescription: {
+              en: 'Small opportunistic purchase while keeping ₹1,000 for daily operations. Cautious but smart.',
+              hi: '₹1,000 दैनिक परिचालन के लिए रखते हुए छोटी अवसरवादी खरीद। सावधान लेकिन स्मार्ट।',
+              te: 'రోజువారీ కార్యకలాపాలకు ₹1,000 ఉంచుతూ చిన్న అవకాశవాద కొనుగోలు. జాగ్రత్తగా కానీ స్మార్ట్.',
+            },
+            financialImpact: { walletDelta: 150, emergencyDelta: 0, scoreDelta: 70, stressDelta: -5 },
+            pedagogicalFeedback: {
+              en: 'Small opportunistic purchases within liquidity constraints is a reasonable middle ground.',
+              hi: 'तरलता सीमाओं के भीतर छोटी अवसरवादी खरीद एक उचित मध्य मार्ग है।',
+              te: 'లిక్విడిటీ పరిమితుల్లో చిన్న అవకాశవాద కొనుగోళ్ళు సహేతుకమైన మధ్య మార్గం.',
+            },
+          },
+          {
+            id: 'inv004_step2_bad',
+            tier: 'bad',
+            text: {
+              en: 'Use the full ₹2,000 to stock up — missing the deal would be worse.',
+              hi: 'सौदा चूकना बुरा होगा — पूरे ₹2,000 से स्टॉक भरें।',
+              te: 'డీల్ తప్పిపోతే అంతకంటే చెడ్డది — పూర్తి ₹2,000 తో స్టాక్ చేయి.',
+            },
+            outcomeDescription: {
+              en: 'Zero daily operations cash left! Cannot pay daily bills. Short-term crisis hits!',
+              hi: 'दैनिक परिचालन की नकदी खत्म! दैनिक बिल नहीं दे सकते। अल्पकालिक संकट!',
+              te: 'రోజువారీ కార్యకలాపాల నగదు సున్నా! రోజువారీ బిల్లులు చెల్లించలేరు. స్వల్పకాలిక సంక్షోభం!',
+            },
+            financialImpact: { walletDelta: -150, emergencyDelta: -100, scoreDelta: -45, stressDelta: 40 },
+            pedagogicalFeedback: {
+              en: 'Fear of missing out (FOMO) on a deal is never a good reason to compromise operational liquidity.',
+              hi: 'सौदे पर FOMO (मिस करने का डर) परिचालन तरलता से समझौते का अच्छा कारण नहीं है।',
+              te: 'డీల్ మిస్ అయ్యే భయం (FOMO) కార్యాచరణ లిక్విడిటీని రాజీ చేయడానికి మంచి కారణం కాదు.',
+            },
+          },
+          {
+            id: 'inv004_step2_very_bad',
+            tier: 'very_bad',
+            text: {
+              en: 'Take a high-interest loan of ₹5,000 to maximize the discount purchase.',
+              hi: 'अधिकतम छूट खरीद के लिए ₹5,000 का भारी ब्याज ऋण लें।',
+              te: 'గరిష్ట డిస్కౌంట్ కొనుగోలు కోసం ₹5,000 అధిక వడ్డీ అప్పు తీసుకో.',
+            },
+            outcomeDescription: {
+              en: 'The discounted stock sells, but interest payments eat all profit margins. Net loss after loan repayment!',
+              hi: 'छूट वाला माल बिका, लेकिन ब्याज भुगतान सारे लाभ मार्जिन खा गए। ऋण चुकाने के बाद शुद्ध हानि!',
+              te: 'డిస్కౌంట్ స్టాక్ అమ్ముడుపోతుంది, కానీ వడ్డీ చెల్లింపులు అన్ని లాభ మార్జిన్లు తింటాయి. అప్పు తీర్చిన తర్వాత నికర నష్టం!',
+            },
+            financialImpact: { walletDelta: -500, emergencyDelta: -200, scoreDelta: -90, stressDelta: 80 },
+            pedagogicalFeedback: {
+              en: 'Taking high-interest loans to chase discounts is a classic cash flow trap. The interest cost destroys the discount benefit.',
+              hi: 'छूट पाने के लिए भारी ब्याज ऋण लेना एक क्लासिक नकदी प्रवाह जाल है।',
+              te: 'డిస్కౌంట్లు పొందడానికి అధిక వడ్డీ అప్పులు తీసుకోవడం క్లాసిక్ నగదు ప్రవాహ ఉచ్చు.',
+            },
+            educationalVideoTitle: 'Why Borrowing to Invest is Extremely Dangerous',
+          },
+        ],
+      },
+      {
+        id: 'scenario_inv_004_step_3',
+        title: {
+          en: 'Decision 3: The Year-End Profit Review',
+          hi: 'निर्णय 3: वर्ष-अंत लाभ समीक्षा',
+          te: 'నిర్ణయం 3: సంవత్సరాంత లాభ సమీక్ష',
+        },
+        situationContext: {
+          en: "Uncle Karim's grocery shop ends the year with ₹3,500 net profit after expenses. He needs to decide how to use this profit to grow the business next year.",
+          hi: 'करीम चाचा की किराना दुकान खर्चों के बाद ₹3,500 शुद्ध लाभ के साथ साल समाप्त करती है। अगले साल व्यवसाय बढ़ाने के लिए इस लाभ का उपयोग कैसे करें, यह तय करना है।',
+          te: 'అంకుల్ కరీమ్ కిరాణా దుకాణం ఖర్చుల తర్వాత ₹3,500 నికర లాభంతో సంవత్సరం ముగిస్తుంది. వచ్చే సంవత్సరం వ్యాపారం పెంచడానికి ఈ లాభం ఎలా వాడాలో నిర్ణయించాలి.',
+        },
+        choices: [
+          {
+            id: 'inv004_step3_best',
+            tier: 'best',
+            text: {
+              en: 'Reinvest ₹1,500 in stock, save ₹1,000 emergency, keep ₹1,000 as personal income.',
+              hi: '₹1,500 स्टॉक में पुनर्निवेश, ₹1,000 आपातकाल, ₹1,000 व्यक्तिगत आय।',
+              te: '₹1,500 స్టాక్‌లో పునర్వ్యాటం, ₹1,000 అత్యవసరం, ₹1,000 వ్యక్తిగత ఆదాయం.',
+            },
+            outcomeDescription: {
+              en: 'Business grows sustainably while Uncle Karim also earns fair personal income. Smart reinvestment!',
+              hi: 'व्यवसाय टिकाऊ ढंग से बढ़ता है और करीम चाचा को उचित व्यक्तिगत आय भी मिलती है। स्मार्ट पुनर्निवेश!',
+              te: 'వ్యాపారం స్థిరంగా పెరుగుతుంది, అంకుల్ కరీమ్ కి సహేతుకమైన వ్యక్తిగత ఆదాయం కూడా వస్తుంది. స్మార్ట్ పునర్వ్యాటం!',
+            },
+            financialImpact: { walletDelta: 350, emergencyDelta: 200, scoreDelta: 100, stressDelta: -20 },
+            pedagogicalFeedback: {
+              en: 'The ideal profit allocation cycle: reinvest for growth, build emergency reserves, reward yourself fairly.',
+              hi: 'आदर्श लाभ आवंटन चक्र: वृद्धि के लिए पुनर्निवेश, आपातकालीन भंडार, उचित पुरस्कार।',
+              te: 'ఆదర్శ లాభ కేటాయింపు చక్రం: వృద్ధికి పునర్వ్యాటం, అత్యవసర నిల్వలు, తనకు తాను సహేతుకంగా పురస్కరించుకో.',
+            },
+            educationalVideoTitle: 'Capital Preservation: The Foundation of Long-Term Wealth',
+          },
+          {
+            id: 'inv004_step3_good',
+            tier: 'good',
+            text: {
+              en: 'Reinvest all ₹3,500 back into expanding the shop\'s stock range.',
+              hi: 'सभी ₹3,500 दुकान के स्टॉक रेंज विस्तार में पुनर्निवेश करें।',
+              te: 'అన్ని ₹3,500 దుకాణం స్టాక్ పరిధి విస్తరణలో పునర్వ్యాటం చేయి.',
+            },
+            outcomeDescription: {
+              en: 'Full reinvestment maximizes growth potential, though Uncle Karim earns no personal income this year.',
+              hi: 'पूर्ण पुनर्निवेश विकास क्षमता अधिकतम करता है, लेकिन करीम चाचा इस साल व्यक्तिगत आय नहीं कमाते।',
+              te: 'పూర్తి పునర్వ్యాటం వృద్ధి సంభావ్యత పెంచుతుంది, కానీ అంకుల్ కరీమ్ ఈ సంవత్సరం వ్యక్తిగత ఆదాయం సంపాదించలేదు.',
+            },
+            financialImpact: { walletDelta: 300, emergencyDelta: 0, scoreDelta: 70, stressDelta: -5 },
+            pedagogicalFeedback: {
+              en: 'Full reinvestment is growth-maximizing but sustainable businesses also need to reward their owners fairly.',
+              hi: 'पूर्ण पुनर्निवेश वृद्धि-अधिकतम करने वाला है, लेकिन टिकाऊ व्यवसाय मालिकों को भी उचित पुरस्कार देते हैं।',
+              te: 'పూర్తి పునర్వ్యాటం వృద్ధి-అధికతమం చేసేది కానీ స్థిరమైన వ్యాపారాలు వారి యజమానులను కూడా సహేతుకంగా పురస్కరిస్తాయి.',
+            },
+          },
+          {
+            id: 'inv004_step3_bad',
+            tier: 'bad',
+            text: {
+              en: 'Spend all ₹3,500 on a personal vacation as "deserved reward".',
+              hi: '"उचित पुरस्कार" के रूप में व्यक्तिगत छुट्टी पर सभी ₹3,500 खर्च करें।',
+              te: '"అర్హమైన బహుమతి"గా వ్యక్తిగత సెలవుకు అన్ని ₹3,500 ఖర్చుపెట్టు.',
+            },
+            outcomeDescription: {
+              en: 'Wonderful vacation but zero business reinvestment. Next year\'s stock quality and business growth suffer.',
+              hi: 'शानदार छुट्टी लेकिन शून्य व्यावसायिक पुनर्निवेश। अगले साल स्टॉक गुणवत्ता और व्यवसाय वृद्धि प्रभावित।',
+              te: 'అద్భుతమైన సెలవు కానీ జీరో వ్యాపార పునర్వ్యాటం. వచ్చే సంవత్సరం స్టాక్ నాణ్యత, వ్యాపార వృద్ధి దెబ్బతింటుంది.',
+            },
+            financialImpact: { walletDelta: -100, emergencyDelta: -100, scoreDelta: -50, stressDelta: 30 },
+            pedagogicalFeedback: {
+              en: 'Consuming all business profits on personal expenses strangles future growth capacity.',
+              hi: 'सभी व्यावसायिक लाभ व्यक्तिगत खर्चों पर उपभोग करना भविष्य की विकास क्षमता को गला घोंट देता है।',
+              te: 'అన్ని వ్యాపార లాభాలను వ్యక్తిగత ఖర్చులపై వినియోగించడం భవిష్యత్ వృద్ధి సామర్థ్యాన్ని గొంతు పిసుకుతుంది.',
+            },
+          },
+          {
+            id: 'inv004_step3_very_bad',
+            tier: 'very_bad',
+            text: {
+              en: 'Invest all ₹3,500 in a cousin\'s unregistered chit fund promising 50% annual return.',
+              hi: 'चचेरे भाई के 50% वार्षिक रिटर्न का वादा करने वाले अपंजीकृत चिट फंड में सभी ₹3,500।',
+              te: 'బంధువు అపంజీకృత చిట్ ఫండ్‌లో 50% వార్షిక రాబడి వాగ్దానంతో అన్ని ₹3,500 పెట్టు.',
+            },
+            outcomeDescription: {
+              en: 'SCAM! Chit fund collapses in 3 months. All ₹3,500 gone with no legal recourse!',
+              hi: 'घोटाला! चिट फंड 3 महीने में ढह गया। ₹3,500 गए और कोई कानूनी उपाय नहीं!',
+              te: 'మోసం! చిట్ ఫండ్ 3 నెలల్లో కుప్పకూలింది. ₹3,500 పోయాయి, చట్టపరమైన పరిష్కారం లేదు!',
+            },
+            financialImpact: { walletDelta: -600, emergencyDelta: -200, scoreDelta: -100, stressDelta: 90 },
+            pedagogicalFeedback: {
+              en: 'Unregistered chit funds and high-return schemes violate regulations and are virtually always fraud.',
+              hi: 'अपंजीकृत चिट फंड और उच्च-रिटर्न योजनाएं नियमों का उल्लंघन करती हैं और लगभग हमेशा धोखाधड़ी होती हैं।',
+              te: 'అపంజీకృత చిట్ ఫండ్లు మరియు అధిక-రాబడి పథకాలు నిబంధనలను ఉల్లంఘిస్తాయి మరియు దాదాపు ఎల్లప్పుడూ మోసం.',
+            },
+            educationalVideoTitle: 'Recognizing Ponzi Schemes and Get-Rich-Quick Scams',
+          },
+        ],
+      },
+    ],
+  },
+
+  scenario_inv_005_career_invest: {
+    id: 'scenario_inv_005_career_invest',
+    cityId: 'city_investment_valley',
+    pillar: 'invest',
+    title: {
+      en: 'Investing in Yourself',
+      hi: 'खुद में निवेश',
+      te: 'తనలో తాను పెట్టుబడి',
+    },
+    subtitle: {
+      en: 'Your skills and education are the highest-returning investments you can make',
+      hi: 'आपके कौशल और शिक्षा सबसे अधिक रिटर्न देने वाले निवेश हैं',
+      te: 'నీ నైపుణ్యాలు మరియు విద్య అత్యధిక రాబడి ఇచ్చే పెట్టుబడులు',
+    },
+    situationContext: {
+      en: "Counselor Deepa at the Career Guidance Office tells you about a professional certification course. You have ₹10,000 in scholarship funds saved up. You could invest in a data analytics certification (₹8,000), keep it all in savings, buy a new gaming laptop, or put it in a peer's dubious 'investment club'.",
+      hi: 'करियर गाइडेंस ऑफिस में काउंसलर दीपा आपको एक पेशेवर प्रमाणपत्र पाठ्यक्रम के बारे में बताती हैं। आपके पास ₹10,000 की छात्रवृत्ति बचत है। डेटा एनालिटिक्स सर्टिफिकेशन (₹8,000) में निवेश, पूरी बचत, नया गेमिंग लैपटॉप या साथी के संदिग्ध निवेश क्लब में लगा सकते हैं।',
+      te: 'కెరీర్ గైడెన్స్ ఆఫీస్‌లో కౌన్సెలర్ దీపా నీకు ప్రొఫెషనల్ సర్టిఫికేషన్ కోర్సు గురించి చెప్తుంది. నీకు ₹10,000 స్కాలర్‌షిప్ పొదుపు ఉంది. డేటా అనలిటిక్స్ సర్టిఫికేషన్ (₹8,000)లో పెట్టుబడి పెట్టవచ్చు, అన్నీ పొదుపు చేయవచ్చు, కొత్త గేమింగ్ లాప్‌టాప్ కొనవచ్చు లేదా సహాధ్యాయి అనుమానాస్పద "ఇన్వెస్ట్‌మెంట్ క్లబ్"లో పెట్టవచ్చు.',
+    },
+    stipendContext: 'Career Guidance Office | Scholarship Fund: ₹10,000 | Counselor Deepa',
+    educationalHint: {
+      en: 'Investing in certified skills compounds your career earnings for decades. Education is the one investment that can never be taken from you.',
+      hi: 'प्रमाणित कौशल में निवेश दशकों तक आपकी करियर आय को चक्रवृद्धि करता है। शिक्षा एकमात्र ऐसा निवेश है जो कभी नहीं छीना जा सकता।',
+      te: 'సర్టిఫైడ్ నైపుణ్యాలలో పెట్టుబడి పెట్టడం దశాబ్దాల పాటు నీ కెరీర్ ఆదాయాన్ని చక్రవడ్డీలో పెంచుతుంది. విద్య ఎప్పటికీ తీసుకోలేని పెట్టుబడి.',
+    },
+    choices: [
+      {
+        id: 'inv005_choice_best',
+        tier: 'best',
+        text: {
+          en: 'Invest ₹8,000 in the data analytics certification and keep ₹2,000 in savings.',
+          hi: 'डेटा एनालिटिक्स सर्टिफिकेशन में ₹8,000 निवेश और ₹2,000 बचत में रखें।',
+          te: 'డేటా అనలిటిక్స్ సర్టిఫికేషన్‌లో ₹8,000 పెట్టుబడి, ₹2,000 పొదుపులో ఉంచు.',
+        },
+        outcomeDescription: {
+          en: 'Certification earned! Starting salary jumps by ₹15,000 per month. ROI: 1,800% in first year!',
+          hi: 'सर्टिफिकेशन मिली! शुरुआती वेतन ₹15,000 प्रति माह बढ़ा। पहले साल में ROI: 1,800%!',
+          te: 'సర్టిఫికేషన్ పొందావు! ప్రారంభ జీతం నెలకు ₹15,000 పెరిగింది. మొదటి సంవత్సరంలో ROI: 1,800%!',
+        },
+        financialImpact: { walletDelta: 500, emergencyDelta: 100, scoreDelta: 100, stressDelta: -30 },
+        pedagogicalFeedback: {
+          en: 'Human capital investment (education/certifications) yields the highest lifetime ROI of any asset class.',
+          hi: 'मानव पूंजी निवेश (शिक्षा/प्रमाणपत्र) किसी भी परिसंपत्ति वर्ग की तुलना में सबसे अधिक जीवनकाल ROI देता है।',
+          te: 'మానవ మూలధన పెట్టుబడి (విద్య/సర్టిఫికేషన్లు) ఏ ఆస్తి తరగతికంటే అత్యధిక జీవితకాల ROI అందిస్తుంది.',
+        },
+        educationalVideoTitle: 'Capital Preservation: The Foundation of Long-Term Wealth',
+      },
+      {
+        id: 'inv005_choice_good',
+        tier: 'good',
+        text: {
+          en: 'Keep all ₹10,000 in a savings account for future tuition fees.',
+          hi: 'भविष्य की ट्यूशन फीस के लिए सभी ₹10,000 बचत खाते में रखें।',
+          te: 'భవిష్యత్ ట్యూషన్ ఫీజుల కోసం అన్ని ₹10,000 పొదుపు ఖాతాలో ఉంచు.',
+        },
+        outcomeDescription: {
+          en: 'Capital safely preserved for future education needs. Prudent, though certification opportunity missed.',
+          hi: 'भविष्य की शिक्षा जरूरतों के लिए पूंजी सुरक्षित। विवेकपूर्ण, हालांकि सर्टिफिकेशन अवसर चूक गया।',
+          te: 'భవిష్యత్ విద్యా అవసరాలకు మూలధనం సురక్షితంగా భద్రపడింది. వివేకమైనది, అయినప్పటికీ సర్టిఫికేషన్ అవకాశం తప్పిపోయింది.',
+        },
+        financialImpact: { walletDelta: 150, emergencyDelta: 200, scoreDelta: 65, stressDelta: -5 },
+        pedagogicalFeedback: {
+          en: 'Saving for future tuition is responsible, but when skill investment opportunities arise, evaluate their lifetime ROI carefully.',
+          hi: 'भविष्य की ट्यूशन के लिए बचत जिम्मेदार है, लेकिन कौशल निवेश के अवसर आने पर जीवनकाल ROI का मूल्यांकन करें।',
+          te: 'భవిష్యత్ ట్యూషన్ కోసం పొదుపు బాధ్యతాయుతమైనది, కానీ నైపుణ్య పెట్టుబడి అవకాశాలు వచ్చినప్పుడు జీవితకాల ROI జాగ్రత్తగా మూల్యాంకనం చేయి.',
+        },
+      },
+      {
+        id: 'inv005_choice_bad',
+        tier: 'bad',
+        text: {
+          en: 'Spend ₹8,000 on a new gaming laptop — study better with faster hardware!',
+          hi: '₹8,000 नए गेमिंग लैपटॉप पर — तेज हार्डवेयर से बेहतर पढ़ाई!',
+          te: 'కొత్త గేమింగ్ లాప్‌టాప్‌కు ₹8,000 — వేగమైన హార్డ్‌వేర్‌తో మంచి చదువు!',
+        },
+        outcomeDescription: {
+          en: 'Great laptop for gaming, terrible ROI! No certification, no salary boost. Self-justification trap!',
+          hi: 'गेमिंग के लिए शानदार लैपटॉप, भयानक ROI! कोई सर्टिफिकेशन नहीं, कोई वेतन वृद्धि नहीं। स्व-औचित्य जाल!',
+          te: 'గేమింగ్‌కు గొప్ప లాప్‌టాప్, భయంకరమైన ROI! సర్టిఫికేషన్ లేదు, జీతం పెరుగుదల లేదు. స్వ-సమర్థన వల!',
+        },
+        financialImpact: { walletDelta: -300, emergencyDelta: -100, scoreDelta: -50, stressDelta: 30 },
+        pedagogicalFeedback: {
+          en: 'Rationalizing lifestyle purchases as "investments" is a classic self-deception. Skill certifications, not gadgets, compound career earnings.',
+          hi: 'जीवनशैली खरीद को "निवेश" के रूप में तर्कसंगत बनाना एक क्लासिक आत्म-धोखा है।',
+          te: 'జీవనశైలి కొనుగోళ్ళను "పెట్టుబడులు"గా సమర్థించుకోవడం క్లాసిక్ స్వ-మోసం.',
+        },
+      },
+      {
+        id: 'inv005_choice_very_bad',
+        tier: 'very_bad',
+        text: {
+          en: 'Put all ₹10,000 into a peer\'s unregistered "investment club" promising 40% monthly returns.',
+          hi: 'साथी के 40% मासिक रिटर्न का वादा करने वाले अपंजीकृत "निवेश क्लब" में सभी ₹10,000।',
+          te: 'సహాధ్యాయి 40% నెలవారీ రాబడి వాగ్దానం చేసే అపంజీకృత "ఇన్వెస్ట్‌మెంట్ క్లబ్"లో అన్ని ₹10,000.',
+        },
+        outcomeDescription: {
+          en: 'FRAUD! The club disappears after 2 months. All ₹10,000 lost. No certification, no savings, no recourse!',
+          hi: 'धोखाधड़ी! क्लब 2 महीने बाद गायब। सभी ₹10,000 खो गए। कोई सर्टिफिकेशन, बचत या सहारा नहीं!',
+          te: 'మోసం! క్లబ్ 2 నెలల తర్వాత మాయమవుతుంది. అన్ని ₹10,000 పోయాయి. సర్టిఫికేషన్, పొదుపు, పరిష్కారం ఏమీ లేదు!',
+        },
+        financialImpact: { walletDelta: -600, emergencyDelta: -250, scoreDelta: -100, stressDelta: 90 },
+        pedagogicalFeedback: {
+          en: '40% monthly returns equal 5,000%+ annually — mathematically impossible. Any claim of this kind is 100% fraud.',
+          hi: '40% मासिक रिटर्न = सालाना 5,000%+ — गणितीय रूप से असंभव। इस तरह का कोई भी दावा 100% धोखाधड़ी है।',
+          te: '40% నెలవారీ రాబడి = వార్షికంగా 5,000%+ — గణితపరంగా అసాధ్యం. ఇలాంటి ఏ దావా అయినా 100% మోసం.',
+        },
+        educationalVideoTitle: 'Recognizing Ponzi Schemes and Get-Rich-Quick Scams',
+      },
+    ],
+    steps: [
+      {
+        id: 'scenario_inv_005_step_1',
+        title: {
+          en: 'Decision 1: Choose Your Investment',
+          hi: 'निर्णय 1: अपना निवेश चुनें',
+          te: 'నిర్ణయం 1: నీ పెట్టుబడి ఎంచుకో',
+        },
+        situationContext: {
+          en: 'Counselor Deepa shows you your options: spend ₹8,000 on a professional data analytics certification, keep it all in savings, buy a gaming laptop, or join a peer\'s informal "investment club". What will you choose?',
+          hi: 'काउंसलर दीपा आपको विकल्प दिखाती हैं: ₹8,000 पेशेवर डेटा एनालिटिक्स प्रमाणपत्र पर खर्च करें, पूरी बचत रखें, गेमिंग लैपटॉप खरीदें, या साथी के अनौपचारिक "निवेश क्लब" में शामिल हों। क्या चुनेंगे?',
+          te: 'కౌన్సెలర్ దీపా నీకు ఎంపికలు చూపిస్తుంది: ₹8,000 ప్రొఫెషనల్ డేటా అనలిటిక్స్ సర్టిఫికేషన్‌పై ఖర్చుపెట్టు, అన్నీ పొదుపులో ఉంచు, గేమింగ్ లాప్‌టాప్ కొను, లేదా సహాధ్యాయి అనధికారిక "ఇన్వెస్ట్‌మెంట్ క్లబ్"లో చేరు. ఏం ఎంచుకుంటావు?',
+        },
+        choices: [
+          {
+            id: 'inv005_step1_best',
+            tier: 'best',
+            text: {
+              en: 'Invest ₹8,000 in the data analytics certification, save ₹2,000.',
+              hi: 'डेटा एनालिटिक्स प्रमाणपत्र में ₹8,000 निवेश करें, ₹2,000 बचाएं।',
+              te: 'డేటా అనలిటిక్స్ సర్టిఫికేషన్‌లో ₹8,000 పెట్టుబడి, ₹2,000 పొదుపు.',
+            },
+            outcomeDescription: {
+              en: 'Certification earned! Starting salary jumps by ₹15,000/month. ROI: 1,800%!',
+              hi: 'प्रमाणपत्र मिली! शुरुआती वेतन ₹15,000/माह बढ़ा। ROI: 1,800%!',
+              te: 'సర్టిఫికేషన్ పొందావు! జీతం నెలకు ₹15,000 పెరిగింది. ROI: 1,800%!',
+            },
+            financialImpact: { walletDelta: 400, emergencyDelta: 100, scoreDelta: 100, stressDelta: -25 },
+            pedagogicalFeedback: {
+              en: 'Human capital investment yields the highest lifetime ROI of any asset class.',
+              hi: 'मानव पूंजी निवेश किसी भी परिसंपत्ति वर्ग की सबसे अधिक जीवनकाल ROI देता है।',
+              te: 'మానవ మూలధన పెట్టుబడి ఏ ఆస్తి తరగతికంటే అత్యధిక జీవితకాల ROI అందిస్తుంది.',
+            },
+            educationalVideoTitle: 'Capital Preservation: The Foundation of Long-Term Wealth',
+          },
+          {
+            id: 'inv005_step1_good',
+            tier: 'good',
+            text: {
+              en: 'Keep all ₹10,000 in savings for future tuition fees.',
+              hi: 'भविष्य की ट्यूशन के लिए सभी ₹10,000 बचत में रखें।',
+              te: 'భవిష్యత్ ట్యూషన్ కోసం అన్ని ₹10,000 పొదుపులో ఉంచు.',
+            },
+            outcomeDescription: {
+              en: 'Capital safely preserved. Prudent, though certification opportunity missed.',
+              hi: 'पूंजी सुरक्षित। विवेकपूर्ण, लेकिन सर्टिफिकेशन चूक गई।',
+              te: 'మూలధనం సురక్షితంగా భద్రపడింది. వివేకమైనది, అయినప్పటికీ సర్టిఫికేషన్ అవకాశం తప్పిపోయింది.',
+            },
+            financialImpact: { walletDelta: 100, emergencyDelta: 200, scoreDelta: 60, stressDelta: -5 },
+            pedagogicalFeedback: {
+              en: 'Saving for future tuition is responsible, but evaluate skill investment ROI carefully when opportunities arise.',
+              hi: 'भविष्य के लिए बचत जिम्मेदार है, लेकिन कौशल अवसरों का जीवनकाल ROI मूल्यांकन करें।',
+              te: 'భవిష్యత్ కోసం పొదుపు బాధ్యతాయుతమైనది, కానీ నైపుణ్య అవకాశాల జీవితకాల ROI జాగ్రత్తగా మూల్యాంకనం చేయి.',
+            },
+          },
+          {
+            id: 'inv005_step1_bad',
+            tier: 'bad',
+            text: {
+              en: 'Buy a gaming laptop for ₹8,000 — "study better with good hardware".',
+              hi: '₹8,000 गेमिंग लैपटॉप — "अच्छे हार्डवेयर से बेहतर पढ़ाई"।',
+              te: '₹8,000 గేమింగ్ లాప్‌టాప్ — "మంచి హార్డ్‌వేర్‌తో మంచి చదువు".',
+            },
+            outcomeDescription: {
+              en: 'Great for gaming, terrible ROI! No certification, no salary boost. A self-justification trap!',
+              hi: 'गेमिंग के लिए अच्छा, भयानक ROI! कोई प्रमाणपत्र नहीं, वेतन वृद्धि नहीं।',
+              te: 'గేమింగ్‌కు మంచిది, భయంకరమైన ROI! సర్టిఫికేషన్ లేదు, జీతం పెరుగుదల లేదు.',
+            },
+            financialImpact: { walletDelta: -250, emergencyDelta: -100, scoreDelta: -50, stressDelta: 25 },
+            pedagogicalFeedback: {
+              en: 'Rationalizing lifestyle purchases as investments is a classic self-deception. Skills, not gadgets, compound earnings.',
+              hi: 'जीवनशैली खरीद को निवेश बताना आत्म-धोखा है। गैजेट नहीं, कौशल आय को चक्रवृद्धि करते हैं।',
+              te: 'జీవనశైలి కొనుగోళ్ళను పెట్టుబడులుగా సమర్థించుకోవడం స్వ-మోసం. గాడ్జెట్లు కాదు, నైపుణ్యాలు ఆదాయాన్ని చక్రవడ్డీలో పెంచుతాయి.',
+            },
+          },
+          {
+            id: 'inv005_step1_very_bad',
+            tier: 'very_bad',
+            text: {
+              en: 'Join the peer\'s "investment club" with all ₹10,000 for promised 40% monthly returns.',
+              hi: '40% मासिक रिटर्न वाले साथी के "निवेश क्लब" में सभी ₹10,000।',
+              te: '40% నెలవారీ రాబడి వాగ్దానంతో సహాధ్యాయి "ఇన్వెస్ట్‌మెంట్ క్లబ్"లో అన్ని ₹10,000.',
+            },
+            outcomeDescription: {
+              en: 'FRAUD! Club disappears in 2 months. All ₹10,000 lost forever!',
+              hi: 'धोखाधड़ी! क्लब 2 महीने में गायब। सभी ₹10,000 हमेशा के लिए खो गए!',
+              te: 'మోసం! క్లబ్ 2 నెలల్లో మాయమవుతుంది. అన్ని ₹10,000 శాశ్వతంగా పోయాయి!',
+            },
+            financialImpact: { walletDelta: -600, emergencyDelta: -250, scoreDelta: -100, stressDelta: 90 },
+            pedagogicalFeedback: {
+              en: '40% monthly = 5,000%+ annually. Mathematically impossible. Any such claim is 100% fraud.',
+              hi: '40% मासिक = सालाना 5,000%+ — असंभव। ऐसा कोई दावा 100% धोखाधड़ी है।',
+              te: '40% నెలవారీ = వార్షికంగా 5,000%+ — అసాధ్యం. ఇలాంటి ఏ దావా అయినా 100% మోసం.',
+            },
+            educationalVideoTitle: 'Recognizing Ponzi Schemes and Get-Rich-Quick Scams',
+          },
+        ],
+      },
+      {
+        id: 'scenario_inv_005_step_2',
+        title: {
+          en: 'Decision 2: The Job Interview Offer',
+          hi: 'निर्णय 2: नौकरी साक्षात्कार का प्रस्ताव',
+          te: 'నిర్ణయం 2: ఉద్యోగ ఇంటర్వ్యూ ఆఫర్',
+        },
+        situationContext: {
+          en: "After earning your certification, a company offers you a ₹25,000/month internship. However, you must spend ₹1,500 on a professional dress and travel kit. How do you handle this investment in your professional appearance?",
+          hi: 'प्रमाणपत्र मिलने के बाद, एक कंपनी ₹25,000/माह का इंटर्नशिप ऑफर देती है। लेकिन पेशेवर पोशाक और यात्रा किट पर ₹1,500 खर्च करना होगा। इस पेशेवर उपस्थिति निवेश को कैसे संभालते हैं?',
+          te: 'సర్టిఫికేషన్ పొందిన తర్వాత, ఒక కంపెనీ ₹25,000/నెల ఇంటర్న్‌షిప్ ఆఫర్ చేస్తుంది. అయితే, ప్రొఫెషనల్ దుస్తులు మరియు ట్రావెల్ కిట్‌కు ₹1,500 ఖర్చుపెట్టాలి. ఈ ప్రొఫెషనల్ అభ్యాసం పెట్టుబడిని ఎలా నిర్వహిస్తావు?',
+        },
+        choices: [
+          {
+            id: 'inv005_step2_best',
+            tier: 'best',
+            text: {
+              en: 'Spend ₹1,500 on essentials from your emergency fund — treat it as career investment.',
+              hi: 'आपातकालीन कोष से ₹1,500 जरूरी सामान पर — इसे करियर निवेश मानें।',
+              te: 'అత్యవసర నిధి నుండి ₹1,500 అవసరమైన వాటిపై — దాన్ని కెరీర్ పెట్టుబడిగా పరిగణించు.',
+            },
+            outcomeDescription: {
+              en: 'Professional kit purchased smartly. Internship secured, monthly ₹25,000 starts flowing. Perfect ROI!',
+              hi: 'पेशेवर किट स्मार्ट तरीके से खरीदी। इंटर्नशिप सुरक्षित, मासिक ₹25,000 शुरू। उत्तम ROI!',
+              te: 'ప్రొఫెషనల్ కిట్ తెలివిగా కొనుగోలు. ఇంటర్న్‌షిప్ సురక్షితం, నెలకు ₹25,000 రావడం ప్రారంభం. అద్భుతమైన ROI!',
+            },
+            financialImpact: { walletDelta: 500, emergencyDelta: -100, scoreDelta: 100, stressDelta: -25 },
+            pedagogicalFeedback: {
+              en: 'Career-enabling purchases that directly generate income are legitimate investments, not lifestyle expenses.',
+              hi: 'आय उत्पन्न करने वाली कैरियर-सक्षम खरीद वैध निवेश हैं, जीवनशैली खर्च नहीं।',
+              te: 'నేరుగా ఆదాయం ఉత్పత్తి చేసే కెరీర్-సాధనమైన కొనుగోళ్ళు చట్టబద్ధమైన పెట్టుబడులు, జీవనశైలి ఖర్చులు కావు.',
+            },
+          },
+          {
+            id: 'inv005_step2_good',
+            tier: 'good',
+            text: {
+              en: 'Buy only the minimum essentials at ₹800 and borrow a friend\'s interview outfit.',
+              hi: 'केवल न्यूनतम ₹800 की जरूरी चीजें खरीदें और दोस्त से इंटरव्यू आउटफिट उधार लें।',
+              te: 'కనీసమైన అవసరాలు ₹800 కు కొని స్నేహితుడి ఇంటర్వ్యూ దుస్తులు అరువు తీసుకో.',
+            },
+            outcomeDescription: {
+              en: 'Resourceful and cost-efficient! Minimum spend, same internship secured. Smart frugality!',
+              hi: 'संसाधन-कुशल और लागत-प्रभावी! न्यूनतम खर्च, वही इंटर्नशिप। स्मार्ट मितव्ययिता!',
+              te: 'వనరులను తెలివిగా వాడడం! కనీస ఖర్చు, అదే ఇంటర్న్‌షిప్. స్మార్ట్ పొదుపుదారితనం!',
+            },
+            financialImpact: { walletDelta: 400, emergencyDelta: 0, scoreDelta: 80, stressDelta: -10 },
+            pedagogicalFeedback: {
+              en: 'Frugal creative solutions that achieve the same outcome at lower cost is excellent financial resourcefulness.',
+              hi: 'कम लागत में समान परिणाम प्राप्त करने वाले किफायती रचनात्मक समाधान उत्कृष्ट वित्तीय साधनता हैं।',
+              te: 'తక్కువ ఖర్చుతో అదే ఫలితం సాధించే పొదుపైన సృజనాత్మక పరిష్కారాలు అద్భుతమైన ఆర్థిక వనరు నిర్వహణ.',
+            },
+          },
+          {
+            id: 'inv005_step2_bad',
+            tier: 'bad',
+            text: {
+              en: 'Spend ₹5,000 on a designer interview suit to "make a great first impression".',
+              hi: '"अच्छी पहली छाप" के लिए ₹5,000 का डिजाइनर इंटरव्यू सूट खरीदें।',
+              te: '"మంచి మొదటి అభిప్రాయం" కోసం ₹5,000 డిజైనర్ ఇంటర్వ్యూ సూట్ కొనుగోలు.',
+            },
+            outcomeDescription: {
+              en: 'Expensive suit got you the internship but devoured first month\'s salary saving plan!',
+              hi: 'महंगे सूट ने इंटर्नशिप दिलाई लेकिन पहले महीने की वेतन बचत योजना खा गई!',
+              te: 'ఖరీదైన సూట్ ఇంటర్న్‌షిప్ ఇచ్చింది కానీ మొదటి నెల జీతం పొదుపు ప్రణాళిక మింగివేసింది!',
+            },
+            financialImpact: { walletDelta: 100, emergencyDelta: -200, scoreDelta: -40, stressDelta: 30 },
+            pedagogicalFeedback: {
+              en: 'Over-investing in appearance at the expense of savings is a lifestyle inflation trap that erodes financial goals.',
+              hi: 'बचत की कीमत पर दिखावे में अधिक निवेश एक जीवनशैली मुद्रास्फीति जाल है जो वित्तीय लक्ष्यों को नष्ट करता है।',
+              te: 'పొదుపు ఖర్చుతో రూపంలో అధిక పెట్టుబడి జీవనశైలి ద్రవ్యోల్బణ వలయం, ఆర్థిక లక్ష్యాలను నాశనం చేస్తుంది.',
+            },
+          },
+          {
+            id: 'inv005_step2_very_bad',
+            tier: 'very_bad',
+            text: {
+              en: 'Skip the internship entirely — "the salary is too low for my talents".',
+              hi: 'इंटर्नशिप पूरी तरह छोड़ दें — "मेरी प्रतिभा के लिए वेतन बहुत कम है"।',
+              te: 'ఇంటర్న్‌షిప్ పూర్తిగా వదిలేయి — "నా ప్రతిభకు జీతం చాలా తక్కువ".',
+            },
+            outcomeDescription: {
+              en: 'Career experience missed! Zero income, zero networking, certification benefits wasted. Entitlement disaster!',
+              hi: 'करियर अनुभव चूका! शून्य आय, नेटवर्किंग नहीं, प्रमाणपत्र के लाभ बर्बाद। अहंकार आपदा!',
+              te: 'కెరీర్ అనుభవం తప్పిపోయింది! జీరో ఆదాయం, నెట్‌వర్కింగ్ లేదు, సర్టిఫికేషన్ ప్రయోజనాలు వృధా. అభిమాన విపత్తు!',
+            },
+            financialImpact: { walletDelta: -300, emergencyDelta: -100, scoreDelta: -100, stressDelta: 70 },
+            pedagogicalFeedback: {
+              en: 'Rejecting career-building opportunities due to entitlement thinking permanently delays financial independence.',
+              hi: 'अधिकारबोध की सोच के कारण करियर-निर्माण के अवसर अस्वीकार करना वित्तीय स्वतंत्रता में स्थायी देरी करता है।',
+              te: 'అభిమాన ఆలోచనతో కెరీర్ నిర్మాణ అవకాశాలను తిరస్కరించడం ఆర్థిక స్వాతంత్ర్యాన్ని శాశ్వతంగా ఆలస్యపరుస్తుంది.',
+            },
+            educationalVideoTitle: 'The Cost of Panic Selling vs Staying Invested',
+          },
+        ],
+      },
+      {
+        id: 'scenario_inv_005_step_3',
+        title: {
+          en: 'Decision 3: The First Internship Salary',
+          hi: 'निर्णय 3: पहला इंटर्नशिप वेतन',
+          te: 'నిర్ణయం 3: మొదటి ఇంటర్న్‌షిప్ జీతం',
+        },
+        situationContext: {
+          en: "Your first internship salary of ₹25,000 arrives! Counselor Deepa congratulates you and asks: how will you allocate this first professional income to build long-term wealth?",
+          hi: 'आपका पहला इंटर्नशिप वेतन ₹25,000 आया! काउंसलर दीपा बधाई देती हैं और पूछती हैं: दीर्घकालिक संपत्ति बनाने के लिए इस पहली पेशेवर आय को कैसे आवंटित करेंगे?',
+          te: 'నీ మొదటి ఇంటర్న్‌షిప్ జీతం ₹25,000 వచ్చింది! కౌన్సెలర్ దీపా అభినందనలు చెప్పి అడుగుతుంది: దీర్ఘకాలిక సంపద నిర్మించడానికి ఈ మొదటి ప్రొఫెషనల్ ఆదాయాన్ని ఎలా కేటాయిస్తావు?',
+        },
+        choices: [
+          {
+            id: 'inv005_step3_best',
+            tier: 'best',
+            text: {
+              en: 'Save ₹12,500 (50%), invest ₹7,500 in index fund (30%), spend ₹5,000 on needs (20%).',
+              hi: '₹12,500 (50%) बचाएं, ₹7,500 (30%) इंडेक्स फंड में, ₹5,000 (20%) जरूरतों पर।',
+              te: '₹12,500 (50%) పొదుపు, ₹7,500 (30%) ఇండెక్స్ ఫండ్‌లో పెట్టుబడి, ₹5,000 (20%) అవసరాలపై.',
+            },
+            outcomeDescription: {
+              en: 'The 50-30-20 rule in action! Savings compounding starts, investments growing, needs met. Perfect wealth-building launch!',
+              hi: 'एक्शन में 50-30-20 नियम! बचत चक्रवृद्धि शुरू, निवेश बढ़ रहा, जरूरतें पूरी। उत्तम संपत्ति निर्माण शुरुआत!',
+              te: '50-30-20 నియమం అమలులో! పొదుపు కాంపౌండింగ్ ప్రారంభం, పెట్టుబడులు పెరుగుతున్నాయి, అవసరాలు తీరాయి. అద్భుతమైన సంపద నిర్మాణ ప్రారంభం!',
+            },
+            financialImpact: { walletDelta: 500, emergencyDelta: 250, scoreDelta: 100, stressDelta: -30 },
+            pedagogicalFeedback: {
+              en: 'Starting the 50-30-20 habit from your very first salary creates a lifetime wealth-building foundation.',
+              hi: 'पहले वेतन से ही 50-30-20 की आदत शुरू करना जीवनभर संपत्ति निर्माण की नींव बनाती है।',
+              te: 'మొట్టమొదటి జీతం నుండే 50-30-20 అలవాటు ప్రారంభించడం జీవితకాల సంపద నిర్మాణ పునాది సృష్టిస్తుంది.',
+            },
+            educationalVideoTitle: 'Capital Preservation: The Foundation of Long-Term Wealth',
+          },
+          {
+            id: 'inv005_step3_good',
+            tier: 'good',
+            text: {
+              en: 'Save all ₹25,000 — "I don\'t need anything extra right now."',
+              hi: 'सभी ₹25,000 बचाएं — "मुझे अभी कुछ अतिरिक्त नहीं चाहिए।"',
+              te: 'అన్ని ₹25,000 పొదుపు చేయి — "నాకు ఇప్పుడు అదనంగా ఏమీ అవసరం లేదు."',
+            },
+            outcomeDescription: {
+              en: 'Excellent savings discipline! Full capital preserved, though missing early investment compounding start.',
+              hi: 'उत्कृष्ट बचत अनुशासन! पूरी पूंजी सुरक्षित, लेकिन शुरुआती निवेश चक्रवृद्धि चूकते हैं।',
+              te: 'అద్భుతమైన పొదుపు క్రమశిక్షణ! పూర్తి మూలధనం సురక్షితం, అయితే ప్రారంభ పెట్టుబడి కాంపౌండింగ్ తప్పిపోతుంది.',
+            },
+            financialImpact: { walletDelta: 300, emergencyDelta: 300, scoreDelta: 70, stressDelta: -10 },
+            pedagogicalFeedback: {
+              en: 'Saving everything is excellent but even small early investments compound dramatically over decades.',
+              hi: 'सब बचाना उत्कृष्ट है, लेकिन छोटे शुरुआती निवेश भी दशकों में नाटकीय रूप से चक्रवृद्धि करते हैं।',
+              te: 'అంతా పొదుపు అద్భుతమైనది కానీ చిన్న ప్రారంభ పెట్టుబడులు కూడా దశాబ్దాల పాటు నాటకీయంగా కాంపౌండ్ అవుతాయి.',
+            },
+          },
+          {
+            id: 'inv005_step3_bad',
+            tier: 'bad',
+            text: {
+              en: 'Spend all ₹25,000 celebrating and buying new clothes and gadgets.',
+              hi: 'जश्न, नए कपड़े और गैजेट पर सभी ₹25,000 खर्च करें।',
+              te: 'వేడుక, కొత్త బట్టలు, గాడ్జెట్లపై అన్ని ₹25,000 ఖర్చుపెట్టు.',
+            },
+            outcomeDescription: {
+              en: 'First salary entirely consumed! Zero savings, zero investments. Lifestyle inflation begins from Day 1.',
+              hi: 'पहला वेतन पूरी तरह खर्च! शून्य बचत, शून्य निवेश। पहले दिन से जीवनशैली मुद्रास्फीति शुरू।',
+              te: 'మొదటి జీతం పూర్తిగా వినియోగమైంది! జీరో పొదుపు, జీరో పెట్టుబడులు. మొదటి రోజు నుండే జీవనశైలి ద్రవ్యోల్బణం ప్రారంభం.',
+            },
+            financialImpact: { walletDelta: -100, emergencyDelta: -100, scoreDelta: -50, stressDelta: 30 },
+            pedagogicalFeedback: {
+              en: 'Consuming the entire first salary on celebration creates a terrible financial habit that compounds negatively for years.',
+              hi: 'पहला पूरा वेतन जश्न पर खर्च करना एक भयानक वित्तीय आदत बनाती है जो सालों तक नकारात्मक रूप से चक्रवृद्धि होती है।',
+              te: 'మొదటి జీతం అంతా వేడుకకు వినియోగించడం సంవత్సరాల పాటు ప్రతికూలంగా కాంపౌండ్ అయ్యే భయంకరమైన ఆర్థిక అలవాటు సృష్టిస్తుంది.',
+            },
+          },
+          {
+            id: 'inv005_step3_very_bad',
+            tier: 'very_bad',
+            text: {
+              en: 'Lend all ₹25,000 to a friend "guaranteed to return it doubled next month".',
+              hi: '"अगले महीने दोगुना वापस करने की गारंटी" देने वाले दोस्त को सभी ₹25,000 उधार दें।',
+              te: '"వచ్చే నెల రెట్టింపు తిరిగి ఇస్తానని హామీ" ఇచ్చే స్నేహితుడికి అన్ని ₹25,000 అరువు ఇవ్వు.',
+            },
+            outcomeDescription: {
+              en: 'Friend disappears with the money. All ₹25,000 gone. First salary entirely lost to social pressure and greed!',
+              hi: 'दोस्त पैसे लेकर गायब। सभी ₹25,000 चले गए। सामाजिक दबाव और लालच से पहला वेतन पूरी तरह बर्बाद!',
+              te: 'స్నేహితుడు డబ్బు తీసుకుని మాయమవుతాడు. అన్ని ₹25,000 పోయాయి. సామాజిక ఒత్తిడి, దురాశతో మొదటి జీతం పూర్తిగా పోయింది!',
+            },
+            financialImpact: { walletDelta: -600, emergencyDelta: -200, scoreDelta: -100, stressDelta: 90 },
+            pedagogicalFeedback: {
+              en: 'Social lending based on vague "guaranteed doubling" promises destroys first salary earnings and creates lasting financial trauma.',
+              hi: 'अस्पष्ट "दोगुना" वादों पर सामाजिक उधार पहले वेतन को नष्ट करता है और स्थायी वित्तीय आघात पैदा करता है।',
+              te: 'అస్పష్టమైన "రెట్టింపు" వాగ్దానాలపై సామాజిక అరువు మొదటి జీతాన్ని నాశనం చేసి శాశ్వత ఆర్థిక గాయం సృష్టిస్తుంది.',
+            },
+            educationalVideoTitle: 'Recognizing Ponzi Schemes and Get-Rich-Quick Scams',
+          },
+        ],
+      },
+    ],
+  },
 };

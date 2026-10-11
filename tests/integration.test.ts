@@ -107,6 +107,47 @@ assert(
   'All 3 City 2 quests must now be solved, unlocking arrow to City 3'
 );
 console.log('✓ Test 5B Passed: City 2 multi-quest progression unlocks navigation to City 3');
+
+// Test 5C: City 3 Multi-Quest Progression (Pillar 3: Understand Investing)
+console.log('Testing City 3 multi-quest progression...');
+const inv001 = PUZZLES['scenario_inv_001_two_plants'];
+const inv002 = PUZZLES['scenario_inv_002_cargo_boat'];
+const inv003 = PUZZLES['scenario_inv_003_market_panic'];
+const inv004 = PUZZLES['scenario_inv_004_grocery_budget'];
+const inv005 = PUZZLES['scenario_inv_005_career_invest'];
+assert(!!inv001 && !!inv002 && !!inv003 && !!inv004 && !!inv005, 'All 5 City 3 scenarios must exist in PUZZLES');
+
+const inv001Best = inv001.choices.find((c) => c.tier === 'best')!;
+const inv002Best = inv002.choices.find((c) => c.tier === 'best')!;
+const inv003Best = inv003.choices.find((c) => c.tier === 'best')!;
+const inv004Best = inv004.choices.find((c) => c.tier === 'best')!;
+const inv005Best = inv005.choices.find((c) => c.tier === 'best')!;
+
+let pCity3 = pCity2Step3;
+pCity3 = GameEngine.evaluateChoice(pCity3, inv001, inv001Best, 'en').updatedProfile;
+assert(GameEngine.isScenarioSolved('scenario_inv_001_two_plants', pCity3), 'Mali Kaka quest must be solved');
+
+pCity3 = GameEngine.evaluateChoice(pCity3, inv002, inv002Best, 'en').updatedProfile;
+assert(GameEngine.isScenarioSolved('scenario_inv_002_cargo_boat', pCity3), 'Boat Master Kabir quest must be solved');
+
+pCity3 = GameEngine.evaluateChoice(pCity3, inv003, inv003Best, 'en').updatedProfile;
+assert(GameEngine.isScenarioSolved('scenario_inv_003_market_panic', pCity3), 'President Meera quest must be solved');
+
+pCity3 = GameEngine.evaluateChoice(pCity3, inv004, inv004Best, 'en').updatedProfile;
+assert(GameEngine.isScenarioSolved('scenario_inv_004_grocery_budget', pCity3), 'Uncle Karim quest must be solved');
+
+pCity3 = GameEngine.evaluateChoice(pCity3, inv005, inv005Best, 'en').updatedProfile;
+assert(GameEngine.isScenarioSolved('scenario_inv_005_career_invest', pCity3), 'Counselor Deepa quest must be solved');
+
+assert(
+  GameEngine.isScenarioSolved('scenario_inv_001_two_plants', pCity3) &&
+  GameEngine.isScenarioSolved('scenario_inv_002_cargo_boat', pCity3) &&
+  GameEngine.isScenarioSolved('scenario_inv_003_market_panic', pCity3) &&
+  GameEngine.isScenarioSolved('scenario_inv_004_grocery_budget', pCity3) &&
+  GameEngine.isScenarioSolved('scenario_inv_005_career_invest', pCity3),
+  'All 5 City 3 quests must now be solved, unlocking navigation across the river'
+);
+console.log('✓ Test 5C Passed: City 3 multi-quest progression unlocks river exit');
 // Test 6: Reload Game State Persistence (Continues from where player stopped)
 console.log('Testing reload state persistence (continue from exact stopped position)...');
 // Mock localStorage in Node environment if not present
