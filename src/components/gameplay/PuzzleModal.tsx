@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
 import {
   PuzzleScenario,
   PuzzleChoice,
@@ -55,7 +56,13 @@ export const PuzzleModal: React.FC<PuzzleModalProps> = ({
   const title = scenario.title[language] || scenario.title.en;
   const subtitle = scenario.subtitle[language] || scenario.subtitle.en;
 
-  const currentStep = scenario.steps?.[currentStepIndex];
+  const totalSteps = scenario.steps?.length || (scenario.choices ? 1 : 0);
+  const currentStep = scenario.steps?.[currentStepIndex] || (scenario.choices ? {
+    id: `${scenario.id}_step_1`,
+    title: scenario.title,
+    situationContext: scenario.situationContext,
+    choices: scenario.choices,
+  } : undefined);
 
   const handleRequestHint = async () => {
     setIsLoadingHint(true);
@@ -88,7 +95,7 @@ export const PuzzleModal: React.FC<PuzzleModalProps> = ({
     setSelectedChoiceId(null);
     setActiveHint(null);
 
-    if (currentStepIndex + 1 < (scenario.steps?.length || 0)) {
+    if (currentStepIndex + 1 < totalSteps) {
       setCurrentStepIndex(currentStepIndex + 1);
     } else {
       await finishScenario(newChoices);
@@ -141,7 +148,7 @@ export const PuzzleModal: React.FC<PuzzleModalProps> = ({
         scenarioContext: scenario.situationContext[language] || scenario.situationContext.en,
         pillar: scenario.pillar,
         chosenOptionText: lastChoice.text[language] || lastChoice.text.en,
-        tier: result.overallTier,
+        tier: result.overallTier || result.tier || 'good',
         financialImpact: result.financialImpact,
         language,
       });
@@ -163,11 +170,13 @@ export const PuzzleModal: React.FC<PuzzleModalProps> = ({
     setActiveHint(null);
   };
 
+  const mountNode = typeof document !== 'undefined' ? (document.fullscreenElement || document.body) : null;
+
   if (showIdeaCard && scenario.ideaCard) {
     const cardTitle = scenario.ideaCard.title[language] || scenario.ideaCard.title.en;
     const cardPoints = scenario.ideaCard.points.map(p => p[language] || p.en);
-    return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-fadeIn">
+    const ideaContent = (
+      <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-fadeIn">
         <div className="max-w-xl w-full bg-slate-900 border border-slate-700 rounded-3xl p-6 sm:p-8 shadow-2xl relative">
           <div className="flex items-center gap-3 mb-4">
             <Lightbulb className="w-8 h-8 text-amber-400" />
@@ -187,10 +196,11 @@ export const PuzzleModal: React.FC<PuzzleModalProps> = ({
         </div>
       </div>
     );
+    return mountNode ? createPortal(ideaContent, mountNode) : ideaContent;
   }
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md overflow-y-auto animate-fadeIn">
+  const content = (
+    <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md overflow-y-auto animate-fadeIn">
       <div className="max-w-2xl w-full bg-slate-900 border border-slate-700 rounded-3xl p-6 sm:p-8 shadow-2xl relative my-8">
         <button onClick={onClose} className="absolute top-5 right-5 text-slate-400 hover:text-white p-1.5 rounded-xl transition">
           <X className="w-5 h-5" />
@@ -316,7 +326,7 @@ export const PuzzleModal: React.FC<PuzzleModalProps> = ({
               disabled={!selectedChoiceId || isSubmitting}
               className={`px-6 py-3 rounded-xl text-xs font-bold flex items-center gap-2 transition ${selectedChoiceId && !isSubmitting ? 'bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950' : 'bg-slate-800 text-slate-500'}`}
             >
-              <span>{isSubmitting ? 'Simulating...' : currentStepIndex + 1 === scenario.steps?.length ? 'Finalize Decisions' : 'Next Step'}</span>
+              <span>{isSubmitting ? 'Simulating...' : currentStepIndex + 1 === totalSteps ? 'Finalize Decisions' : 'Next Step'}</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           ) : evaluation.isRecoveryNeeded ? (
@@ -334,4 +344,6 @@ export const PuzzleModal: React.FC<PuzzleModalProps> = ({
       </div>
     </div>
   );
+
+  return mountNode ? createPortal(content, mountNode) : content;
 };

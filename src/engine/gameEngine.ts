@@ -22,10 +22,11 @@ export class GameEngine {
     let finalFeedback = '';
     
     chosenChoices.forEach((choice, index) => {
-      const step = scenario.steps[index];
+      const step = scenario.steps?.[index] || { id: `${scenario.id}_step_${index + 1}` };
       let points = 0;
       switch (choice.tier) {
         case 'best': points = 3; break;
+        case 'better': points = 2.5; break;
         case 'good': points = 2; break;
         case 'bad': points = 1; break;
         case 'very_bad': points = 0; break;
@@ -56,7 +57,11 @@ export class GameEngine {
     let isPassed: boolean;
     let isRecoveryNeeded: boolean;
     
-    if (totalPoints >= 8) {
+    if (chosenChoices.length === 1) {
+      overallTier = chosenChoices[0].tier;
+      isPassed = overallTier !== 'very_bad';
+      isRecoveryNeeded = overallTier === 'very_bad';
+    } else if (totalPoints >= 8) {
       overallTier = 'best';
       isPassed = true;
       isRecoveryNeeded = false;
@@ -76,9 +81,10 @@ export class GameEngine {
     
     const completed = new Set(profile.completedCityIds);
     const failed = new Set(profile.failedCityIds);
-    
+    const completedScenarios = new Set(profile.completedScenarioIds || []);
     if (isPassed) {
       completed.add(scenario.cityId);
+      completedScenarios.add(scenario.id);
       failed.delete(scenario.cityId);
     } else {
       failed.add(scenario.cityId);
@@ -91,6 +97,7 @@ export class GameEngine {
       totalScore: currentScore,
       completedCityIds: Array.from(completed),
       failedCityIds: Array.from(failed),
+      completedScenarioIds: Array.from(completedScenarios),
       lastActiveAt: Date.now(),
     };
     
@@ -125,6 +132,71 @@ export class GameEngine {
     return completedCityIds.includes(requiredPredecessorId);
   }
 
+  /**
+   * Pure deterministic evaluation of a player's choice against a scenario (single choice).
+   */
+  static evaluateChoice(
+    profile: StudentProfile,
+    scenario: PuzzleScenario,
+    choice: PuzzleChoice,
+    language: 'en' | 'hi' | 'te' = 'en'
+  ): { updatedProfile: StudentProfile; result: EvaluationResult } {
+    const isVeryBad = choice.tier === 'very_bad';
+    const isPassed = !isVeryBad;
+
+    const newWallet = Math.max(0, profile.walletBalance + choice.financialImpact.walletDelta);
+    const newEmergency = Math.max(0, profile.emergencyFund + choice.financialImpact.emergencyDelta);
+    const newScore = Math.max(0, profile.totalScore + choice.financialImpact.scoreDelta);
+
+    const completed = new Set(profile.completedCityIds);
+    const failed = new Set(profile.failedCityIds);
+    const completedScenarios = new Set(profile.completedScenarioIds || []);
+
+    if (isPassed) {
+      completed.add(scenario.cityId);
+      completedScenarios.add(scenario.id);
+      failed.delete(scenario.cityId);
+    } else {
+      failed.add(scenario.cityId);
+    }
+
+    const updatedProfile: StudentProfile = {
+      ...profile,
+      walletBalance: newWallet,
+      emergencyFund: newEmergency,
+      totalScore: newScore,
+      completedCityIds: Array.from(completed),
+      failedCityIds: Array.from(failed),
+      completedScenarioIds: Array.from(completedScenarios),
+      lastActiveAt: Date.now(),
+    };
+
+    const result: EvaluationResult = {
+      scenarioId: scenario.id,
+      choiceId: choice.id,
+      tier: choice.tier,
+      isPassed,
+      isRecoveryNeeded: isVeryBad,
+      financialImpact: choice.financialImpact,
+      feedback: choice.pedagogicalFeedback[language] || choice.pedagogicalFeedback.en,
+    };
+
+    return { updatedProfile, result };
+  }
+
+  /**
+   * Check if a specific scenario has been successfully completed.
+   */
+  static isScenarioSolved(scenarioId: string, profile: StudentProfile): boolean {
+    if (profile.completedScenarioIds?.includes(scenarioId)) {
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Calculate student financial health score (0 to 100).
+   */
   static calculateHealthIndex(profile: StudentProfile): number {
     const savingsRatio = Math.min(1, profile.emergencyFund / 2000);
     const scoreRatio = Math.min(1, profile.totalScore / 1000);

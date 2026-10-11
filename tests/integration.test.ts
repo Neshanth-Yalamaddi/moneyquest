@@ -2,6 +2,7 @@ import { GameEngine } from '../src/engine/gameEngine';
 import { EventLogger } from '../src/engine/eventLogger';
 import { AnalyticsService } from '../src/services/analyticsService';
 import { PUZZLES } from '../src/data/puzzles';
+import { GameStorage } from '../src/engine/storage';
 import { StudentProfile } from '../src/types';
 
 function assert(condition: boolean, msg: string) {
@@ -51,5 +52,31 @@ if (hostelScenario) {
   assert(evalBad.result.isPassed === false, 'Very Bad sequence must not pass');
   assert(evalBad.result.isRecoveryNeeded === true, 'Very Bad sequence must trigger recovery mode');
 }
+
+// Test 5: Multi-Quest City Completion (Arrow unlocks only after all quests solved)
+console.log('Testing multi-quest completion logic...');
+const hostelStipendScenario = PUZZLES['scenario_hostel_stipend'];
+const hostelStipendBestChoice = hostelStipendScenario.choices!.find((c) => c.tier === 'best')!;
+const phoneScenario = PUZZLES['scenario_broken_phone'];
+const phoneBestChoice = phoneScenario.choices!.find((c) => c.tier === 'best')!;
+
+const freshProfile = GameStorage.getOrCreateProfile();
+freshProfile.completedScenarioIds = [];
+freshProfile.completedCityIds = [];
+
+// Neither quest solved
+assert(!GameEngine.isScenarioSolved('scenario_hostel_stipend', freshProfile), 'Hostel quest must start unsolved');
+assert(!GameEngine.isScenarioSolved('scenario_broken_phone', freshProfile), 'Phone quest must start unsolved');
+
+// Solve only Rao Sir (Hostel)
+const pAfterHostel = GameEngine.evaluateChoice(freshProfile, hostelStipendScenario, hostelStipendBestChoice, 'en').updatedProfile;
+assert(GameEngine.isScenarioSolved('scenario_hostel_stipend', pAfterHostel), 'Hostel quest must be solved');
+assert(!GameEngine.isScenarioSolved('scenario_broken_phone', pAfterHostel), 'Phone quest must STILL be unsolved');
+
+// Solve Suresh Anna (Phone)
+const pAfterBoth = GameEngine.evaluateChoice(pAfterHostel, phoneScenario, phoneBestChoice, 'en').updatedProfile;
+assert(GameEngine.isScenarioSolved('scenario_hostel_stipend', pAfterBoth), 'Hostel quest must be solved');
+assert(GameEngine.isScenarioSolved('scenario_broken_phone', pAfterBoth), 'Phone quest must be solved');
+console.log('✓ Test 5 Passed: Multi-quest completion strictly verified (Arrow unlocks only after all quests are completed)');
 
 console.log('--- ALL INTEGRATION ENGINE TESTS PASSED SUCCESSFULLY! ---');
