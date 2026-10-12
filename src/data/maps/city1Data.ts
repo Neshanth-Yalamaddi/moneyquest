@@ -136,6 +136,16 @@ export const CITY1_COLLISION_BOXES: CollisionBox[] = [
   { name: 'south_park_bench_2', x: 480, y: 480, w: 35, h: 12 },
   // Park planter / obstacle tile (Hardcoded obstacle blocking 151, 380)
   { name: 'obstacle_tile_151_380', x: 144, y: 372, w: 16, h: 16 },
+
+  // 12. Full Building Rooftop Seals & Perimeter Grounds (prevents rooftop walking & gate bypassing)
+  { name: 'school_roof_and_west_grounds', x: 10, y: 16, w: 350, h: 182 },
+  { name: 'study_room_roof_cap', x: 475, y: 16, w: 155, h: 50 },
+  { name: 'hostel_roof_cap', x: 745, y: 16, w: 225, h: 20 },
+  { name: 'hostel_east_woods', x: 970, y: 16, w: 44, h: 215 },
+  { name: 'electronics_shop_back_lot', x: 590, y: 180, w: 80, h: 55 },
+  { name: 'savings_bank_roof_back', x: 815, y: 350, w: 135, h: 50 },
+  { name: 'bookshop_roof_cap', x: 330, y: 120, w: 85, h: 30 },
+  { name: 'south_road_bottom_verge', x: 270, y: 540, w: 540, h: 20 },
 ];
 
 // Spatial Tile-Based Collision Grid (8x8 px grid cells)
