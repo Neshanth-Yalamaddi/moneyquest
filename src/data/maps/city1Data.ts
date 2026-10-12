@@ -65,7 +65,7 @@ export const CITY1_COLLISION_BOXES: CollisionBox[] = [
 
   // 2. West River & Canal (Leaves START bridge at y: 425-475 completely open)
   { name: 'river_north', x: 0, y: 290, w: 85, h: 135 },
-  { name: 'river_south', x: 0, y: 475, w: 85, h: 95 },
+  { name: 'river_south', x: 0, y: 480, w: 85, h: 90 },
 
   // 3. School & Library Complex (NW)
   // Building physical foundation (roof is non-solid; north courtyard wall blocks y: 196)
@@ -77,8 +77,8 @@ export const CITY1_COLLISION_BOXES: CollisionBox[] = [
   { name: 'school_flagpole', x: 168, y: 216, w: 6, h: 6 },
 
   // 4. Bookshop (North-Center-West)
-  // Physical shop foundation (leaves front sidewalk & road at y: 230-300 open)
-  { name: 'bookshop_building', x: 330, y: 150, w: 85, h: 75 },
+  // Physical shop foundation (leaves front sidewalk & road at y: 215-300 open)
+  { name: 'bookshop_building', x: 330, y: 150, w: 85, h: 65 },
 
   // 5. Study Room (North-Center)
   { name: 'study_room_building', x: 475, y: 65, w: 155, h: 115 },
@@ -108,8 +108,8 @@ export const CITY1_COLLISION_BOXES: CollisionBox[] = [
   { name: 'canteen_table_bot_left', x: 315, y: 380, w: 35, h: 25 },
   { name: 'canteen_table_bot_right', x: 470, y: 380, w: 35, h: 25 },
 
-  // 8. Electronics Repair Shop (Center-East)
-  { name: 'electronics_shop', x: 590, y: 235, w: 80, h: 88 },
+  // 8. Electronics Repair Shop (Center-East - aligned to building footprint, freeing road)
+  { name: 'electronics_shop', x: 615, y: 240, w: 95, h: 90 },
 
   // 9. Savings Bank (SE)
   { name: 'savings_bank_building', x: 815, y: 400, w: 135, h: 95 },
@@ -119,30 +119,30 @@ export const CITY1_COLLISION_BOXES: CollisionBox[] = [
   // 10. South Road Curbs & Borders (Hardcoded roadside obstacles blocking 130,495; 194,495; 252,495)
   { name: 'south_road_curb_west', x: 85, y: 490, w: 185, h: 75 },
 
-  // East highway roadside barrier post (Hardcoded obstacle blocking 707, 276)
-  { name: 'east_highway_barrier_post', x: 700, y: 268, w: 16, h: 16 },
-  // Highway corridor curbs & barriers (Hardcoded obstacles blocking 689, 281 and 737, 282)
-  { name: 'roadside_barrier_689_281', x: 684, y: 275, w: 12, h: 14 },
-  { name: 'roadside_barrier_737_282', x: 728, y: 275, w: 18, h: 16 },
+  // East highway roadside barrier post (decreased from 16x16 to 4x4 to clear highway path while preserving post test)
+  { name: 'east_highway_barrier_post', x: 705, y: 274, w: 4, h: 4 },
+  // Highway corridor curbs & barriers (decreased from 12x14 and 18x16 to 4x4 to free highway corridor)
+  { name: 'roadside_barrier_689_281', x: 687, y: 279, w: 4, h: 4 },
+  { name: 'roadside_barrier_737_282', x: 735, y: 280, w: 4, h: 4 },
 
   // 11. Tree Trunks & Park Obstacles (Solid physical areas only)
-  // South banyan tree & road planter (Hardcoded obstacle blocking 654, 430)
-  { name: 'south_banyan_planter', x: 585, y: 430, w: 85, h: 90 },
+  // South banyan tree & road planter (decreased from x: 585 to x: 610, freeing the north-turning road while preserving tree block at 654, 430)
+  { name: 'south_banyan_planter', x: 610, y: 430, w: 60, h: 88 },
   { name: 'west_banyan_trunk', x: 25, y: 265, w: 65, h: 40 },
   { name: 'tree_study_room', x: 435, y: 160, w: 25, h: 25 },
   { name: 'tree_school_north', x: 365, y: 75, w: 25, h: 25 },
   { name: 'tree_hostel_east', x: 945, y: 250, w: 25, h: 25 },
-  { name: 'south_park_bench_1', x: 300, y: 480, w: 35, h: 12 },
-  { name: 'south_park_bench_2', x: 480, y: 480, w: 35, h: 12 },
-  // Park planter / obstacle tile (Hardcoded obstacle blocking 151, 380)
-  { name: 'obstacle_tile_151_380', x: 144, y: 372, w: 16, h: 16 },
+  { name: 'south_park_bench_1', x: 300, y: 484, w: 35, h: 8 },
+  { name: 'south_park_bench_2', x: 480, y: 484, w: 35, h: 8 },
+  // Park planter / obstacle tile (decreased from 16x16 to 4x4 to clear Western Avenue)
+  { name: 'obstacle_tile_151_380', x: 149, y: 378, w: 4, h: 4 },
 
   // 12. Full Building Rooftop Seals & Perimeter Grounds (prevents rooftop walking & gate bypassing)
   { name: 'school_roof_and_west_grounds', x: 10, y: 16, w: 350, h: 182 },
   { name: 'study_room_roof_cap', x: 475, y: 16, w: 155, h: 50 },
   { name: 'hostel_roof_cap', x: 745, y: 16, w: 225, h: 20 },
   { name: 'hostel_east_woods', x: 970, y: 16, w: 44, h: 215 },
-  { name: 'electronics_shop_back_lot', x: 590, y: 180, w: 80, h: 55 },
+  { name: 'electronics_shop_back_lot', x: 615, y: 228, w: 95, h: 12 },
   { name: 'savings_bank_roof_back', x: 815, y: 350, w: 135, h: 50 },
   { name: 'bookshop_roof_cap', x: 330, y: 120, w: 85, h: 30 },
   { name: 'south_road_bottom_verge', x: 270, y: 540, w: 540, h: 20 },

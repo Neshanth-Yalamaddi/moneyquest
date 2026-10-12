@@ -41,19 +41,19 @@ export const CITY3_COLLISION_BOXES: CollisionBox[] = [
   { name: 'school_tree_east', x: 450, y: 30, w: 40, h: 55 },
   { name: 'school_bench', x: 370, y: 155, w: 65, h: 18 },
 
-  // 4. Economics Club Room (top-center)
-  { name: 'econ_club_building', x: 490, y: 16, w: 215, h: 145 },
+  // 4. Economics Club Room (top-center, trimmed east boundary to x: 685 to clear highway)
+  { name: 'econ_club_building', x: 490, y: 16, w: 195, h: 145 },
   { name: 'econ_club_bulletin', x: 570, y: 155, w: 55, h: 20 },
-  { name: 'econ_tree_east', x: 700, y: 20, w: 42, h: 55 },
+  { name: 'econ_tree_east', x: 740, y: 20, w: 35, h: 50 },
 
-  // 5. Career Guidance Office (top-right)
+  // 5. Career Guidance Office (top-right, signboard & trees aligned to clear pathways)
   { name: 'career_office_building', x: 800, y: 16, w: 200, h: 115 },
-  { name: 'career_signboard', x: 830, y: 120, w: 60, h: 22 },
+  { name: 'career_signboard', x: 785, y: 135, w: 40, h: 25 },
   { name: 'career_tree_north', x: 750, y: 20, w: 40, h: 50 },
-  { name: 'career_tree_south', x: 760, y: 175, w: 40, h: 45 },
+  { name: 'career_tree_south', x: 890, y: 195, w: 45, h: 45 },
 
-  // 6. Central North-South Road divider trees
-  { name: 'road_tree_nw', x: 340, y: 215, w: 42, h: 50 },
+  // 6. Central North-South Road divider trees (placed on actual tree west of path)
+  { name: 'road_tree_nw', x: 290, y: 190, w: 45, h: 50 },
 
   // 7. Residential SW Building
   { name: 'sw_house_main', x: 50, y: 330, w: 190, h: 130 },
@@ -73,18 +73,18 @@ export const CITY3_COLLISION_BOXES: CollisionBox[] = [
   // 10. Riverside forest / tree line (adjusted to start at x: 910 to preserve Counselor Deepa standing access)
   { name: 'river_forest_north', x: 910, y: 16, w: 114, h: 250 },
 
-  // 11. START sign
-  { name: 'sign_start', x: 0, y: 248, w: 40, h: 22 },
+  // 11. START sign (decreased to hug perimeter and keep entrance path open)
+  { name: 'sign_start', x: 0, y: 248, w: 18, h: 14 },
 
   // 12. EXIT sign near dock
   { name: 'sign_exit', x: 890, y: 475, w: 25, h: 20 },
 
-  // 13. Building Rooftop Seals & Perimeter Grounds (prevents rooftop walking)
+  // 13. Building Rooftop Seals & Perimeter Grounds (positioned below road curbs to keep highways completely clear)
   { name: 'science_building_roof_cap', x: 280, y: 16, w: 170, h: 20 },
-  { name: 'econ_club_roof_cap', x: 490, y: 16, w: 215, h: 25 },
+  { name: 'econ_club_roof_cap', x: 490, y: 16, w: 195, h: 25 },
   { name: 'career_office_roof_cap', x: 800, y: 16, w: 105, h: 25 },
-  { name: 'sw_house_roof_cap', x: 50, y: 280, w: 190, h: 50 },
-  { name: 'market_building_roof_cap', x: 375, y: 280, w: 310, h: 30 },
+  { name: 'sw_house_roof_cap', x: 50, y: 345, w: 190, h: 30 },
+  { name: 'market_building_roof_cap', x: 375, y: 315, w: 310, h: 25 },
 ];
 
 export const CITY3_COLLISION_GRID_TILE_SIZE = 8;

@@ -29,20 +29,20 @@ export const CITY4_COLLISION_BOXES: CollisionBox[] = [
   { name: 'harbor_bay_water', x: 370, y: 540, w: 200, h: 20 },
 
   // 3. Fisherman's Guildhall
-  { name: 'fishermans_guildhall', x: 190, y: 60, w: 205, h: 200 },
+  { name: 'fishermans_guildhall', x: 190, y: 60, w: 200, h: 195 },
 
-  // 4. North Cliff Village Residential Row
-  { name: 'cliff_houses_row', x: 420, y: 20, w: 390, h: 140 },
+  // 4. North Cliff Village Residential Row (decreased height to 110 to clear cobblestone promenade where NPC stands)
+  { name: 'cliff_houses_row', x: 420, y: 20, w: 390, h: 110 },
   { name: 'cliff_northeast_rock', x: 810, y: 0, w: 200, h: 140 },
 
-  // 5. Coastal Cafe (Upper Terrace)
-  { name: 'coastal_cafe_upper', x: 480, y: 240, w: 110, h: 70 },
+  // 5. Coastal Cafe (Upper Terrace - trimmed so it does not spill onto stone walkway or wooden pier dock)
+  { name: 'coastal_cafe_upper', x: 480, y: 215, w: 110, h: 28 },
 
   // 6. Market Square Stalls
-  { name: 'market_square_stalls', x: 625, y: 310, w: 140, h: 80 },
+  { name: 'market_square_stalls', x: 635, y: 310, w: 130, h: 80 },
 
-  // 7. Shipwreck Museum
-  { name: 'shipwreck_museum', x: 815, y: 285, w: 120, h: 90 },
+  // 7. Shipwreck Museum (decreased to building foundation, leaving walkway and palm park open)
+  { name: 'shipwreck_museum', x: 815, y: 255, w: 120, h: 30 },
 
   // 8. Coastal Cafe (Lower Building near pier)
   { name: 'coastal_cafe_lower', x: 590, y: 515, w: 130, h: 45 },
@@ -51,11 +51,11 @@ export const CITY4_COLLISION_BOXES: CollisionBox[] = [
   { name: 'palm_park_fences', x: 750, y: 535, w: 170, h: 25 },
   { name: 'southeast_cliffs', x: 920, y: 440, w: 90, h: 110 },
 
-  // 10. Building Rooftop Seals (prevents rooftop walking)
-  { name: 'guildhall_roof_cap', x: 190, y: 20, w: 205, h: 40 },
-  { name: 'coastal_cafe_roof_cap', x: 480, y: 200, w: 110, h: 40 },
-  { name: 'shipwreck_museum_roof_cap', x: 815, y: 240, w: 120, h: 45 },
-  { name: 'market_stalls_roof_cap', x: 625, y: 270, w: 140, h: 40 },
+  // 10. Building Rooftop Seals (prevents rooftop walking while keeping paths unobstructed)
+  { name: 'guildhall_roof_cap', x: 190, y: 20, w: 200, h: 40 },
+  { name: 'coastal_cafe_roof_cap', x: 480, y: 200, w: 110, h: 15 },
+  { name: 'shipwreck_museum_roof_cap', x: 815, y: 220, w: 120, h: 35 },
+  { name: 'market_stalls_roof_cap', x: 635, y: 275, w: 130, h: 35 },
 ];
 
 export const CITY4_COLLISION_GRID_TILE_SIZE = 8;

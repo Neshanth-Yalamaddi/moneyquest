@@ -86,19 +86,19 @@ export const CITY2_COLLISION_BOXES: CollisionBox[] = [
   { name: 'tree_complex_west', x: 110, y: 265, w: 45, h: 45 },
   { name: 'tree_complex_mid', x: 238, y: 265, w: 38, h: 45 },
   { name: 'tree_complex_east', x: 335, y: 265, w: 45, h: 45 },
-  { name: 'bulletin_board_complex', x: 375, y: 415, w: 35, h: 25 },
+  { name: 'bulletin_board_complex', x: 375, y: 405, w: 30, h: 18 },
 
-  // 8. Lawns & Parks
-  { name: 'sw_garden_lawn', x: 88, y: 485, w: 342, h: 70 },
-  { name: 'se_park_lawn_west', x: 630, y: 320, w: 160, h: 140 },
-  { name: 'se_park_lawn_east', x: 845, y: 320, w: 170, h: 140 },
+  // 8. Lawns & Parks (trimmed so boundaries do not spill over onto main roads/walkways)
+  { name: 'sw_garden_lawn', x: 88, y: 495, w: 342, h: 60 },
+  { name: 'se_park_lawn_west', x: 630, y: 320, w: 160, h: 125 },
+  { name: 'se_park_lawn_east', x: 845, y: 320, w: 170, h: 125 },
 
   // 9. South Roadside Barrier & Planter along EXIT road
   { name: 'south_road_barrier', x: 480, y: 518, w: 544, h: 36 },
 
-  // 10. Signposts
-  { name: 'sign_start', x: 0, y: 435, w: 35, h: 25 },
-  { name: 'sign_exit', x: 955, y: 510, w: 35, h: 20 },
+  // 10. Signposts (decreased to hug perimeter edges and leave spawn/exit path open)
+  { name: 'sign_start', x: 0, y: 435, w: 18, h: 15 },
+  { name: 'sign_exit', x: 960, y: 518, w: 25, h: 12 },
 
   // 11. Full Building Rooftop Seals & Perimeter Grounds (prevents rooftop walking & gate bypassing)
   { name: 'university_roof_cap', x: 635, y: 16, w: 360, h: 20 },
