@@ -50,6 +50,12 @@ export const CITY4_COLLISION_BOXES: CollisionBox[] = [
   // 9. Palm Park Benches / Fountain (South-east)
   { name: 'palm_park_fences', x: 750, y: 535, w: 170, h: 25 },
   { name: 'southeast_cliffs', x: 920, y: 440, w: 90, h: 110 },
+
+  // 10. Building Rooftop Seals (prevents rooftop walking)
+  { name: 'guildhall_roof_cap', x: 190, y: 20, w: 205, h: 40 },
+  { name: 'coastal_cafe_roof_cap', x: 480, y: 200, w: 110, h: 40 },
+  { name: 'shipwreck_museum_roof_cap', x: 815, y: 240, w: 120, h: 45 },
+  { name: 'market_stalls_roof_cap', x: 625, y: 270, w: 140, h: 40 },
 ];
 
 export const CITY4_COLLISION_GRID_TILE_SIZE = 8;

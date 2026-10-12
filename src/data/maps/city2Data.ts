@@ -99,6 +99,12 @@ export const CITY2_COLLISION_BOXES: CollisionBox[] = [
   // 10. Signposts
   { name: 'sign_start', x: 0, y: 435, w: 35, h: 25 },
   { name: 'sign_exit', x: 955, y: 510, w: 35, h: 20 },
+
+  // 11. Full Building Rooftop Seals & Perimeter Grounds (prevents rooftop walking & gate bypassing)
+  { name: 'university_roof_cap', x: 635, y: 16, w: 360, h: 20 },
+  { name: 'university_east_woods', x: 995, y: 16, w: 20, h: 285 },
+  { name: 'post_office_roof_cap', x: 512, y: 250, w: 96, h: 25 },
+  { name: 'residence_roof_cap', x: 260, y: 290, w: 115, h: 30 },
 ];
 
 export const CITY2_COLLISION_GRID_TILE_SIZE = 8;

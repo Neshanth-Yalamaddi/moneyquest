@@ -70,14 +70,21 @@ export const CITY3_COLLISION_BOXES: CollisionBox[] = [
   { name: 'dock_warehouse_goods', x: 765, y: 485, w: 60, h: 55 },
   { name: 'dock_river_water', x: 920, y: 280, w: 104, h: 292 },
 
-  // 10. Riverside forest / tree line
-  { name: 'river_forest_north', x: 865, y: 16, w: 159, h: 250 },
+  // 10. Riverside forest / tree line (adjusted to start at x: 910 to preserve Counselor Deepa standing access)
+  { name: 'river_forest_north', x: 910, y: 16, w: 114, h: 250 },
 
   // 11. START sign
   { name: 'sign_start', x: 0, y: 248, w: 40, h: 22 },
 
   // 12. EXIT sign near dock
   { name: 'sign_exit', x: 890, y: 475, w: 25, h: 20 },
+
+  // 13. Building Rooftop Seals & Perimeter Grounds (prevents rooftop walking)
+  { name: 'science_building_roof_cap', x: 280, y: 16, w: 170, h: 20 },
+  { name: 'econ_club_roof_cap', x: 490, y: 16, w: 215, h: 25 },
+  { name: 'career_office_roof_cap', x: 800, y: 16, w: 105, h: 25 },
+  { name: 'sw_house_roof_cap', x: 50, y: 280, w: 190, h: 50 },
+  { name: 'market_building_roof_cap', x: 375, y: 280, w: 310, h: 30 },
 ];
 
 export const CITY3_COLLISION_GRID_TILE_SIZE = 8;
