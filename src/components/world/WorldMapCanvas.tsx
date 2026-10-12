@@ -279,7 +279,13 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
 
   // Toggle force landscape rotate view for mobile
   const toggleForceLandscape = () => {
-    setIsForceLandscape((prev) => !prev);
+    setIsForceLandscape((prev) => {
+      const next = !prev;
+      if (next) {
+        setCameraZoom('follow');
+      }
+      return next;
+    });
   };
 
   // Input management
@@ -1465,20 +1471,38 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
     <div
       ref={containerRef}
       className={`w-full flex flex-col transition-all duration-300 select-none ${
-        isFullscreen || isForceLandscape
-          ? 'fixed inset-0 z-50 bg-slate-950 p-1 sm:p-3 w-screen h-screen overflow-hidden'
+        isForceLandscape
+          ? 'fixed inset-0 z-50 bg-slate-950 p-0 m-0 w-screen h-screen overflow-hidden'
+          : isFullscreen
+          ? 'fixed inset-0 z-40 bg-slate-950 p-1 sm:p-2 w-screen h-screen overflow-hidden'
           : 'w-full flex-1 flex flex-col px-2 sm:px-4 py-1.5 h-[calc(100vh-70px)] max-h-[calc(100vh-70px)]'
       }`}
+      style={
+        isForceLandscape
+          ? {
+              transform: 'rotate(90deg)',
+              transformOrigin: 'bottom left',
+              position: 'fixed',
+              top: '-100vw',
+              left: 0,
+              width: '100vh',
+              height: '100vw',
+              zIndex: 9999,
+            }
+          : undefined
+      }
     >
-      {/* City Navigation & Status Banner */}
-      <div className="flex flex-wrap items-center justify-between gap-3 bg-slate-900/90 backdrop-blur border border-slate-800 rounded-xl px-3 py-2 mb-2 shadow-lg shrink-0">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400">
-            <Compass className="w-4 h-4" />
+      {/* City Navigation & Status Banner - Collapsible / Compact in Wide Mode */}
+      <div className={`flex flex-wrap items-center justify-between gap-2 bg-slate-900/90 backdrop-blur border border-slate-800 rounded-xl px-3 py-1.5 mb-1.5 shadow-lg shrink-0 ${
+        isForceLandscape ? 'text-xs py-1 px-2' : ''
+      }`}>
+        <div className="flex items-center gap-2">
+          <div className="w-7 h-7 rounded-lg bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400">
+            <Compass className="w-3.5 h-3.5" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-sm font-bold text-white">
+              <span className="text-xs sm:text-sm font-bold text-white">
                 {isCity1
                   ? 'City 1: Hostel Commons'
                   : isCity2
@@ -1487,24 +1511,15 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
                   ? 'City 3: Investment Valley'
                   : 'City 4: Harbor Town'}
               </span>
-              <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-amber-500/20 text-amber-300 border border-amber-500/30">
+              <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-amber-500/20 text-amber-300 border border-amber-500/30 hidden xs:inline">
                 {isCity1
-                  ? 'Pillar 1: Plan & Budget'
+                  ? 'Pillar 1: Budget'
                   : isCity2
-                  ? 'Pillar 1: Smart Sourcing & Market Budgeting'
+                  ? 'Pillar 1: Sourcing'
                   : isCity3
-                  ? 'Pillar 3: Understand Investing (Simulations)'
-                  : 'Pillar 4: Stay Financially Safe (Security & Anti-Fraud)'}
+                  ? 'Pillar 3: Investing'
+                  : 'Pillar 4: Safety'}
               </span>
-            </div>
-            <div className="text-xs text-slate-400">
-              {isCity1
-                ? "The Scholar's District — Full City Map"
-                : isCity2
-                ? 'Koti Book Market & University District'
-                : isCity3
-                ? 'School Garden, Economics Club & River Dock'
-                : 'Harbor Docks, Market Square & Shipwreck Museum'}
             </div>
           </div>
         </div>
