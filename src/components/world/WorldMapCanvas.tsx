@@ -1282,7 +1282,24 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
     clickTarget.current = { x: clickX, y: clickY };
   };
 
-  // Mobile Touch D-Pad Handler
+  // Mobile Touch D-Pad Handlers (Continuous Press & Single Tap)
+  const handleTouchStartDir = (dir: 'up' | 'down' | 'left' | 'right') => {
+    // Cancel any point-and-click target
+    clickTarget.current = null;
+    // Push direction to active direction stack so gameLoop drives smooth 60fps walking
+    if (!activeDirStackRef.current.includes(dir)) {
+      activeDirStackRef.current = [...activeDirStackRef.current, dir];
+    }
+  };
+
+  const handleTouchEndDir = (dir: 'up' | 'down' | 'left' | 'right') => {
+    activeDirStackRef.current = activeDirStackRef.current.filter((d) => d !== dir);
+    // If stack is now empty, stop moving
+    if (activeDirStackRef.current.length === 0) {
+      setPlayer((prev) => ({ ...prev, isMoving: false }));
+    }
+  };
+
   const handleTouchDpad = (dir: 'up' | 'down' | 'left' | 'right') => {
     let dx = 0;
     let dy = 0;
@@ -1707,34 +1724,46 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
           X: {Math.round(player.x)} | Y: {Math.round(player.y)}
         </div>
 
-        {/* Proximity Interaction Prompt Banner */}
+        {/* Proximity Interaction Prompt Banner - Interactive on both Mobile & Desktop */}
         {nearbyNpc && (
-          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-slate-950/95 border-2 border-amber-400 text-slate-100 px-5 py-2.5 rounded-2xl shadow-2xl flex items-center gap-3 animate-bounce z-20 pointer-events-none">
+          <div
+            onClick={() => {
+              WorldAudio.playInteract();
+              onInteractWithNpc(nearbyNpc);
+            }}
+            className="absolute bottom-20 sm:bottom-6 left-1/2 -translate-x-1/2 bg-slate-950/95 border-2 border-amber-400 text-slate-100 px-4 py-2.5 sm:px-5 rounded-2xl shadow-2xl flex items-center gap-3 animate-bounce z-20 cursor-pointer active:scale-95 transition pointer-events-auto"
+          >
             <span className="text-2xl">{nearbyNpc.avatar}</span>
             <div className="text-xs">
               <div>
                 <span className="font-bold text-amber-300">{nearbyNpc.name}</span>{' '}
                 <span className="text-slate-400">({nearbyNpc.role})</span>
               </div>
-              <div className="text-slate-400 text-[11px]">Press [E] or [Space] to Converse</div>
+              <div className="text-slate-400 text-[11px]">Tap or press [E] to Converse</div>
             </div>
-            <div className="px-3 py-1.5 bg-amber-500/20 border border-amber-500/50 text-amber-300 text-xs font-bold rounded-xl ml-2 shadow-md flex items-center gap-1.5">
-              <kbd className="px-1.5 py-0.5 bg-amber-500 text-slate-950 rounded text-[10px] font-black">E</kbd>
-              <span>Talk</span>
+            <div className="px-3 py-1.5 bg-amber-500/20 border border-amber-500/50 text-amber-300 text-xs font-bold rounded-xl ml-1 sm:ml-2 shadow-md flex items-center gap-1.5">
+              <kbd className="hidden sm:inline px-1.5 py-0.5 bg-amber-500 text-slate-950 rounded text-[10px] font-black">E</kbd>
+              <span>Talk 💬</span>
             </div>
           </div>
         )}
 
         {nearbyObject && !nearbyNpc && (
-          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-slate-950/95 border-2 border-sky-400 text-slate-100 px-5 py-2.5 rounded-2xl shadow-2xl flex items-center gap-3 animate-bounce z-20 pointer-events-none">
+          <div
+            onClick={() => {
+              WorldAudio.playInteract();
+              setActiveInspectObject(nearbyObject);
+            }}
+            className="absolute bottom-20 sm:bottom-6 left-1/2 -translate-x-1/2 bg-slate-950/95 border-2 border-sky-400 text-slate-100 px-4 py-2.5 sm:px-5 rounded-2xl shadow-2xl flex items-center gap-3 animate-bounce z-20 cursor-pointer active:scale-95 transition pointer-events-auto"
+          >
             <span className="text-xl">📍</span>
             <div className="text-xs">
               <div className="font-bold text-sky-300">{nearbyObject.name}</div>
-              <div className="text-slate-400 text-[11px]">Press [E] or [Space] to Inspect</div>
+              <div className="text-slate-400 text-[11px]">Tap or press [E] to Inspect</div>
             </div>
-            <div className="px-3 py-1.5 bg-sky-500/20 border border-sky-500/50 text-sky-300 text-xs font-bold rounded-xl ml-2 shadow-md flex items-center gap-1.5">
-              <kbd className="px-1.5 py-0.5 bg-sky-400 text-slate-950 rounded text-[10px] font-black">E</kbd>
-              <span>Inspect</span>
+            <div className="px-3 py-1.5 bg-sky-500/20 border border-sky-500/50 text-sky-300 text-xs font-bold rounded-xl ml-1 sm:ml-2 shadow-md flex items-center gap-1.5">
+              <kbd className="hidden sm:inline px-1.5 py-0.5 bg-sky-400 text-slate-950 rounded text-[10px] font-black">E</kbd>
+              <span>Inspect 🔍</span>
             </div>
           </div>
         )}
@@ -1746,40 +1775,130 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
             <span>{transitionNotification}</span>
           </div>
         )}
+
+        {/* On-Screen Mobile Action Button (Overlay inside canvas viewport for phones) */}
+        <div className="sm:hidden absolute bottom-3 right-3 z-30 flex flex-col gap-2">
+          {nearbyNpc && (
+            <button
+              onClick={() => {
+                WorldAudio.playInteract();
+                onInteractWithNpc(nearbyNpc);
+              }}
+              className="px-4 py-2.5 bg-gradient-to-r from-amber-500 to-amber-600 active:scale-95 text-slate-950 font-black text-xs rounded-xl shadow-2xl border-2 border-amber-300 flex items-center gap-1.5 animate-pulse"
+            >
+              <span>Talk</span>
+              <span className="text-sm">💬</span>
+            </button>
+          )}
+
+          {nearbyObject && !nearbyNpc && (
+            <button
+              onClick={() => {
+                WorldAudio.playInteract();
+                setActiveInspectObject(nearbyObject);
+              }}
+              className="px-4 py-2.5 bg-gradient-to-r from-sky-500 to-sky-600 active:scale-95 text-slate-950 font-black text-xs rounded-xl shadow-2xl border-2 border-sky-300 flex items-center gap-1.5 animate-pulse"
+            >
+              <span>Inspect</span>
+              <span className="text-sm">📍</span>
+            </button>
+          )}
+        </div>
       </div>
 
-      {/* Mobile Touch Virtual D-Pad */}
-      <div className="sm:hidden flex items-center justify-between mt-4 bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-lg">
-        <div className="text-xs text-slate-400">
-          <div className="font-bold text-white">Touch Navigator</div>
-          <div className="font-medium text-amber-400">Tap arrows to walk</div>
+      {/* Mobile Touch Virtual D-Pad & Controls Bar */}
+      <div className="sm:hidden flex items-center justify-between mt-3 bg-slate-900/95 border border-slate-800 rounded-2xl p-3 shadow-lg select-none">
+        <div className="flex flex-col gap-1.5">
+          <div className="text-xs font-bold text-white flex items-center gap-1.5">
+            <Navigation className="w-3.5 h-3.5 text-amber-400" />
+            <span>Touch Controls</span>
+          </div>
+          <div className="text-[11px] text-slate-400">Hold button or tap map to walk</div>
+          {/* Quick Talk Button if near NPC */}
+          {nearbyNpc && (
+            <button
+              onClick={() => {
+                WorldAudio.playInteract();
+                onInteractWithNpc(nearbyNpc);
+              }}
+              className="mt-1 px-3 py-1.5 bg-amber-500 active:bg-amber-400 text-slate-950 font-extrabold text-[11px] rounded-lg shadow flex items-center gap-1 self-start"
+            >
+              <span>Talk to {nearbyNpc.name.split(' ')[0]}</span>
+              <span>💬</span>
+            </button>
+          )}
         </div>
 
-        <div className="grid grid-cols-3 gap-2 w-36">
+        {/* 4-Way Tactile Virtual D-Pad with Touch Down/Up Handlers */}
+        <div className="grid grid-cols-3 gap-1.5 w-36 touch-none">
           <div />
           <button
-            onClick={() => handleTouchDpad('up')}
-            className="p-3 bg-slate-800 active:bg-amber-500 active:text-slate-950 rounded-xl text-center font-bold text-slate-200 transition"
+            onTouchStart={(e) => {
+              e.preventDefault();
+              handleTouchStartDir('up');
+            }}
+            onTouchEnd={(e) => {
+              e.preventDefault();
+              handleTouchEndDir('up');
+            }}
+            onMouseDown={() => handleTouchStartDir('up')}
+            onMouseUp={() => handleTouchEndDir('up')}
+            onMouseLeave={() => handleTouchEndDir('up')}
+            className="p-3 bg-slate-800 active:bg-amber-500 active:text-slate-950 rounded-xl text-center font-bold text-slate-200 transition text-sm select-none"
+            aria-label="Move Up"
           >
             ▲
           </button>
           <div />
 
           <button
-            onClick={() => handleTouchDpad('left')}
-            className="p-3 bg-slate-800 active:bg-amber-500 active:text-slate-950 rounded-xl text-center font-bold text-slate-200 transition"
+            onTouchStart={(e) => {
+              e.preventDefault();
+              handleTouchStartDir('left');
+            }}
+            onTouchEnd={(e) => {
+              e.preventDefault();
+              handleTouchEndDir('left');
+            }}
+            onMouseDown={() => handleTouchStartDir('left')}
+            onMouseUp={() => handleTouchEndDir('left')}
+            onMouseLeave={() => handleTouchEndDir('left')}
+            className="p-3 bg-slate-800 active:bg-amber-500 active:text-slate-950 rounded-xl text-center font-bold text-slate-200 transition text-sm select-none"
+            aria-label="Move Left"
           >
             ◀
           </button>
           <button
-            onClick={() => handleTouchDpad('down')}
-            className="p-3 bg-slate-800 active:bg-amber-500 active:text-slate-950 rounded-xl text-center font-bold text-slate-200 transition"
+            onTouchStart={(e) => {
+              e.preventDefault();
+              handleTouchStartDir('down');
+            }}
+            onTouchEnd={(e) => {
+              e.preventDefault();
+              handleTouchEndDir('down');
+            }}
+            onMouseDown={() => handleTouchStartDir('down')}
+            onMouseUp={() => handleTouchEndDir('down')}
+            onMouseLeave={() => handleTouchEndDir('down')}
+            className="p-3 bg-slate-800 active:bg-amber-500 active:text-slate-950 rounded-xl text-center font-bold text-slate-200 transition text-sm select-none"
+            aria-label="Move Down"
           >
             ▼
           </button>
           <button
-            onClick={() => handleTouchDpad('right')}
-            className="p-3 bg-slate-800 active:bg-amber-500 active:text-slate-950 rounded-xl text-center font-bold text-slate-200 transition"
+            onTouchStart={(e) => {
+              e.preventDefault();
+              handleTouchStartDir('right');
+            }}
+            onTouchEnd={(e) => {
+              e.preventDefault();
+              handleTouchEndDir('right');
+            }}
+            onMouseDown={() => handleTouchStartDir('right')}
+            onMouseUp={() => handleTouchEndDir('right')}
+            onMouseLeave={() => handleTouchEndDir('right')}
+            className="p-3 bg-slate-800 active:bg-amber-500 active:text-slate-950 rounded-xl text-center font-bold text-slate-200 transition text-sm select-none"
+            aria-label="Move Right"
           >
             ▶
           </button>
