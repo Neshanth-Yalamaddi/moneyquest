@@ -91,6 +91,8 @@ import {
   Maximize2,
   Minimize2,
   Trophy,
+  RotateCcw,
+  Smartphone,
 } from 'lucide-react';
 
 interface WorldMapCanvasProps {
@@ -271,8 +273,14 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
   const [cameraZoom, setCameraZoom] = useState<'follow' | 'overview'>('overview');
   const [zoomLevel, setZoomLevel] = useState<number>(2.0);
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
+  const [isForceLandscape, setIsForceLandscape] = useState<boolean>(false);
   const [transitionNotification, setTransitionNotification] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
+
+  // Toggle force landscape rotate view for mobile
+  const toggleForceLandscape = () => {
+    setIsForceLandscape((prev) => !prev);
+  };
 
   // Input management
   const activeDirStackRef = useRef<Array<'up' | 'down' | 'left' | 'right'>>([]);
@@ -1456,9 +1464,9 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
   return (
     <div
       ref={containerRef}
-      className={`w-full flex flex-col transition-all duration-300 ${
-        isFullscreen
-          ? 'fixed inset-0 z-30 bg-slate-950 p-2 sm:p-3 w-screen h-screen'
+      className={`w-full flex flex-col transition-all duration-300 select-none ${
+        isFullscreen || isForceLandscape
+          ? 'fixed inset-0 z-50 bg-slate-950 p-1 sm:p-3 w-screen h-screen overflow-hidden'
           : 'w-full flex-1 flex flex-col px-2 sm:px-4 py-1.5 h-[calc(100vh-70px)] max-h-[calc(100vh-70px)]'
       }`}
     >
@@ -1657,6 +1665,20 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
             </>
           )}
 
+          {/* Rotate View (Wide Landscape Mode for Mobile) */}
+          <button
+            onClick={toggleForceLandscape}
+            className={`p-1.5 rounded-lg border transition flex items-center gap-1 ${
+              isForceLandscape
+                ? 'bg-amber-500/25 border-amber-500/50 text-amber-300'
+                : 'bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700'
+            }`}
+            title={isForceLandscape ? 'Exit Wide View' : 'Rotate to Wide View (Landscape)'}
+          >
+            <RotateCcw className={`w-3.5 h-3.5 transition-transform duration-300 ${isForceLandscape ? 'rotate-90 text-amber-400' : ''}`} />
+            <span className="text-[11px] font-semibold hidden md:inline">Rotate</span>
+          </button>
+
           {/* Fullscreen Toggle Button */}
           <button
             onClick={toggleFullscreen}
@@ -1700,14 +1722,18 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
 
       {/* Main Exploration Canvas Viewport (Fills Full Available Screen) */}
       <div
-        className="relative overflow-hidden border border-slate-700/80 shadow-2xl bg-slate-950 flex justify-center items-center w-full flex-1 rounded-2xl min-h-0"
+        className={`relative overflow-hidden border border-slate-700/80 shadow-2xl bg-slate-950 flex justify-center items-center w-full flex-1 rounded-2xl min-h-0 ${
+          isForceLandscape ? 'h-full flex-1 rounded-none border-none' : ''
+        }`}
       >
         <canvas
           ref={canvasRef}
           width={1024}
           height={572}
           onClick={handleCanvasClick}
-          className="w-full h-full object-contain cursor-pointer block select-none bg-slate-950"
+          className={`w-full h-full cursor-pointer block select-none bg-slate-950 ${
+            isForceLandscape ? 'object-cover sm:object-contain' : 'object-contain'
+          }`}
         />
 
         {/* Legend / Instructions Overlay */}
@@ -1776,132 +1802,116 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
           </div>
         )}
 
-        {/* On-Screen Mobile Action Button (Overlay inside canvas viewport for phones) */}
-        <div className="sm:hidden absolute bottom-3 right-3 z-30 flex flex-col gap-2">
-          {nearbyNpc && (
+        {/* Semi-Transparent On-Screen Mobile Action (Talk / Inspect) Button */}
+        <div className="sm:hidden absolute bottom-5 right-5 z-30 pointer-events-auto">
+          {nearbyNpc ? (
             <button
               onClick={() => {
                 WorldAudio.playInteract();
                 onInteractWithNpc(nearbyNpc);
               }}
-              className="px-4 py-2.5 bg-gradient-to-r from-amber-500 to-amber-600 active:scale-95 text-slate-950 font-black text-xs rounded-xl shadow-2xl border-2 border-amber-300 flex items-center gap-1.5 animate-pulse"
+              className="px-5 py-3.5 bg-amber-500/80 hover:bg-amber-500 active:bg-amber-400 backdrop-blur-md active:scale-90 text-slate-950 font-black text-sm rounded-2xl shadow-2xl border-2 border-amber-300/80 flex items-center gap-2 transition duration-150 select-none touch-none"
+              aria-label={`Talk to ${nearbyNpc.name}`}
             >
-              <span>Talk</span>
-              <span className="text-sm">💬</span>
+              <span className="text-xl">💬</span>
+              <span className="tracking-wide uppercase font-extrabold text-xs">Talk</span>
             </button>
-          )}
-
-          {nearbyObject && !nearbyNpc && (
+          ) : nearbyObject ? (
             <button
               onClick={() => {
                 WorldAudio.playInteract();
                 setActiveInspectObject(nearbyObject);
               }}
-              className="px-4 py-2.5 bg-gradient-to-r from-sky-500 to-sky-600 active:scale-95 text-slate-950 font-black text-xs rounded-xl shadow-2xl border-2 border-sky-300 flex items-center gap-1.5 animate-pulse"
+              className="px-5 py-3.5 bg-sky-500/80 hover:bg-sky-500 active:bg-sky-400 backdrop-blur-md active:scale-90 text-slate-950 font-black text-sm rounded-2xl shadow-2xl border-2 border-sky-300/80 flex items-center gap-2 transition duration-150 select-none touch-none"
+              aria-label={`Inspect ${nearbyObject.name}`}
             >
-              <span>Inspect</span>
-              <span className="text-sm">📍</span>
+              <span className="text-xl">📍</span>
+              <span className="tracking-wide uppercase font-extrabold text-xs">Inspect</span>
             </button>
-          )}
+          ) : null}
         </div>
-      </div>
 
-      {/* Mobile Touch Virtual D-Pad & Controls Bar */}
-      <div className="sm:hidden flex items-center justify-between mt-3 bg-slate-900/95 border border-slate-800 rounded-2xl p-3 shadow-lg select-none">
-        <div className="flex flex-col gap-1.5">
-          <div className="text-xs font-bold text-white flex items-center gap-1.5">
-            <Navigation className="w-3.5 h-3.5 text-amber-400" />
-            <span>Touch Controls</span>
-          </div>
-          <div className="text-[11px] text-slate-400">Hold button or tap map to walk</div>
-          {/* Quick Talk Button if near NPC */}
-          {nearbyNpc && (
+        {/* Semi-Transparent Overlay 4-Way Tactile Virtual D-Pad (Floating directly on the game view) */}
+        <div className="sm:hidden absolute bottom-4 left-4 z-30 pointer-events-auto select-none touch-none">
+          <div className="grid grid-cols-3 gap-1.5 w-32 h-32 p-1.5 bg-slate-950/40 backdrop-blur-md border border-slate-700/50 rounded-2xl shadow-2xl">
+            <div />
             <button
-              onClick={() => {
-                WorldAudio.playInteract();
-                onInteractWithNpc(nearbyNpc);
+              onTouchStart={(e) => {
+                e.preventDefault();
+                handleTouchStartDir('up');
               }}
-              className="mt-1 px-3 py-1.5 bg-amber-500 active:bg-amber-400 text-slate-950 font-extrabold text-[11px] rounded-lg shadow flex items-center gap-1 self-start"
+              onTouchEnd={(e) => {
+                e.preventDefault();
+                handleTouchEndDir('up');
+              }}
+              onMouseDown={() => handleTouchStartDir('up')}
+              onMouseUp={() => handleTouchEndDir('up')}
+              onMouseLeave={() => handleTouchEndDir('up')}
+              className="w-full h-full bg-slate-800/60 hover:bg-slate-700/70 active:bg-amber-500 active:text-slate-950 border border-slate-600/40 text-slate-100 rounded-xl flex items-center justify-center font-black text-base shadow-md transition active:scale-90 select-none"
+              aria-label="Move Up"
             >
-              <span>Talk to {nearbyNpc.name.split(' ')[0]}</span>
-              <span>💬</span>
+              ▲
             </button>
-          )}
-        </div>
+            <div />
 
-        {/* 4-Way Tactile Virtual D-Pad with Touch Down/Up Handlers */}
-        <div className="grid grid-cols-3 gap-1.5 w-36 touch-none">
-          <div />
-          <button
-            onTouchStart={(e) => {
-              e.preventDefault();
-              handleTouchStartDir('up');
-            }}
-            onTouchEnd={(e) => {
-              e.preventDefault();
-              handleTouchEndDir('up');
-            }}
-            onMouseDown={() => handleTouchStartDir('up')}
-            onMouseUp={() => handleTouchEndDir('up')}
-            onMouseLeave={() => handleTouchEndDir('up')}
-            className="p-3 bg-slate-800 active:bg-amber-500 active:text-slate-950 rounded-xl text-center font-bold text-slate-200 transition text-sm select-none"
-            aria-label="Move Up"
-          >
-            ▲
-          </button>
-          <div />
+            <button
+              onTouchStart={(e) => {
+                e.preventDefault();
+                handleTouchStartDir('left');
+              }}
+              onTouchEnd={(e) => {
+                e.preventDefault();
+                handleTouchEndDir('left');
+              }}
+              onMouseDown={() => handleTouchStartDir('left')}
+              onMouseUp={() => handleTouchEndDir('left')}
+              onMouseLeave={() => handleTouchEndDir('left')}
+              className="w-full h-full bg-slate-800/60 hover:bg-slate-700/70 active:bg-amber-500 active:text-slate-950 border border-slate-600/40 text-slate-100 rounded-xl flex items-center justify-center font-black text-base shadow-md transition active:scale-90 select-none"
+              aria-label="Move Left"
+            >
+              ◀
+            </button>
+            <div className="flex items-center justify-center text-[9px] font-bold text-slate-500/70">
+              MOVE
+            </div>
+            <button
+              onTouchStart={(e) => {
+                e.preventDefault();
+                handleTouchStartDir('right');
+              }}
+              onTouchEnd={(e) => {
+                e.preventDefault();
+                handleTouchEndDir('right');
+              }}
+              onMouseDown={() => handleTouchStartDir('right')}
+              onMouseUp={() => handleTouchEndDir('right')}
+              onMouseLeave={() => handleTouchEndDir('right')}
+              className="w-full h-full bg-slate-800/60 hover:bg-slate-700/70 active:bg-amber-500 active:text-slate-950 border border-slate-600/40 text-slate-100 rounded-xl flex items-center justify-center font-black text-base shadow-md transition active:scale-90 select-none"
+              aria-label="Move Right"
+            >
+              ▶
+            </button>
 
-          <button
-            onTouchStart={(e) => {
-              e.preventDefault();
-              handleTouchStartDir('left');
-            }}
-            onTouchEnd={(e) => {
-              e.preventDefault();
-              handleTouchEndDir('left');
-            }}
-            onMouseDown={() => handleTouchStartDir('left')}
-            onMouseUp={() => handleTouchEndDir('left')}
-            onMouseLeave={() => handleTouchEndDir('left')}
-            className="p-3 bg-slate-800 active:bg-amber-500 active:text-slate-950 rounded-xl text-center font-bold text-slate-200 transition text-sm select-none"
-            aria-label="Move Left"
-          >
-            ◀
-          </button>
-          <button
-            onTouchStart={(e) => {
-              e.preventDefault();
-              handleTouchStartDir('down');
-            }}
-            onTouchEnd={(e) => {
-              e.preventDefault();
-              handleTouchEndDir('down');
-            }}
-            onMouseDown={() => handleTouchStartDir('down')}
-            onMouseUp={() => handleTouchEndDir('down')}
-            onMouseLeave={() => handleTouchEndDir('down')}
-            className="p-3 bg-slate-800 active:bg-amber-500 active:text-slate-950 rounded-xl text-center font-bold text-slate-200 transition text-sm select-none"
-            aria-label="Move Down"
-          >
-            ▼
-          </button>
-          <button
-            onTouchStart={(e) => {
-              e.preventDefault();
-              handleTouchStartDir('right');
-            }}
-            onTouchEnd={(e) => {
-              e.preventDefault();
-              handleTouchEndDir('right');
-            }}
-            onMouseDown={() => handleTouchStartDir('right')}
-            onMouseUp={() => handleTouchEndDir('right')}
-            onMouseLeave={() => handleTouchEndDir('right')}
-            className="p-3 bg-slate-800 active:bg-amber-500 active:text-slate-950 rounded-xl text-center font-bold text-slate-200 transition text-sm select-none"
-            aria-label="Move Right"
-          >
-            ▶
-          </button>
+            <div />
+            <button
+              onTouchStart={(e) => {
+                e.preventDefault();
+                handleTouchStartDir('down');
+              }}
+              onTouchEnd={(e) => {
+                e.preventDefault();
+                handleTouchEndDir('down');
+              }}
+              onMouseDown={() => handleTouchStartDir('down')}
+              onMouseUp={() => handleTouchEndDir('down')}
+              onMouseLeave={() => handleTouchEndDir('down')}
+              className="w-full h-full bg-slate-800/60 hover:bg-slate-700/70 active:bg-amber-500 active:text-slate-950 border border-slate-600/40 text-slate-100 rounded-xl flex items-center justify-center font-black text-base shadow-md transition active:scale-90 select-none"
+              aria-label="Move Down"
+            >
+              ▼
+            </button>
+            <div />
+          </div>
         </div>
       </div>
 
