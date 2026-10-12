@@ -7,6 +7,7 @@ interface NpcDialogueModalProps {
   npc: NPC;
   language: GameLanguage;
   isSolved: boolean;
+  activeScenarioId?: string;
   onClose: () => void;
   onStartChallenge: (scenarioId: string) => void;
 }
@@ -15,9 +16,11 @@ export const NpcDialogueModal: React.FC<NpcDialogueModalProps> = ({
   npc,
   language,
   isSolved,
+  activeScenarioId,
   onClose,
   onStartChallenge,
 }) => {
+  const challengeId = activeScenarioId || npc.scenarioId;
   const dialogue = isSolved && npc.dialogueSolved
     ? npc.dialogueSolved[language] || npc.dialogueSolved.en
     : npc.dialogueIntro[language] || npc.dialogueIntro.en;
@@ -60,11 +63,11 @@ export const NpcDialogueModal: React.FC<NpcDialogueModalProps> = ({
             Close
           </button>
 
-          {npc.scenarioId && (
+          {challengeId && (
             <button
               onClick={() => {
                 onClose();
-                onStartChallenge(npc.scenarioId!);
+                onStartChallenge(challengeId);
               }}
               className="px-5 py-2.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 text-xs font-bold rounded-xl flex items-center gap-1.5 shadow-md shadow-amber-500/20 transition transform active:scale-95"
             >

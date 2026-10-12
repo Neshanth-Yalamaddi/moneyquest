@@ -8,6 +8,7 @@ import {
 import { GameStorage } from './engine/storage';
 import { GameEngine } from './engine/gameEngine';
 import { PUZZLES } from './data/puzzles';
+import { DirectorEngine } from './engine/directorEngine';
 import { Navbar } from './components/ui/Navbar';
 import { TitleScreen } from './components/landing/TitleScreen';
 import { TitleSettingsModal } from './components/landing/TitleSettingsModal';
@@ -154,7 +155,30 @@ const MainAppContent: React.FC = () => {
 
   // 1. Root route
   if (path === '/') {
-    return null;
+    if (isStudentAuth) {
+      const hasSavedGame =
+        GameStorage.isProgressSaved() ||
+        Boolean(profile.completedScenarioIds && profile.completedScenarioIds.length > 0);
+      return (
+        <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans selection:bg-amber-500 selection:text-slate-950">
+          <main className="flex-1 flex flex-col">
+            <TitleScreen
+              language={language}
+              hasSavedGame={hasSavedGame}
+              studentId={profile.studentId}
+              onStartAdventure={handleStartAdventure}
+              onContinueJourney={handleContinueJourney}
+              onOpenSettings={() => navigate('/game/settings')}
+              onLogout={handleLogout}
+            />
+          </main>
+        </div>
+      );
+    }
+    if (isNgoAuth) {
+      return <NgoDashboardPage />;
+    }
+    return <StudentLoginPage />;
   }
 
   // 2. NGO Portal Routes
@@ -180,7 +204,24 @@ const MainAppContent: React.FC = () => {
   // 3. Student Auth Route
   if (path === '/login') {
     if (isStudentAuth) {
-      return null;
+      const hasSavedGame =
+        GameStorage.isProgressSaved() ||
+        Boolean(profile.completedScenarioIds && profile.completedScenarioIds.length > 0);
+      return (
+        <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans selection:bg-amber-500 selection:text-slate-950">
+          <main className="flex-1 flex flex-col">
+            <TitleScreen
+              language={language}
+              hasSavedGame={hasSavedGame}
+              studentId={profile.studentId}
+              onStartAdventure={handleStartAdventure}
+              onContinueJourney={handleContinueJourney}
+              onOpenSettings={() => navigate('/game/settings')}
+              onLogout={handleLogout}
+            />
+          </main>
+        </div>
+      );
     }
     return <StudentLoginPage />;
   }
@@ -295,22 +336,27 @@ const MainAppContent: React.FC = () => {
         )}
 
         {/* NPC Dialogue Modal */}
-        {activeNpc && (
-          <NpcDialogueModal
-            npc={activeNpc}
-            language={language}
-            isSolved={
-              activeNpc.scenarioId
-                ? GameEngine.isScenarioSolved(activeNpc.scenarioId, profile)
-                : false
-            }
-            onClose={() => setActiveNpc(null)}
-            onStartChallenge={(scenarioId) => {
-              const sc = PUZZLES[scenarioId];
-              if (sc) setActiveScenario(sc);
-            }}
-          />
-        )}
+        {activeNpc && (() => {
+          const dynamicScenario = DirectorEngine.selectNextScenario(activeNpc, profile);
+          const effectiveScenarioId = dynamicScenario ? dynamicScenario.id : activeNpc.scenarioId;
+          const isSolved = effectiveScenarioId
+            ? GameEngine.isScenarioSolved(effectiveScenarioId, profile)
+            : false;
+
+          return (
+            <NpcDialogueModal
+              npc={activeNpc}
+              language={language}
+              isSolved={isSolved}
+              activeScenarioId={effectiveScenarioId}
+              onClose={() => setActiveNpc(null)}
+              onStartChallenge={(scenarioId) => {
+                const sc = PUZZLES[scenarioId];
+                if (sc) setActiveScenario(sc);
+              }}
+            />
+          );
+        })()}
 
         {/* Financial Puzzle & Decision Modal */}
         {activeScenario && (
@@ -363,7 +409,7 @@ const MainAppContent: React.FC = () => {
   }
 
   // Fallback
-  return isStudentAuth ? null : <StudentLoginPage />;
+  return <StudentLoginPage />;
 };
 
 export const App: React.FC = () => {
