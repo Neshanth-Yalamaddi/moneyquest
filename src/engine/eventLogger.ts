@@ -1,6 +1,14 @@
 import { DecisionEvent, LearningPillar, StudentLearningGap, ChoiceTier, FinancialImpact } from '../types';
 
 const STORAGE_KEY_EVENTS = 'moneyquest_decision_events';
+const STORAGE_KEY_PENDING_SYNC = 'moneyquest_pending_sync_events';
+
+// Register automatic online listener in browser environment
+if (typeof window !== 'undefined') {
+  window.addEventListener('online', () => {
+    EventLogger.flushPendingQueue().catch(() => {});
+  });
+}
 
 export class EventLogger {
   private static events: DecisionEvent[] = [];
@@ -81,18 +89,84 @@ export class EventLogger {
 
     // Attempt non-blocking background sync to server
     this.syncToServer(event).catch(() => {
-      // Gracefully silent; local copy is preserved
+      this.enqueuePendingSync(event);
     });
 
     return event;
+  }
+
+  private static getPendingQueue(): DecisionEvent[] {
+    try {
+      if (typeof window !== 'undefined' && window.localStorage) {
+        const stored = window.localStorage.getItem(STORAGE_KEY_PENDING_SYNC);
+        if (stored) return JSON.parse(stored);
+      }
+    } catch (e) {
+      console.warn('Failed to read pending queue from localStorage', e);
+    }
+    return [];
+  }
+
+  private static enqueuePendingSync(event: DecisionEvent): void {
+    try {
+      if (typeof window !== 'undefined' && window.localStorage) {
+        const queue = this.getPendingQueue();
+        if (!queue.some((e) => e.eventId === event.eventId)) {
+          queue.push(event);
+          window.localStorage.setItem(STORAGE_KEY_PENDING_SYNC, JSON.stringify(queue));
+        }
+      }
+    } catch (e) {
+      console.warn('Failed to enqueue pending sync event', e);
+    }
+  }
+
+  public static async flushPendingQueue(): Promise<void> {
+    try {
+      if (typeof window === 'undefined' || !window.localStorage) return;
+      const queue = this.getPendingQueue();
+      if (queue.length === 0) return;
+
+      const token = window.localStorage.getItem('moneyquest_auth_token');
+      const remaining: DecisionEvent[] = [];
+
+      for (const event of queue) {
+        try {
+          if (token) {
+            await fetch('/api/student/events', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+              },
+              body: JSON.stringify({ ...event, eventType: 'decision' }),
+            });
+          } else {
+            await fetch('/api/analytics/events', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(event),
+            });
+          }
+        } catch {
+          // If network is still down, keep event in queue
+          remaining.push(event);
+        }
+      }
+
+      window.localStorage.setItem(STORAGE_KEY_PENDING_SYNC, JSON.stringify(remaining));
+    } catch (e) {
+      console.warn('Failed to flush pending sync queue', e);
+    }
   }
 
   private static async syncToServer(event: DecisionEvent): Promise<void> {
     try {
       const token =
         typeof window !== 'undefined' ? window.localStorage.getItem('moneyquest_auth_token') : null;
+      let ok = false;
       if (token) {
-        await fetch('/api/student/events', {
+        const res = await fetch('/api/student/events', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -103,15 +177,25 @@ export class EventLogger {
             eventType: 'decision',
           }),
         });
+        ok = res.ok;
       } else {
-        await fetch('/api/analytics/events', {
+        const res = await fetch('/api/analytics/events', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(event),
         });
+        ok = res.ok;
+      }
+
+      if (!ok) {
+        this.enqueuePendingSync(event);
+      } else {
+        // Drain any older pending offline events on success
+        this.flushPendingQueue().catch(() => {});
       }
     } catch {
-      // Offline fallback: events remain in local storage
+      // Offline fallback: event queued for subsequent sync
+      this.enqueuePendingSync(event);
     }
   }
 

@@ -27,6 +27,23 @@ Database.initialize();
 app.use(cors());
 app.use(express.json());
 
+// In-memory cache for Gemini AI explanations & hints (minimizes latency & protects API quota)
+const aiExplanationCache = new Map<string, any>();
+const aiHintCache = new Map<string, string>();
+
+// Lightweight in-memory rate limiter
+const rateLimitMap = new Map<string, number[]>();
+function checkRateLimit(key: string, limit: number, windowMs: number): boolean {
+  const now = Date.now();
+  const timestamps = (rateLimitMap.get(key) || []).filter((t) => now - t < windowMs);
+  if (timestamps.length >= limit) {
+    return false;
+  }
+  timestamps.push(now);
+  rateLimitMap.set(key, timestamps);
+  return true;
+}
+
 // In-memory store for legacy fallback
 const decisionEventsStore: any[] = [];
 
@@ -39,6 +56,8 @@ app.get('/api/health', (_req: Request, res: Response) => {
     service: 'MoneyQuest Backend Engine & Auth Portal',
     geminiConfigured: !!GEMINI_API_KEY,
     totalEventsLogged: decisionEventsStore.length,
+    cachedExplanations: aiExplanationCache.size,
+    cachedHints: aiHintCache.size,
     timestamp: new Date().toISOString(),
   });
 });
@@ -300,9 +319,19 @@ app.post('/api/student/events', requireAuth, requireRole(['student']), (req: Aut
 
   Database.addGameEvent(event);
 
-  // If this was a decision that unlocked progress, sync profile if provided
+  // If this was a decision that unlocked progress, sync profile if provided with sanity bounds
   if (eventData.updatedProfile) {
-    Database.updateStudentProfile(studentId, eventData.updatedProfile);
+    const p = eventData.updatedProfile;
+    if (typeof p.walletBalance === 'number') {
+      p.walletBalance = Math.max(0, Math.min(100000, p.walletBalance));
+    }
+    if (typeof p.emergencyFund === 'number') {
+      p.emergencyFund = Math.max(0, Math.min(100000, p.emergencyFund));
+    }
+    if (typeof p.totalScore === 'number') {
+      p.totalScore = Math.max(0, Math.min(50000, p.totalScore));
+    }
+    Database.updateStudentProfile(studentId, p);
   }
 
   return res.status(201).json({ status: 'recorded', eventId: event.eventId });
@@ -596,10 +625,28 @@ app.get('/api/ngo/students/:studentId', requireAuth, requireNgoOrgScope, (req: A
 // =========================================================================
 
 /**
- * AI Explanation Proxy endpoint (Gemini API with secure server-side key)
+ * AI Explanation Proxy endpoint (Gemini API with secure server-side key & in-memory cache)
  */
 app.post('/api/ai/explain', async (req: Request, res: Response) => {
+  const ip = req.ip || req.socket.remoteAddress || 'unknown';
+  if (!checkRateLimit(`ai_explain_${ip}`, 30, 60000)) {
+    return res.status(429).json({
+      error: 'Rate limit exceeded: Please wait before requesting another AI explanation.',
+      isAiGenerated: false,
+    });
+  }
+
   const { scenarioTitle, scenarioContext, pillar, chosenOptionText, tier, financialImpact, language } = req.body;
+
+  // Check in-memory cache
+  const cacheKey = `${scenarioTitle || ''}::${chosenOptionText || ''}::${tier || ''}::${language || 'en'}`;
+  if (aiExplanationCache.has(cacheKey)) {
+    return res.json({
+      ...aiExplanationCache.get(cacheKey),
+      isAiGenerated: true,
+      isCached: true,
+    });
+  }
 
   if (!GEMINI_API_KEY) {
     return res.status(503).json({
@@ -614,7 +661,7 @@ Scenario: "${scenarioTitle}"
 Situation: ${scenarioContext}
 Learning Pillar: ${pillar}
 Student's Choice: "${chosenOptionText}" (Evaluated tier: ${tier})
-Outcome Impact: ₹${financialImpact.walletDelta} wallet, ₹${financialImpact.emergencyDelta} savings.
+Outcome Impact: ₹${financialImpact?.walletDelta || 0} wallet, ₹${financialImpact?.emergencyDelta || 0} savings.
 Language: ${language || 'English'}
 
 Provide a brief, supportive explanation (under 3 sentences) explaining why this financial decision led to this outcome. Give one practical relatable tip for a student living in Hyderabad. Do NOT give real-world investment advice.
@@ -645,6 +692,9 @@ Format as JSON:
     const rawText = data.candidates?.[0]?.content?.parts?.[0]?.text;
     const parsed = JSON.parse(rawText);
 
+    // Cache parsed explanation
+    aiExplanationCache.set(cacheKey, parsed);
+
     return res.json({
       ...parsed,
       isAiGenerated: true,
@@ -658,10 +708,28 @@ Format as JSON:
 });
 
 /**
- * AI Hint Proxy endpoint
+ * AI Hint Proxy endpoint (Gemini API with cache)
  */
 app.post('/api/ai/hint', async (req: Request, res: Response) => {
+  const ip = req.ip || req.socket.remoteAddress || 'unknown';
+  if (!checkRateLimit(`ai_hint_${ip}`, 45, 60000)) {
+    return res.status(429).json({
+      error: 'Rate limit exceeded: Please wait before requesting another hint.',
+      isAiGenerated: false,
+    });
+  }
+
   const { scenarioTitle, pillar, language } = req.body;
+
+  // Check in-memory cache
+  const cacheKey = `${scenarioTitle || ''}::${pillar || ''}::${language || 'en'}`;
+  if (aiHintCache.has(cacheKey)) {
+    return res.json({
+      hint: aiHintCache.get(cacheKey),
+      isAiGenerated: true,
+      isCached: true,
+    });
+  }
 
   if (!GEMINI_API_KEY) {
     return res.status(503).json({
@@ -688,6 +756,9 @@ app.post('/api/ai/hint', async (req: Request, res: Response) => {
 
     const data = await response.json();
     const hint = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || '';
+
+    // Cache hint
+    aiHintCache.set(cacheKey, hint);
 
     return res.json({ hint, isAiGenerated: true });
   } catch (error: any) {
