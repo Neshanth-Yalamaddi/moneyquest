@@ -269,6 +269,159 @@ class AudioManager {
   }
 
   /**
+   * Retro chiptune dialogue voice blip for typewriter text
+   * Frequency varies slightly based on pitchMultiplier for character personality
+   */
+  public playNpcBlip(pitchMultiplier: number = 1.0) {
+    if (this.isMuted || !this.isSfxActive) return;
+    this.initContext();
+    if (!this.ctx) return;
+
+    try {
+      const now = this.ctx.currentTime;
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+
+      const baseFreq = 340 * Math.max(0.6, Math.min(1.6, pitchMultiplier));
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(baseFreq, now);
+      osc.frequency.exponentialRampToValueAtTime(baseFreq * 1.15, now + 0.025);
+
+      gain.gain.setValueAtTime(0.06 * this.volume, now);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.035);
+
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+
+      osc.start(now);
+      osc.stop(now + 0.035);
+    } catch (e) {}
+  }
+
+  /**
+   * Rewarding 3-tone ascending arpeggio on financially sound decision
+   */
+  public playDecisionSuccess() {
+    if (this.isMuted || !this.isSfxActive) return;
+    this.initContext();
+    if (!this.ctx) return;
+
+    try {
+      const notes = [523.25, 659.25, 783.99, 1046.5]; // C5, E5, G5, C6
+      notes.forEach((freq, idx) => {
+        const osc = this.ctx!.createOscillator();
+        const gain = this.ctx!.createGain();
+        const start = this.ctx!.currentTime + idx * 0.07;
+
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(freq, start);
+
+        gain.gain.setValueAtTime(0.16 * this.volume, start);
+        gain.gain.exponentialRampToValueAtTime(0.0001, start + 0.22);
+
+        osc.connect(gain);
+        gain.connect(this.ctx!.destination);
+
+        osc.start(start);
+        osc.stop(start + 0.22);
+      });
+    } catch (e) {}
+  }
+
+  /**
+   * Dissonant 2-tone descending buzzer for budget penalties or financial stress
+   */
+  public playDecisionWarning() {
+    if (this.isMuted || !this.isSfxActive) return;
+    this.initContext();
+    if (!this.ctx) return;
+
+    try {
+      const notes = [
+        { freqStart: 240, freqEnd: 190, delay: 0, dur: 0.16 },
+        { freqStart: 180, freqEnd: 130, delay: 0.12, dur: 0.22 },
+      ];
+
+      notes.forEach(({ freqStart, freqEnd, delay, dur }) => {
+        const osc = this.ctx!.createOscillator();
+        const gain = this.ctx!.createGain();
+        const start = this.ctx!.currentTime + delay;
+
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(freqStart, start);
+        osc.frequency.exponentialRampToValueAtTime(freqEnd, start + dur);
+
+        gain.gain.setValueAtTime(0.14 * this.volume, start);
+        gain.gain.exponentialRampToValueAtTime(0.0001, start + dur);
+
+        osc.connect(gain);
+        gain.connect(this.ctx!.destination);
+
+        osc.start(start);
+        osc.stop(start + dur);
+      });
+    } catch (e) {}
+  }
+
+  /**
+   * Shimmering mystical two-tone chime when requesting or unlocking a hint
+   */
+  public playHintChime() {
+    if (this.isMuted || !this.isSfxActive) return;
+    this.initContext();
+    if (!this.ctx) return;
+
+    try {
+      const notes = [880, 1174.66, 1318.51]; // A5, D6, E6
+      notes.forEach((freq, idx) => {
+        const osc = this.ctx!.createOscillator();
+        const gain = this.ctx!.createGain();
+        const start = this.ctx!.currentTime + idx * 0.08;
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, start);
+
+        gain.gain.setValueAtTime(0.12 * this.volume, start);
+        gain.gain.exponentialRampToValueAtTime(0.0001, start + 0.3);
+
+        osc.connect(gain);
+        gain.connect(this.ctx!.destination);
+
+        osc.start(start);
+        osc.stop(start + 0.3);
+      });
+    } catch (e) {}
+  }
+
+  /**
+   * Gentle exploration footstep click
+   */
+  public playFootstep() {
+    if (this.isMuted || !this.isSfxActive) return;
+    this.initContext();
+    if (!this.ctx) return;
+
+    try {
+      const now = this.ctx.currentTime;
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(120, now);
+      osc.frequency.exponentialRampToValueAtTime(50, now + 0.04);
+
+      gain.gain.setValueAtTime(0.03 * this.volume, now);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.04);
+
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+
+      osc.start(now);
+      osc.stop(now + 0.04);
+    } catch (e) {}
+  }
+
+  /**
    * Procedural ambient adventure chiptune loop
    */
   public startBgm() {

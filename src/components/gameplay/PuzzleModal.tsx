@@ -25,6 +25,7 @@ import {
   CheckCircle,
   Lightbulb
 } from 'lucide-react';
+import { audioManager } from '../ui/audioManager';
 
 interface PuzzleModalProps {
   scenario: PuzzleScenario;
@@ -79,6 +80,7 @@ export const PuzzleModal: React.FC<PuzzleModalProps> = ({
   }, [currentStep?.id, currentStepIndex]);
 
   const handleRequestHint = async () => {
+    audioManager.playHintChime();
     setIsLoadingHint(true);
     try {
       const hintRes = await AiService.getHint({
@@ -96,6 +98,7 @@ export const PuzzleModal: React.FC<PuzzleModalProps> = ({
 
   const handleNextStep = async () => {
     if (!selectedChoiceId || !currentStep) return;
+    audioManager.playClick();
 
     const chosenChoice = currentStep.choices.find((c) => c.id === selectedChoiceId);
     if (!chosenChoice) return;
@@ -150,9 +153,14 @@ export const PuzzleModal: React.FC<PuzzleModalProps> = ({
     setEvaluation(result);
 
     if (result.overallTier === 'best') {
+      audioManager.playFanfare();
       try {
         confetti({ particleCount: 80, spread: 70, origin: { y: 0.6 } });
       } catch {}
+    } else if (result.isPassed || result.overallTier === 'good') {
+      audioManager.playDecisionSuccess();
+    } else {
+      audioManager.playDecisionWarning();
     }
 
     try {
@@ -175,6 +183,7 @@ export const PuzzleModal: React.FC<PuzzleModalProps> = ({
 
   // Retry (Recovery Mode / Revert Financial Penalty)
   const handleRetry = () => {
+    audioManager.playClick();
     // Revert profile to the state before the failed decision was committed
     onUpdateProfile(profileBeforeDecision);
     setShowIdeaCard(false);
@@ -189,6 +198,7 @@ export const PuzzleModal: React.FC<PuzzleModalProps> = ({
 
   // Immediate Bankruptcy Reset inside Puzzle
   const handleResetBankruptcyInPuzzle = () => {
+    audioManager.playCoin();
     const refreshed = GameStorage.resetBankruptcy(profile);
     setProfileBeforeDecision({ ...refreshed });
     onUpdateProfile(refreshed);
@@ -214,7 +224,7 @@ export const PuzzleModal: React.FC<PuzzleModalProps> = ({
               </div>
             ))}
           </div>
-          <button onClick={() => setShowIdeaCard(false)} className="w-full py-3.5 bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 font-bold rounded-xl shadow-lg transition active:scale-95">
+          <button onClick={() => { audioManager.playClick(); setShowIdeaCard(false); }} className="w-full py-3.5 bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 font-bold rounded-xl shadow-lg transition active:scale-95">
             Got it! Start Scenario
           </button>
         </div>
@@ -226,7 +236,7 @@ export const PuzzleModal: React.FC<PuzzleModalProps> = ({
   const content = (
     <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md overflow-y-auto animate-fadeIn">
       <div className="max-w-2xl w-full bg-slate-900 border border-slate-700 rounded-3xl p-6 sm:p-8 shadow-2xl relative my-8">
-        <button onClick={onClose} className="absolute top-5 right-5 text-slate-400 hover:text-white p-1.5 rounded-xl transition">
+        <button onClick={() => { audioManager.playClick(); onClose(); }} className="absolute top-5 right-5 text-slate-400 hover:text-white p-1.5 rounded-xl transition">
           <X className="w-5 h-5" />
         </button>
 
@@ -314,7 +324,10 @@ export const PuzzleModal: React.FC<PuzzleModalProps> = ({
                 return (
                   <div
                     key={choice.id}
-                    onClick={() => setSelectedChoiceId(choice.id)}
+                    onClick={() => {
+                      audioManager.playClick();
+                      setSelectedChoiceId(choice.id);
+                    }}
                     className={`cursor-pointer rounded-2xl p-4 border transition-all text-sm ${isSelected ? 'bg-amber-500/10 border-amber-500 text-white' : 'bg-slate-950/50 border-slate-800 text-slate-300 hover:bg-slate-950'}`}
                   >
                     <div className="flex items-start gap-3">
@@ -359,7 +372,7 @@ export const PuzzleModal: React.FC<PuzzleModalProps> = ({
         )}
 
         <div className="flex items-center justify-between pt-4 border-t border-slate-800">
-          <button onClick={onClose} className="px-4 py-2 text-xs font-semibold text-slate-400 hover:text-white transition">
+          <button onClick={() => { audioManager.playClick(); onClose(); }} className="px-4 py-2 text-xs font-semibold text-slate-400 hover:text-white transition">
             Cancel
           </button>
 
@@ -378,7 +391,7 @@ export const PuzzleModal: React.FC<PuzzleModalProps> = ({
               <span>Retry Challenge</span>
             </button>
           ) : (
-            <button onClick={onClose} className="px-6 py-3 bg-emerald-600 text-white rounded-xl text-xs font-bold flex items-center gap-2">
+            <button onClick={() => { audioManager.playClick(); onClose(); }} className="px-6 py-3 bg-emerald-600 text-white rounded-xl text-xs font-bold flex items-center gap-2">
               <span>Continue Adventure</span>
               <ArrowRight className="w-4 h-4" />
             </button>
