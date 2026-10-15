@@ -10,7 +10,9 @@
     "preview": "vite preview",
     "server": "tsx server/index.ts",
     "test": "tsx tests/integration.test.ts && NODE_ENV=test tsx tests/auth_and_separation.test.ts",
-    "test:auth": "NODE_ENV=test tsx tests/auth_and_separation.test.ts"
+    "test:auth": "NODE_ENV=test tsx tests/auth_and_separation.test.ts",
+    "test:world": "tsx tests/city1World.test.ts",
+    "test:all": "tsx tests/integration.test.ts && NODE_ENV=test tsx tests/auth_and_separation.test.ts && tsx tests/city1World.test.ts"
   },
   "repository": {
     "type": "git",
