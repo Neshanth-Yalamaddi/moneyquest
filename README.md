@@ -217,8 +217,8 @@ megathon26-anything/
 
 ### 1. Installation
 ```bash
-git clone https://github.com/chirayudp/Anything.git
-cd Anything
+git clone https://github.com/Neshanth-Yalamaddi/moneyquest.git
+cd moneyquest
 npm install
 ```
 

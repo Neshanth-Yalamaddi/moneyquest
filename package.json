@@ -16,15 +16,23 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/chirayudp/Anything.git"
+    "url": "git+https://github.com/Neshanth-Yalamaddi/moneyquest.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "financial-literacy",
+    "rpg",
+    "web-audio-api",
+    "canvas-game-engine",
+    "react19",
+    "typescript",
+    "gemini-ai"
+  ],
+  "author": "Neshanth Yalamaddi",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/chirayudp/Anything/issues"
+    "url": "https://github.com/Neshanth-Yalamaddi/moneyquest/issues"
   },
-  "homepage": "https://github.com/chirayudp/Anything#readme",
+  "homepage": "https://github.com/Neshanth-Yalamaddi/moneyquest#readme",
   "dependencies": {
     "bcryptjs": "^3.0.3",
     "canvas-confetti": "^1.9.4",
