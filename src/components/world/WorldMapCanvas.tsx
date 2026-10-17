@@ -39,6 +39,7 @@ import {
   calculateCamera,
   WorldAudio,
 } from '../../engine/worldEngine';
+import { audioManager } from '../ui/audioManager';
 import { GameEngine } from '../../engine/gameEngine';
 import { GameStorage } from '../../engine/storage';
 import { ObjectInspectionModal } from './ObjectInspectionModal';
@@ -268,7 +269,7 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
   const [activeInspectObject, setActiveInspectObject] = useState<CityObject | null>(null);
 
   // Controls & Camera Settings
-  const [soundEnabled, setSoundEnabled] = useState<boolean>(true);
+  const [soundEnabled, setSoundEnabled] = useState<boolean>(() => !audioManager.getSettings().isMuted);
   const [showHitboxes, setShowHitboxes] = useState<boolean>(false);
   const [cameraZoom, setCameraZoom] = useState<'follow' | 'overview'>('overview');
   const [zoomLevel, setZoomLevel] = useState<number>(2.0);
@@ -291,6 +292,7 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
   // Input management
   const activeDirStackRef = useRef<Array<'up' | 'down' | 'left' | 'right'>>([]);
   const lastStepSoundTime = useRef<number>(0);
+  const lastBlockedSoundTime = useRef<number>(0);
   const clickTarget = useRef<{ x: number; y: number } | null>(null);
 
   // Per-NPC quest completion check
@@ -540,9 +542,11 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
 
   // Audio mute toggle
   const toggleSound = () => {
-    const next = !soundEnabled;
-    setSoundEnabled(next);
-    WorldAudio.enabled = next;
+    const isMuted = audioManager.toggleMute();
+    setSoundEnabled(!isMuted);
+    if (!isMuted) {
+      audioManager.playClick();
+    }
   };
 
   // Fullscreen toggle handler
@@ -670,6 +674,16 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
             frame: (prev.frame + 1) % 60,
           }));
         } else {
+          // Play subtle bump thud if user is actively walking into a blocked obstacle
+          if (rawDx !== 0 || rawDy !== 0) {
+            if (timestamp - lastBlockedSoundTime.current > 420) {
+              WorldAudio.playBlocked();
+              lastBlockedSoundTime.current = timestamp;
+            }
+          }
+          if (clickTarget.current) {
+            clickTarget.current = null;
+          }
           setPlayer((prev) => ({ ...prev, isMoving: false }));
         }
       } else {
@@ -1294,6 +1308,7 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
 
     // Set click walk destination (mouse click interaction is disabled; interactions require [E] / [Space])
     clickTarget.current = { x: clickX, y: clickY };
+    audioManager.playClick();
   };
 
   // Mobile Touch D-Pad Handlers (Continuous Press & Single Tap)
@@ -1344,6 +1359,8 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
         direction: dir,
         isMoving: true,
       }));
+    } else {
+      WorldAudio.playBlocked();
     }
   };
 
@@ -1648,7 +1665,10 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
 
           {/* Full Map / Follow Player Toggle */}
           <button
-            onClick={() => setCameraZoom((prev) => (prev === 'overview' ? 'follow' : 'overview'))}
+            onClick={() => {
+              audioManager.playClick();
+              setCameraZoom((prev) => (prev === 'overview' ? 'follow' : 'overview'));
+            }}
             className={`px-3 py-1 rounded-lg text-xs font-semibold flex items-center gap-1.5 border transition ${
               cameraZoom === 'overview'
                 ? 'bg-amber-500/25 border-amber-500/50 text-amber-300 shadow-sm'
@@ -1664,14 +1684,20 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
           {cameraZoom === 'follow' && (
             <>
               <button
-                onClick={() => setZoomLevel((z) => Math.min(3.2, Number((z + 0.3).toFixed(1))))}
+                onClick={() => {
+                  audioManager.playClick();
+                  setZoomLevel((z) => Math.min(3.2, Number((z + 0.3).toFixed(1))));
+                }}
                 className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition"
                 title="Zoom In"
               >
                 <ZoomIn className="w-3.5 h-3.5" />
               </button>
               <button
-                onClick={() => setZoomLevel((z) => Math.max(1.2, Number((z - 0.3).toFixed(1))))}
+                onClick={() => {
+                  audioManager.playClick();
+                  setZoomLevel((z) => Math.max(1.2, Number((z - 0.3).toFixed(1))));
+                }}
                 className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition"
                 title="Zoom Out"
               >
@@ -1682,7 +1708,10 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
 
           {/* Rotate View (Wide Landscape Mode for Mobile) */}
           <button
-            onClick={toggleForceLandscape}
+            onClick={() => {
+              audioManager.playClick();
+              toggleForceLandscape();
+            }}
             className={`p-1.5 rounded-lg border transition flex items-center gap-1 ${
               isForceLandscape
                 ? 'bg-amber-500/25 border-amber-500/50 text-amber-300'
@@ -1696,7 +1725,10 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
 
           {/* Fullscreen Toggle Button */}
           <button
-            onClick={toggleFullscreen}
+            onClick={() => {
+              audioManager.playClick();
+              toggleFullscreen();
+            }}
             className={`p-1.5 rounded-lg border transition ${
               isFullscreen
                 ? 'bg-amber-500/20 border-amber-500/40 text-amber-300'
@@ -1709,7 +1741,10 @@ export const WorldMapCanvas: React.FC<WorldMapCanvasProps> = ({
 
           {/* Hitbox Debug Toggle */}
           <button
-            onClick={() => setShowHitboxes((h) => !h)}
+            onClick={() => {
+              audioManager.playClick();
+              setShowHitboxes((h) => !h);
+            }}
             className={`p-1.5 rounded-lg border transition ${
               showHitboxes
                 ? 'bg-red-500/20 border-red-500/40 text-red-300'

@@ -422,6 +422,99 @@ class AudioManager {
   }
 
   /**
+   * Alias for playFootstep
+   */
+  public playStep() {
+    this.playFootstep();
+  }
+
+  /**
+   * Cheerful 2-tone chime when interacting with an NPC or inspecting an environmental object
+   */
+  public playInteract() {
+    if (this.isMuted || !this.isSfxActive) return;
+    this.initContext();
+    if (!this.ctx) return;
+
+    try {
+      const now = this.ctx.currentTime;
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(523.25, now); // C5
+      osc.frequency.setValueAtTime(659.25, now + 0.08); // E5
+
+      gain.gain.setValueAtTime(0.12 * this.volume, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
+
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+
+      osc.start(now);
+      osc.stop(now + 0.22);
+    } catch (e) {}
+  }
+
+  /**
+   * Inspiring 4-note ascending fanfare when discovering a secret, notice, or crossing city portals
+   */
+  public playDiscovery() {
+    if (this.isMuted || !this.isSfxActive) return;
+    this.initContext();
+    if (!this.ctx) return;
+
+    try {
+      const notes = [440, 554.37, 659.25, 880]; // A4, C#5, E5, A5
+      notes.forEach((freq, idx) => {
+        const osc = this.ctx!.createOscillator();
+        const gain = this.ctx!.createGain();
+        const start = this.ctx!.currentTime + idx * 0.06;
+
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(freq, start);
+
+        gain.gain.setValueAtTime(0.1 * this.volume, start);
+        gain.gain.exponentialRampToValueAtTime(0.001, start + 0.16);
+
+        osc.connect(gain);
+        gain.connect(this.ctx!.destination);
+
+        osc.start(start);
+        osc.stop(start + 0.16);
+      });
+    } catch (e) {}
+  }
+
+  /**
+   * Low soft bump thud when walking into a solid barrier or locked gate
+   */
+  public playBlocked() {
+    if (this.isMuted || !this.isSfxActive) return;
+    this.initContext();
+    if (!this.ctx) return;
+
+    try {
+      const now = this.ctx.currentTime;
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(130, now);
+      osc.frequency.exponentialRampToValueAtTime(80, now + 0.08);
+
+      gain.gain.setValueAtTime(0.05 * this.volume, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.09);
+
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+
+      osc.start(now);
+      osc.stop(now + 0.09);
+    } catch (e) {}
+  }
+
+  /**
    * Procedural ambient adventure chiptune loop
    */
   public startBgm() {
