@@ -9,14 +9,17 @@
 [![Express](https://img.shields.io/badge/Express-5.0-000000?logo=express&logoColor=white)](https://expressjs.com/)
 [![Web Audio API](https://img.shields.io/badge/Web%20Audio-Procedural%20SFX-FF5722?logo=soundcharts&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API)
 [![Gemini AI](https://img.shields.io/badge/Gemini%20AI-Dynamic%20Pedagogy-4285F4?logo=google&logoColor=white)](https://ai.google.dev/)
+[![Live Demo](https://img.shields.io/badge/Play%20Live-GitHub%20Pages-success?logo=githubpages&logoColor=white)](https://neshanthyalamaddi.github.io/moneyquest/)
 [![Tests Passing](https://img.shields.io/badge/Tests-33%2F33%20Passing-brightgreen?logo=jest&logoColor=white)](tests/)
 [![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](LICENSE)
+
+### 🎮 **[Play Live Prototype in Browser](https://neshanthyalamaddi.github.io/moneyquest/)**
 
 *Empowering students and first-generation earners across Tier-2 and Tier-3 communities to master real-world financial decision-making through immersive pixel-art adventure, multi-language pedagogy, and real-time educator analytics.*
 
 ---
 
-[Key Features](#-key-features) • [Architecture](#-system-architecture) • [Gameplay & The 4 Pillars](#-gameplay--the-4-financial-pillars) • [Engine Highlights](#-custom-game-engine-highlights) • [Testing & Security](#-testing--security-enforcement) • [Quickstart](#-quickstart--local-development)
+[🎮 Play Live Demo](https://neshanthyalamaddi.github.io/moneyquest/) • [Key Features](#-key-features) • [Architecture](#-system-architecture) • [Gameplay & The 4 Pillars](#-gameplay--the-4-financial-pillars) • [Engine Highlights](#-custom-game-engine-highlights) • [Testing & Security](#-testing--security-enforcement) • [Quickstart](#-quickstart--local-development)
 
 ---
 

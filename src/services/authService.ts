@@ -427,8 +427,12 @@ export class AuthService {
       });
 
       if (!res.ok) {
-        this.logout();
-        return null;
+        if (res.status === 401 || res.status === 403) {
+          this.logout();
+          return null;
+        }
+        // On static hosting (e.g. GitHub Pages 404), retain stored user session
+        return this.getUser();
       }
 
       const data = await this.safeParseJson(res);
